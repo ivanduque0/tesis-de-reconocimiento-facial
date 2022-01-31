@@ -5,16 +5,25 @@ import numpy as np
 import mediapipe as mp
 import os
 
-nombres = ["erika", "ivan", "diego"]
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
-caraivan = face_recognition.load_image_file("rostros para face recognition/ivan.jpg")
-caraerika = face_recognition.load_image_file("rostros para face recognition/erika.jpg")
-caradiego = face_recognition.load_image_file("rostros para face recognition/diego.jpg")
-encodingerika = face_recognition.face_encodings(caraerika)[0]
-encodingivan = face_recognition.face_encodings(caraivan)[0]
-encodingdiego = face_recognition.face_encodings(caradiego)[0]
-caras=[encodingerika, encodingivan, encodingdiego]
+nombres = []
+caras = []
+imagenes = os.listdir(directorio)
+directorio="C:/Users/seguricell/Desktop/tensorflow/rostros para face recognition"
+
+for imagen in imagenes:
+    nombre = os.path.splitext(imagen)[0]
+    print(nombre)
+    nombres.append(nombre)
+
+for imagen in imagenes:
+    ruta=os.path.join(directorio,imagen)
+    print(imagen)
+    subir_foto = face_recognition.load_image_file(ruta)
+    decodificar = face_recognition.face_encodings(subir_foto)[0]
+    caras.append(decodificar)
+
 ruta = "C:/Users/seguricell/Desktop/tensorflow/erikamasfotos"
 
 
