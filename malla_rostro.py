@@ -1,9 +1,10 @@
 import cv2
 import mediapipe as mp
+import urllib.request
 
 mp_face_mesh = mp.solutions.face_mesh
 mp_drawing = mp.solutions.drawing_utils
-camara = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+url = 'http://192.168.21.102/cam-hi.jpg'
 
 with mp_face_mesh.FaceMesh(
     static_image_mode=False,
@@ -12,8 +13,9 @@ with mp_face_mesh.FaceMesh(
     min_tracking_confidence=0.75) as face_mesh:
     
     while True:
-        ret,video = camara.read()
-        video = cv2.flip(video, 0)
+        imagenurl = urllib.request.urlopen (url) #abrimos el URL
+        imagenarray = np.array(bytearray(imagenurl.read()),dtype=np.uint8)
+        video = cv2.imdecode (imagenarray,-1) #decodificamos
         videorgb = cv2.cvtColor(video, cv2.COLOR_BGR2RGB)
 
         results = face_mesh.process(videorgb)
@@ -31,5 +33,4 @@ with mp_face_mesh.FaceMesh(
         if cv2.waitKey(1) & 0xFF == 27:
             break
     
-camara.release()
 cv2.destroyAllWindows()

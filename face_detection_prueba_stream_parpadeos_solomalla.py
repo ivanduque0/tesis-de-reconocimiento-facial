@@ -4,11 +4,19 @@ import numpy as np
 import mediapipe as mp
 from math import  acos,degrees
 import os
+import urllib.request
 
 directorio="C:/Users/Ivonne/Desktop/tensorflow/rostros para facerecognition"
 imagenes = os.listdir(directorio)
+url = 'http://192.168.20.103/cam-hi.jpg'
 nombres = []
 decodificados = []
+mp_face_detection = mp.solutions.face_detection
+mp_face_mesh = mp.solutions.face_mesh
+mp_drawing = mp.solutions.drawing_utils
+parpado=0
+parpadeos=0
+
 for imagen in imagenes:
     nombre = os.path.splitext(imagen)[0]
     nombres.append(nombre)
@@ -19,13 +27,6 @@ for imagen in imagenes:
     decodificar = face_recognition.face_encodings(subir_foto)[0]
     decodificados.append(decodificar)
 
-mp_face_detection = mp.solutions.face_detection
-mp_face_mesh = mp.solutions.face_mesh
-mp_drawing = mp.solutions.drawing_utils
-camara = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-parpado=0
-parpadeos=0
-
 with mp_face_mesh.FaceMesh(
 static_image_mode=False,
 max_num_faces=1,
@@ -34,8 +35,9 @@ min_tracking_confidence=0.75) as face_mesh:
 
     while True:
 
-        ret,video = camara.read()
-        video = cv2.flip(video, 0)
+        imagenurl = urllib.request.urlopen (url) #abrimos el URL
+        imagenarray = np.array(bytearray(imagenurl.read()),dtype=np.uint8)
+        video = cv2.imdecode (imagenarray,-1) #decodificamos
         videorgb = cv2.cvtColor(video, cv2.COLOR_BGR2RGB)
         alto, ancho, _ = video.shape
         results2 = face_mesh.process(videorgb)   
@@ -117,6 +119,6 @@ min_tracking_confidence=0.75) as face_mesh:
         cv2.imshow('imagenn', video)
         if cv2.waitKey(1) & 0xFF == 27:
             break
-
+cv2.destroyAllWindows()
          
 

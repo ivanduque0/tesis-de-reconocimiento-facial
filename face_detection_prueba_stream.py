@@ -6,11 +6,13 @@ import mediapipe as mp
 from math import  acos,degrees
 import os
 import matplotlib.pyplot as plt
+import urllib.request
 
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
 camara = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 directorio="C:/Users/seguricell/Desktop/tensorflow/rostros para face recognition"
+url = 'http://192.168.21.102/cam-hi.jpg'
 imagenes = os.listdir(directorio)
 nombres = []
 caras = []
@@ -32,8 +34,9 @@ with mp_face_detection.FaceDetection(
     
     while True:
 
-        ret,video = camara.read()
-        video = cv2.flip(video, 0)
+        imagenurl = urllib.request.urlopen (url) #abrimos el URL
+        imagenarray = np.array(bytearray(imagenurl.read()),dtype=np.uint8)
+        video = cv2.imdecode (imagenarray,-1) #decodificamos
         videorgb = cv2.cvtColor(video, cv2.COLOR_BGR2RGB)
         alto, ancho, _ = video.shape
         results = face_detection.process(videorgb)
@@ -102,19 +105,20 @@ with mp_face_detection.FaceDetection(
                 face_locations = face_recognition.face_locations(vista_previargb)
                 encodingcamara = face_recognition.face_encodings(vista_previargb)
                 
-
+                
                 if encodingcamara != []:
                     encodingcamaraa = face_recognition.face_encodings(vista_previargb, face_locations)[0]
 
                     resultado = face_recognition.compare_faces(caras, encodingcamaraa, tolerance=0.50)
                     print(resultado)
-                    # print(f" es erika = {resultado[0]}")
-                    # print(f" es ivan = {resultado[1]}")
-                    # print(f" es diego = {resultado[2]}")
-                
-                    if resultado[0]:
+                    
+                    nombre = "rostro no identificado. parpadee otra vez"
 
-                        print(nombres[0])
+                    if True in resultado:
+                        rostro_encontrado = resultado.index(True)
+                        nombre = nombres[rostro_encontrado]
+                    
+                        print(nombre)
                         cv2.line(video,(xmin,ymin),(xmin+60,ymin),(0,0,255),5)
                         cv2.line(video,(xmin,ymin),(xmin,ymin+60),(0,0,255),5)
                         cv2.line(video,(xmin + w,ymin),(xmin+w-60,ymin),(0,0,255),5)
@@ -123,34 +127,11 @@ with mp_face_detection.FaceDetection(
                         cv2.line(video,(xmin,ymin+h),(xmin+60,ymin+h),(0,0,255),5)
                         cv2.line(video,(xmin + w,ymin+h),(xmin+w,ymin+h-60),(0,0,255),5)
                         cv2.line(video,(xmin + w,ymin+h),(xmin+w-60,ymin+h),(0,0,255),5)
-                        cv2.putText(video, "diego", (xmin,ymin),cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
-                    if resultado[1]:
-                        print(nombres[1])
-                        cv2.line(video,(xmin,ymin),(xmin+60,ymin),(255,0,0),5)
-                        cv2.line(video,(xmin,ymin),(xmin,ymin+60),(255,0,0),5)
-                        cv2.line(video,(xmin + w,ymin),(xmin+w-60,ymin),(255,0,0),5)
-                        cv2.line(video,(xmin + w,ymin),(xmin+w,ymin+60),(255,0,0),5)
-                        cv2.line(video,(xmin,ymin+h),(xmin,ymin+h-60),(255,0,0),5)
-                        cv2.line(video,(xmin,ymin+h),(xmin+60,ymin+h),(255,0,0),5)
-                        cv2.line(video,(xmin + w,ymin+h),(xmin+w,ymin+h-60),(255,0,0),5)
-                        cv2.line(video,(xmin + w,ymin+h),(xmin+w-60,ymin+h),(255,0,0),5)
-                        cv2.putText(video, "erika", (xmin,ymin),cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0), 2)
-                    
-                    if resultado[2]:
-                        print(nombres[2])
-                        cv2.line(video,(xmin,ymin),(xmin+60,ymin),(0, 255, 0),5)
-                        cv2.line(video,(xmin,ymin),(xmin,ymin+60),(0, 255, 0),5)
-                        cv2.line(video,(xmin + w,ymin),(xmin+w-60,ymin),(0, 255, 0),5)
-                        cv2.line(video,(xmin + w,ymin),(xmin+w,ymin+60),(0, 255, 0),5)
-                        cv2.line(video,(xmin,ymin+h),(xmin,ymin+h-60),(0, 255, 0),5)
-                        cv2.line(video,(xmin,ymin+h),(xmin+60,ymin+h),(0, 255, 0),5)
-                        cv2.line(video,(xmin + w,ymin+h),(xmin+w,ymin+h-60),(0, 255, 0),5)
-                        cv2.line(video,(xmin + w,ymin+h),(xmin+w-60,ymin+h),(0, 255, 0),5)
-                        cv2.putText(video, "ivan", (xmin,ymin),cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 2)
+                        cv2.putText(video, f"{nombre}", (xmin,ymin),cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
                     
         cv2.imshow('imagenn', video)
         if cv2.waitKey(1) & 0xFF == 27:
             break
 
-         
+cv2.destroyAllWindows()         
 

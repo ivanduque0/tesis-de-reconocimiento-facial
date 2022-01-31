@@ -5,12 +5,13 @@ import mediapipe as mp
 from math import  acos,degrees
 import os
 import matplotlib.pyplot as plt
+import urllib.request
 
 nombres = ["erika", "ivan", "diego"]
 mp_face_mesh = mp.solutions.face_mesh
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
-camara = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+url = 'http://192.168.21.102/cam-hi.jpg'
 
 modelo = tf.keras.models.load_model("modelo iv-er-di conv2d (256,256,256) colab 300x300")
 
@@ -35,8 +36,9 @@ with mp_face_detection.FaceDetection(
     
         while True:
 
-            ret,video = camara.read()
-            video = cv2.flip(video, 0)
+            imagenurl = urllib.request.urlopen (url) #abrimos el URL
+            imagenarray = np.array(bytearray(imagenurl.read()),dtype=np.uint8)
+            video = cv2.imdecode (imagenarray,-1) #decodificamos
             videorgb = cv2.cvtColor(video, cv2.COLOR_BGR2RGB)
             alto, ancho, _ = video.shape
             results = face_detection.process(videorgb)
@@ -165,7 +167,6 @@ with mp_face_detection.FaceDetection(
                 break
 
          
-camara.release()
 cv2.destroyAllWindows()
 
 

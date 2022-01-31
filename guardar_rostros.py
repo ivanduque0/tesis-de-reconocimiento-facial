@@ -4,10 +4,11 @@ import os #libreria para crear directorios
 import mediapipe as mp
 from math import  acos,degrees
 import time
+import urllib.request
 
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
-camara = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+url = 'http://192.168.21.102/cam-hi.jpg'
 
 #primero se asegura que no esta creada la carpeta
 if not os.path.exists('ivannuevas'):
@@ -25,8 +26,9 @@ with mp_face_detection.FaceDetection(
     
     while True:
 
-        ret,video = camara.read()
-        video = cv2.flip(video, 0)
+        imagenurl = urllib.request.urlopen (url) #abrimos el URL
+        imagenarray = np.array(bytearray(imagenurl.read()),dtype=np.uint8)
+        video = cv2.imdecode (imagenarray,-1) #decodificamos
         videorgb = cv2.cvtColor(video, cv2.COLOR_BGR2RGB)
         alto, ancho, _ = video.shape
         results = face_detection.process(videorgb)
@@ -118,7 +120,4 @@ with mp_face_detection.FaceDetection(
         cv2.imshow('imagenn', video)
         
 
-
-
-camara.release()
 cv2.destroyAllWindows()
