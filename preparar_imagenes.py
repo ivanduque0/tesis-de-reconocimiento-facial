@@ -7,7 +7,13 @@ import pickle
 
 
 directorio = "C:/Users/Ivonne/Desktop/tensorflow/caras"
-personas = ["erika","ivan"]
+personas = []
+lista_personas = os.listdir(directorio)
+for persona in lista_personas:
+    nombre = os.path.splitext(imagen)[0]
+    print(nombre)
+    personas.append(nombre)
+
 
 #for persona in personas:
     #ruta = os.path.join(directorio, personas)
