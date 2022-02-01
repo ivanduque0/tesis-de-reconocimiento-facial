@@ -7,11 +7,15 @@ import os
 import matplotlib.pyplot as plt
 import urllib.request
 
+
+#pickle_in = open("nombres.pickle","rb")
+#nombres = pickle.load(pickle_in)
+
 nombres = ["erika", "ivan", "diego"]
 mp_face_mesh = mp.solutions.face_mesh
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
-url = 'http://192.168.21.102/cam-hi.jpg'
+url = 'http://192.168.20.136/cam-hi.jpg'
 
 modelo = tf.keras.models.load_model("modelo iv-er-di conv2d (256,256,256) colab 300x300")
 
@@ -160,7 +164,20 @@ with mp_face_detection.FaceDetection(
                         cv2.line(video,(xmin + w,ymin+h),(xmin+w,ymin+h-60),(0, 255, 0),5)
                         cv2.line(video,(xmin + w,ymin+h),(xmin+w-60,ymin+h),(0, 255, 0),5)
                         cv2.putText(video, "diego", (xmin,ymin),cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 2)
-                        
+#                    if True in resultado:
+#                        rostro_encontrado = resultado.index(True)
+#                        nombre = nombres[rostro_encontrado]
+                    
+#                        print(nombre)
+#                        cv2.line(video,(xmin,ymin),(xmin+60,ymin),(0,0,255),5)
+#                        cv2.line(video,(xmin,ymin),(xmin,ymin+60),(0,0,255),5)
+#                        cv2.line(video,(xmin + w,ymin),(xmin+w-60,ymin),(0,0,255),5)
+#                        cv2.line(video,(xmin + w,ymin),(xmin+w,ymin+60),(0,0,255),5)
+#                        cv2.line(video,(xmin,ymin+h),(xmin,ymin+h-60),(0,0,255),5)
+#                        cv2.line(video,(xmin,ymin+h),(xmin+60,ymin+h),(0,0,255),5)
+#                        cv2.line(video,(xmin + w,ymin+h),(xmin+w,ymin+h-60),(0,0,255),5)
+#                        cv2.line(video,(xmin + w,ymin+h),(xmin+w-60,ymin+h),(0,0,255),5)
+#                        cv2.putText(video, f"{nombre}", (xmin,ymin),cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)    
         
             cv2.imshow('imagenn', video)
             if cv2.waitKey(1) & 0xFF == 27:

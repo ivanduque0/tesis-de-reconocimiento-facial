@@ -1,10 +1,11 @@
 import cv2
 import mediapipe as mp
 import urllib.request
+import numpy as np
 
 mp_face_mesh = mp.solutions.face_mesh
 mp_drawing = mp.solutions.drawing_utils
-url = 'http://192.168.21.102/cam-hi.jpg'
+url = 'http://192.168.20.136/cam-hi.jpg'
 
 with mp_face_mesh.FaceMesh(
     static_image_mode=False,
@@ -23,8 +24,8 @@ with mp_face_mesh.FaceMesh(
         if results.multi_face_landmarks is not None:
             for face_landmarks in results.multi_face_landmarks:
                 mp_drawing.draw_landmarks(video, face_landmarks, 
-                    mp_face_mesh.FACEMESH_TESSELATION, 
-                    # FACEMESH_TESSELATION CONTOURS
+                    mp_face_mesh.FACEMESH_CONTOURS, 
+                    # FACEMESH_TESSELATION CONTOURS  FACEMESH_TESSELATION
                     mp_drawing.DrawingSpec(color=(255, 0, 0), thickness=1, circle_radius=1),
                     mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=1))
         print(type(mp_face_mesh.FACEMESH_TESSELATION))
