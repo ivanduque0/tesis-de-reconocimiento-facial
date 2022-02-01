@@ -7,9 +7,13 @@ import pickle
 import glob
 
 directorio = "C:/Users/Ivonne/Desktop/tensorflow/"
-personas = ["erika","ivan"]
-
-
+carpetas_personas = os.listdir(directorio)
+nombres = []
+for imagen in carpetas_personas:
+    nombre = os.path.splitext(imagen)[0]
+    print(nombre)
+    nombres.append(nombre)
+    
 #for persona in personas:
     #ruta = os.path.join(directorio, personas)
     #print(ruta)
@@ -20,10 +24,10 @@ personas = ["erika","ivan"]
 data_entrenamiento = []
 
 def crear_entrenamiento_datos():
-        for persona in personas:
+        for persona in nombres:
             
             ruta = os.path.join(directorio)
-            class_num = personas.index(persona)
+            class_num = nombres.index(persona)
             print(class_num)
 
             for foto in glob.glob(f'partes del rostro/{persona}/nariz*.*'):
@@ -71,4 +75,8 @@ pickle_out.close()
 
 pickle_out = open("y2 nariz105x96.pickle","wb")
 pickle.dump(y, pickle_out)
+pickle_out.close()
+
+pickle_out = open("nombres.pickle","wb")
+pickle.dump(nombres, pickle_out)
 pickle_out.close()
