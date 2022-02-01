@@ -11,11 +11,8 @@ mp_face_mesh = mp.solutions.face_mesh
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
 camara = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-carpetas_personas = os.listdir(directorio)
-for imagen in carpetas_personas:
-    nombre = os.path.splitext(imagen)[0]
-    print(nombre)
-    nombres.append(nombre)
+pickle_in = open("nombres.pickle","rb")
+nombres = pickle.load(pickle_in)
 
 modelo = tf.keras.models.load_model("modelo iv-er-di conv2d (256,256,256) colab 300x300")
 
@@ -163,6 +160,8 @@ with mp_face_detection.FaceDetection(
                         cv2.line(video,(xmin + w,ymin+h),(xmin+w,ymin+h-60),(0, 255, 0),5)
                         cv2.line(video,(xmin + w,ymin+h),(xmin+w-60,ymin+h),(0, 255, 0),5)
                         cv2.putText(video, "diego", (xmin,ymin),cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 2)
+
+
                         
         
             cv2.imshow('imagenn', video)
