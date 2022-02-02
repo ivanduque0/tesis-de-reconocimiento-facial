@@ -14,7 +14,7 @@ caras = []
 mp_face_detection = mp.solutions.face_detection
 mp_face_mesh = mp.solutions.face_mesh
 mp_drawing = mp.solutions.drawing_utils
-camara = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+camara = cv2.VideoCapture("http://192.168.20.136:81/stream")
 parpado=0
 parpadeos=0
 

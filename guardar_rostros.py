@@ -7,7 +7,7 @@ import time
 
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
-camara = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+camara = cv2.VideoCapture("http://192.168.20.136:81/stream")
 
 #primero se asegura que no esta creada la carpeta
 if not os.path.exists('ivannuevas'):

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
-camara = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+camara = cv2.VideoCapture("http://192.168.20.136:81/stream")
 directorio="C:/Users/seguricell/Desktop/tensorflow/rostros para face recognition"
 imagenes = os.listdir(directorio)
 nombres = []
