@@ -4,8 +4,8 @@ WORKDIR /dockertensorflow
 
 COPY . .
 RUN apt-get update
-RUN apt-get install python3  -y
 RUN apt-get install -y nano
+RUN apt-get install python3  -y
 RUN apt-get install -y python3-pip
 RUN pip3 install tflite_runtime
 RUN pip3 install mediapipe
