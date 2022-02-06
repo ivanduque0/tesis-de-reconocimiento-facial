@@ -25,6 +25,8 @@ mp_drawing = mp.solutions.drawing_utils
 camara = cv2.VideoCapture("http://192.168.20.136:81/stream")
 parpado=0
 parpadeos=0
+d1old=0
+d2old=0
 
 with mp_face_mesh.FaceMesh(
 static_image_mode=False,
@@ -87,11 +89,15 @@ min_tracking_confidence=0.75) as face_mesh:
                 d1 = np.linalg.norm(p2-p1)
                 d2 = np.linalg.norm(p4-p3)
 
-                if d1>20 and d2>20:
+                dif1 = (d1old*27)/100
+                dif2 = (d2old*27)/100
+
+                if d1==d1old and d2==d2old:
                     parpado=1
-
-                if d1<=15 and d2<=15 and parpado==1:
-
+                        
+                if d1<=d1old-dif1 and d2<=d2old-dif2 and parpado==1:
+                    parpadeos=parpadeos+1  
+                    print(parpadeos)        
                     #caracamara = face_recognition.load_image_file("rostrorver.jpg")
                     face_locations = face_recognition.face_locations(alinear_rgb)
                     encodingcamara = face_recognition.face_encodings(alinear_rgb)
@@ -110,10 +116,14 @@ min_tracking_confidence=0.75) as face_mesh:
                             nombre = nombres[rostro_encontrado]
                         
                         print(nombre)
-                         
-
                     parpado=0
-                        
+                    d1old=0
+                    d2old=0
+                    
+                if d1 >= d1old:
+                    d1old=d1
+                if d1 >= d1old:
+                    d2old=d1        
         cv2.imshow('imagenn', video)
         if cv2.waitKey(1) & 0xFF == 27:
             break
