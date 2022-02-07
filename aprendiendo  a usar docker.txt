@@ -1,0 +1,54 @@
+docker pull <nombre de la imagen> = se usa para descargar la imagen
+
+docker run <nombre de la imagen> = se usa para iniciar a correr un contenedor
+
+docker images = se usa para ver todas las imagenes instaladas
+
+docker images | head = muestra las primeras imagenes en la lista de instaladas 
+
+docker ps = muestra los contenedores que estan corriendo actualmente
+
+docker ps -a = muestro todos  los contenedores que has corrido
+
+docker start <Container ID> = se usa para iniciar un contenedor desde el container ID
+para recuperar lo que tenia antes de pararse
+
+docker logs <container ID> = se usa para ver el log de los contenedores
+
+docker logs -f <container ID> = se usa para ver el log de los contenedores y sigue viendo el log
+
+docker exec <container ID> = ejecuta un comando dentro de un contenedor que esta corriendo
+
+docker exec -it <container ID> = ejecuta una seseion interactiva con el contenedor que esta 
+corriendo, la "i" crea una sesion interactiva y la "t" va a habilitar uns terminal
+
+docker stop <docker ID> = detiene un contenedor
+
+docker stop <docker ID1> <docker ID2> <docker ID3>= detiene varios contenedores a la vez
+
+docker run -d <nombre de la imagen> = inicia a correr un contenedor en background
+
+docker build -t <tag del contenedor> = asi se contruye la imagen
+
+docker run -dp <puerto del contenedor>:<puerto de la computadora> = este comando lo que
+hace es empezar a correr un contenedor en back ground y comunica un puerto del
+contenedor con el de la computadora
+
+docker run -d -v <ruta de origen de lo que va dentro del contenedor>:<ruta de donde se guardaran los cambios> -p <puerto del contenedor>:<puerto de la computadora> = con este comando se guardan los cambios que se hicieron en el contenedor en una base de datos en la ruta donde se guardan los cambios
+
+
+docker image rm -f $(docker images | grep "<none>" | awk '{print$3}') = con este se borran todas las imagenes vacias
+
+docker rmi <ID de la imagen> = se usa para eliminar una imagen especifica
+
+docker rmi $(docker images -q) = se usa para eliminar todas las imagenes
+
+docker stop $(docker ps -a -q) = se usa para detener todos los contenedores
+
+docker rm $(docker ps -a -q) = se usa para eliminar todos los contenedores
+
+docker run -v <ruta de los que se quiere guardar al contenedor>:<ruta donde se colocara lo que se quiere en el contenedor> = esto se usa para reescribir cosas de la computadora al contenedor o del contenedor a la computadora
+
+
+
+
