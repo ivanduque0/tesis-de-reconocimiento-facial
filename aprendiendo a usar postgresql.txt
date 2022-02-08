@@ -32,7 +32,7 @@ INSERT INTO weather (city, temp_lo, temp_hi, prcp, date) VALUES ('San Francisco'
 
 SELECT * FROM <nombe de la tabla>; = esto se usa para ver el contenido de todas las columnas de una tabla
 
-SELECT * FROM information_schema.tables; = para ver todas las tablas
+SELECT * FROM information_schema.tables; = \dt *.* = \dt <schema particular>.* = para ver todas las tablas
 
 
 
