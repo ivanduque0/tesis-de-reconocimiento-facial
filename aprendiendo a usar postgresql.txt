@@ -1,0 +1,39 @@
+sudo -i -u postgres = se usa para ingresar a la cuenta predeterminada de postgres
+
+sudo -u postgres createuser --interactive = se usa para crear un rol nuevo
+
+sudo -u postgres createdb <nombre del rol> = se usa para crear una base de datos en un rol
+
+   pasos para abrir una linea de comandos de
+   postgres con un rol distinto a postgres
+   
+1) sudo adduser <nombre del nuevo usuario> (se recomienda que el nombre de usuario sea el mismo del rol)
+
+2) sudo -i -u <nombre del nuevo usuario>
+
+3) psql (para abrir la linea de comandos del rol e en ese nuevo usuario)
+
+psql -d <nombre del rol distinto> = para conectar a una base de datos diferente a la del nomber del usuario
+
+sudo -u <nombre de usuario> psql <nombre del rol> = se usa para entrar a la linea de comandos directamente
+
+sudo -u postgres dropbd <nombre del rol> = se usa para eliminar roles
+
+sudo -u postgres pg_dump <nombre del rol> > <nombre del back up>.sql = se usa para hacer un backup de la base de datos(rol)
+
+sudo -u postgres pg_dump -t <nombre de la tabla> <nombre del rol> > <nombre del archivo donde se guardara la tabla>.sql = se usa para hacer un backup de una lista
+
+
+CREATE TABLE <nombre de la tabla> (<columna1> <tipo de dato columna1>, <columna2> <tipo de dato columna2>, ...); = asi se crean tablas
+
+DROP TABLE <nombre de la tabla> =  asi se borran tablas
+
+INSERT INTO weather (city, temp_lo, temp_hi, prcp, date) VALUES ('San Francisco', 43, 57, 0.0, '1994-11-29'); = asi se rellenan las tablas, con esa sintaxis, primero se colocan los nombres de las columnas y luego se colocan los valores de cada columna
+
+SELECT * FROM <nombe de la tabla>; = esto se usa para ver el contenido de todas las columnas de una tabla
+
+SELECT * FROM information_schema.tables; = \dt *.* = \dt <schema particular>.* = para ver todas las tablas
+
+
+
+
