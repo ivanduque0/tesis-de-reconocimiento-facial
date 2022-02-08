@@ -1,32 +1,46 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
+import psycopg2
 
-host='192.168.20.135'
-puerto=8888
 
-class texthandler (BaseHTTPRequestHandler):
-    #si se usa esta clase se envia el string de wfile.write
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('context-type', 'text/html')
-        self.end_headers()
-        self.wfile.write('pruebaxdxdxd'.encode())
+try:
+    #aqui se establece la coenxion con la base de datos
+    conn = psycopg2.connect(
+        database="tesis", user="tesis", password="", host="", port=""
+    )
 
-class echohandler (BaseHTTPRequestHandler):
-    # si se usa esta clase se envia lo que aparezca 
-    # luego del primer / de la url
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('context-type', 'text/html')
-        self.end_headers()
-        self.wfile.write(self.path[1:].encode())
+    #aqui se habilita la opcion para hacer los guardados automaticos a la base de datos
+    conn.autocommit = False
 
-def configurarservidor():
-    puerto=8888
-    servidor = HTTPServer((host,puerto), echohandler)
-    print('el servidor esta activo')
-    print(f'http://{host}:{puerto}')
-    servidor.serve_forever()
-    servidor.server_close()
-    print('servidor detenido')
+    #aqui se crea un objeto que va a apuntar hacia la base de datos 
+    # para empezar a hacer las consultas 
+    cursor = conn.cursor()
 
-configurarservidor()
+    #aqui se muestra como se hacen las consultas
+
+    cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
+    INCOME) VALUES ('Ramya', 'Rama priya', 27, 'F', 9000)''')
+    cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
+    INCOME) VALUES ('Vinay', 'Battacharya', 20, 'M', 6000)''')
+    cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
+    INCOME) VALUES ('Sharukh', 'Sheik', 25, 'M', 8300)''')
+    cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
+    INCOME) VALUES ('Sarmista', 'Sharma', 26, 'F', 10000)''')
+    cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
+    INCOME) VALUES ('Tripthi', 'Mishra', 24, 'F', 6000)''')
+
+    #con esto se suben las consultas a la base de datos
+    conn.commit()
+
+    # este es un contador que se usa para saber
+    #cuantas filas se cambiaron
+    count = cursor.rowcount
+
+    print(count)
+
+except (Exception, psycopg2.Error) as error:
+    print("fallo en hacer las consultas")
+
+finally:
+    if conn:
+        cursor.close()
+        conn.close()
+        print("se ha cerrado la conexion a la base de datos")
