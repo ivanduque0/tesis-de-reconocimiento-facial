@@ -1,32 +1,28 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
+import psycopg2
 
-host='192.168.20.135'
-puerto=8888
 
-class texthandler (BaseHTTPRequestHandler):
-    #si se usa esta clase se envia el string de wfile.write
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('context-type', 'text/html')
-        self.end_headers()
-        self.wfile.write('pruebaxdxdxd'.encode())
+try:
+    #aqui se establece la coenxion con la base de datos
+    conn = psycopg2.connect(
+        database="tesis", user="tesis", password="tesis", host="localhost", port="5432"
+    )
 
-class echohandler (BaseHTTPRequestHandler):
-    # si se usa esta clase se envia lo que aparezca 
-    # luego del primer / de la url
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('context-type', 'text/html')
-        self.end_headers()
-        self.wfile.write(self.path[1:].encode())
+    #aqui se habilita la opcion para hacer los guardados automaticos a la base de datos
+    conn.autocommit = False
 
-def configurarservidor():
-    puerto=8888
-    servidor = HTTPServer((host,puerto), echohandler)
-    print('el servidor esta activo')
-    print(f'http://{host}:{puerto}')
-    servidor.serve_forever()
-    servidor.server_close()
-    print('servidor detenido')
+    #aqui se crea un objeto que va a apuntar hacia la base de datos 
+    # para empezar a hacer las consultas 
+    cursor = conn.cursor()
+    array_tables = cursor.fetchall()
 
-configurarservidor()
+    for t_name_table in array_tables:
+        print(t_name_table + "\n")
+
+except (Exception, psycopg2.Error) as error:
+    print("fallo en hacer las consultas")
+
+finally:
+    if conn:
+        cursor.close()
+        conn.close()
+        print("se ha cerrado la conexion a la base de datos")
