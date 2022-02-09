@@ -49,6 +49,11 @@ docker rm $(docker ps -a -q) = se usa para eliminar todos los contenedores
 
 docker run -v <ruta de los que se quiere guardar al contenedor>:<ruta donde se colocara lo que se quiere en el contenedor> = esto se usa para reescribir cosas de la computadora al contenedor o del contenedor a la computadora
 
+docker save -o <save image to path> <image name> = esto se usa para guardar una imagen en un archivo para lluego correrlo en otra imagen
+
+docker load -i <path to image tar file> = con esto se corre una imagen que habia sido guardada y fue traida a la pc como un archivo
+
+
 
 
 
