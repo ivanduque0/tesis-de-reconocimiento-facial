@@ -1,0 +1,61 @@
+git init = se usa cuando se va a empezar un proyecto y se va a hacer uso de git
+
+git add <nombre del archivo> = se usa para agregar un solo archivo del working
+directory al staging area y para reemplazar el archivo cambiado en el workspace
+
+git status = es para ver donde estan los archivos y si hay cambios
+
+git commit = es para pasar los archivos del staging area al repository y
+para subir archivos que se les hicieron cambios
+
+git commit -m "<mensaje que se dese hacer>" = es el mismo que git commit pero sin
+entrar al editor de texto
+
+git push = es para subir el repositorio a uno remoto 
+
+git pull = para traer los cambios que han hecho los otros desarrolladores
+
+git clone = se usa para crear una copia del repositorio en otro computador
+
+git checkout -- <nombre del archivo> = se usa para borrar los cambios que se
+hicieron en el codigo
+
+git diff <nombre del archivo> = se usa para ver los cambios que hubieron en
+el archivo
+
+git log = se usa para ver que se ha hecho en los archivos
+
+para tener carpetas o archivos que quiero ignorar debo crear un archivo
+nuevo enla carpeta el cual se debe llamar .gitignore y ahi dentro debo escribir
+los archivos y carpetas que quiero que sean ignorados. Se debe agregar el
+archivo .gitignore al staging area (git add .gitignore)
+
+git branch = se usa para ver las versiones (ramas) del proyecto y para ver
+en cual nos encontramos ahorita (la que aparece en verde)
+
+git branch <nombre de la nueva version> = se usa para crear una nueva version
+del proyecto
+
+git checkout <nombre de la nueva version> = se usar para moverse de una
+version a otra
+
+git add . = se usa para agregar todos los archivos al staging area
+
+git remote add origins <link donde estara el repositorio> = se usa para dar agregar
+el link donde estara el repositorio
+
+push -u origin <nombre de la version> = se usa para subir al repositorio la
+version en la que se esta por ahora
+
+git rm --cached <nombre_archivo> = se usa para eliminar archivos del working directory
+
+git rm -r --cached <nombre_directorio> = se usa para eliminar directorios del working directory
+
+git reset HEAD <nombre_de_archivo> = se usa para eliminar archivos del staging area
+
+git branch -r | grep -v '\->' | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" | while read remote; do git branch --track "${remote#origin/}" "$remote"; done = con esto se colocan todas las ramas de un repositorioremoto al local
+
+git fetch --all = con esto se trae la informacion de todas las ramas
+
+git pull --all = con esto se copia enel repositorio local lo que hay dentro de las ramas
+
