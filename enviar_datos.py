@@ -15,7 +15,7 @@ conn = None
 try:
     #aqui se establece la coenxion con la base de datos
     conn = psycopg2.connect(
-        database="tesis", user="tesis", password="tesis", host="localhost", port="5432"
+        database="tesis", user="tesis", password="tesis", host="localhost", port="4444"
     )
 
     #aqui se habilita la opcion para hacer los guardados automaticos a la base de datos

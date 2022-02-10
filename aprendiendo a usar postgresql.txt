@@ -5,7 +5,7 @@ sudo systemctl stop postgresql@11-main
 sudo pg_dropcluster --stop 11 main
 sudo pg_createcluster --start 11 main
 ---------------------------------------------
-
+NOTA IMPORTANTISIMA: LOS ROLES LO UNICO QUE HACEN ES APUNTAR LOS PRIVILEGIOS QUE TENDRA EL USUARIO CREADO CON ESE MISMO NOMBRE, Y LAS BASES DE DATOS SON EL LUGAR DONDE LOS PRIVILEGIOS VAN A USARSE, ES POR ESTO EL ROLE, LA BASE DE DATOS Y EL USUARIO DEBEN LLAMARSE IGUAL.
 
 sudo -i -u postgres = se usa para ingresar a la cuenta predeterminada de postgres
 

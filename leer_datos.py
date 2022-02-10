@@ -1,17 +1,22 @@
 import psycopg2
 import pandas
 
+#IMPORTANTE!!!
+#PARA USAR PANDAS CON POSTGRES SE DEBE INSTALAR SQLAlchemy DESDE PIP, SINO NO FUNCIONA
 
+conn = None
 try:
     #aqui se establece la coenxion con la base de datos
     conn = psycopg2.connect(
-        database="tesis", user="tesis", password="tesis", host="localhost", port="5432"
+        database="tesis", user="tesis", password="tesis", host="localhost", port="4444"
     )
+
     cursor = conn.cursor()
 
     # cuando se visualizan las consultas en pandas se
     #ve como una lista en psql
-    df = pandas.read_sql('SELECT * FROM prueba', conn)
+    df = pandas.read_sql('SELECT*FROM prueba', conn)
+    
     print(df)
 
     print("\n")
