@@ -4,7 +4,12 @@ from datetime import datetime
 tz = pytz.timezone('America/Caracas')
 caracas_now = datetime.now(tz)
 
-print(str(caracas_now)[:10])
+#aqui se ve la fecha
+fecha = str(caracas_now)[:10]
+print(fecha[:10])
+
+hora = str(caracas_now)[11:16]
+print(hora)
 
 conn = None
 try:
@@ -22,13 +27,33 @@ try:
 
     #aqui se muestra como se hacen las consultas
 
-    cursor.execute('''INSERT INTO pruebapython (letraenviada) VALUES (300);''')
-    # cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
-    # INCOME) VALUES ('Vinay', 'Battacharya', 20, 'M', 6000)''')
+    #crear tabla
+    #cursor.execute('''CREATE TABLE <nombre_nueva_tabla> (columna1 varchar(80), columna2 varchar(80), ...)''')
+    #ejemplo
+    #cursor.execute('''CREATE TABLE prueba (fecha date, hora varchar(80))''')
+    
+    #--------------------------------
+    #borrar tabla
+    #cursor.execute('''DROP TABLE <nombre_tabla>''')
+    #ejemplo
+    #cursor.execute('''DROP TABLE prueba''')
+
+    #----------------------------------------
+    # insertar datos en las tablas
+    #cursor.execute('''INSERT INTO <nombre_tabla> (<columna1>, <columna2, ...>) 
+    # VALUES (%s, %s, ...)''', (valor1, valor2, ...))
+    #ejemplo
+    cursor.execute('''INSERT INTO prueba (fecha, hora) 
+    VALUES (%s, %s);''', (fecha, hora))
+
+    #------------------------------------------
     # cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
     # INCOME) VALUES ('Sharukh', 'Sheik', 25, 'M', 8300)''')
+    
+
     # cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
     # INCOME) VALUES ('Sarmista', 'Sharma', 26, 'F', 10000)''')
+    
     # cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
     # INCOME) VALUES ('Tripthi', 'Mishra', 24, 'F', 6000)''')
 

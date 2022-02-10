@@ -1,3 +1,12 @@
+-------------------------------------
+PARA CUANDO TENGA PORBLEMAS CON LOS CLUSTER
+pg_lsclusters
+sudo systemctl stop postgresql@11-main
+sudo pg_dropcluster --stop 11 main
+sudo pg_createcluster --start 11 main
+---------------------------------------------
+
+
 sudo -i -u postgres = se usa para ingresar a la cuenta predeterminada de postgres
 
 sudo -u postgres createuser --interactive = se usa para crear un rol nuevo
@@ -23,17 +32,6 @@ sudo -u postgres pg_dump <nombre del rol> > <nombre del back up>.sql = se usa pa
 
 sudo -u postgres pg_dump -t <nombre de la tabla> <nombre del rol> > <nombre del archivo donde se guardara la tabla>.sql = se usa para hacer un backup de una lista
 
-
-CREATE TABLE <nombre de la tabla> (<columna1> <tipo de dato columna1>, <columna2> <tipo de dato columna2>, ...); = asi se crean tablas
-
-DROP TABLE <nombre de la tabla> =  asi se borran tablas
-
-INSERT INTO weather (city, temp_lo, temp_hi, prcp, date) VALUES ('San Francisco', 43, 57, 0.0, '1994-11-29'); = asi se rellenan las tablas, con esa sintaxis, primero se colocan los nombres de las columnas y luego se colocan los valores de cada columna
-
-SELECT * FROM <nombe de la tabla>; = esto se usa para ver el contenido de todas las columnas de una tabla
-
-SELECT * FROM information_schema.tables; = \dt *.* = \dt <schema particular>.* = para ver todas las tablas
-
 sudo service postgresql restart = reiniciar postgres
 
 sudo passwd postgres = cambiar contraseña de usuario postgres 
@@ -41,3 +39,48 @@ pero es preferible hacerlo asi:
 
 1)sudo -u user_name psql db_name
 2)ALTER USER user_name WITH PASSWORD 'new_password';
+
+psql -U postgres -h <host> = para crear una sesion iteractiva con la base de datos 
+
+\conninfo = con esto se visualiza la informacion de la conexion con la base de datos
+
+pg_lsclusters = se usa para listar los cluster usados
+
+pg_createcluster = este es el comando que se usa para cerar nuevos cluster en ubuntu, no initdb
+
+pg_ctlcluster <version de postresql> <nombre del cluster> start = asi se inicia un cluster
+
+\l = con esto se miran las bases de datos en el cluster
+
+\du = con esto se listan los roles (usuarios) con sus atributos
+
+
+
+---------CONSULTAS------------
+
+DROP DATABASE IF EXISTS <database_name>; = esta consulta se usa para eliminar bases de datos
+
+CREATE DATABASE <database_name>; = esta consulta se usa para crear bases de datos
+
+SELECT datname FROM pg_database; = con esta consulta se listan las bases de datos
+
+CREATE TABLE <nombre de la tabla> (<columna1> <tipo de dato columna1>, <columna2> <tipo de dato columna2>, ...); = asi se crean tablas
+
+SELECT*FROM pg_catalog.pg_user; = con esta consulta se listan los roles en el cluster
+
+CREATE ROLE = si se va a crear un rol con esta sentencia es mejor ver el siguiente link para saber que atributos ponerle https://www.postgresql.org/docs/9.1/sql-createrole.html
+
+DROP TABLE <nombre de la tabla> =  asi se borran tablas
+
+CREATE ROLE <nombre del rol> WITH LOGIN ENCRYPTED PASSWORD 'password1';
+
+DROP ROLE <nombre del rol>; = asi se elimina un rol del cluster
+
+INSERT INTO weather (city, temp_lo, temp_hi, prcp, date) VALUES ('San Francisco', 43, 57, 0.0, '1994-11-29'); = asi se rellenan las tablas, con esa sintaxis, primero se colocan los nombres de las columnas y luego se colocan los valores de cada columna
+
+SELECT * FROM <nombe de la tabla>; = esto se usa para ver el contenido de todas las columnas de una tabla
+
+SELECT * FROM information_schema.tables; = \dt *.* = \dt <schema particular>.* = para ver todas las tablas
+
+DROP DATABASE [IF EXISTS] database_name;
+

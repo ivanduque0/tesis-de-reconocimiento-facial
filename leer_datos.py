@@ -11,7 +11,7 @@ try:
 
     # cuando se visualizan las consultas en pandas se
     #ve como una lista en psql
-    df = pandas.read_sql('SELECT * FROM pruebapython', conn)
+    df = pandas.read_sql('SELECT * FROM prueba', conn)
     print(df)
 
     print("\n")
@@ -20,7 +20,7 @@ try:
     #cuando se usa este codigo solo se pueden ver las
     #filas con sus valores en forma de tuplas y todas van
     #en una lista
-    cursor.execute('SELECT * FROM pruebapython')
+    cursor.execute('SELECT * FROM prueba')
 
     #aqui en especifico se colocan todas las filas
     #en forma de tuplas
