@@ -4,7 +4,7 @@ from datetime import datetime
 tz = pytz.timezone('America/Caracas')
 caracas_now = datetime.now(tz)
 
-print(str(caracas_now)[:-22])
+print(str(caracas_now)[:10])
 
 conn = None
 try:
@@ -22,7 +22,7 @@ try:
 
     #aqui se muestra como se hacen las consultas
 
-    cursor.execute('''INSERT INTO pruebapython (letraenviada) VALUES (2);''')
+    cursor.execute('''INSERT INTO pruebapython (letraenviada) VALUES (300);''')
     # cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
     # INCOME) VALUES ('Vinay', 'Battacharya', 20, 'M', 6000)''')
     # cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
