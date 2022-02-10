@@ -22,7 +22,7 @@ try:
 
     #aqui se muestra como se hacen las consultas
 
-    #cursor.execute('''INSERT INTO prueba (valor) VALUES (5);''')
+    cursor.execute('''INSERT INTO pruebapython (letraenviada) VALUES (2);''')
     # cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
     # INCOME) VALUES ('Vinay', 'Battacharya', 20, 'M', 6000)''')
     # cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,

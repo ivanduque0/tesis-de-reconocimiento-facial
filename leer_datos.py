@@ -1,4 +1,5 @@
 import psycopg2
+import pandas
 
 
 try:
@@ -6,23 +7,14 @@ try:
     conn = psycopg2.connect(
         database="tesis", user="tesis", password="tesis", host="localhost", port="5432"
     )
+    df = pandas.read_sql('SELECT * FROM pruebapython', conn)
 
-    #aqui se habilita la opcion para hacer los guardados automaticos a la base de datos
-    conn.autocommit = False
-
-    #aqui se crea un objeto que va a apuntar hacia la base de datos 
-    # para empezar a hacer las consultas 
-    cursor = conn.cursor()
-    array_tables = cursor.fetchall()
-
-    for t_name_table in array_tables:
-        print(t_name_table + "\n")
+    print(df)
 
 except (Exception, psycopg2.Error) as error:
     print("fallo en hacer las consultas")
 
 finally:
     if conn:
-        cursor.close()
         conn.close()
         print("se ha cerrado la conexion a la base de datos")
