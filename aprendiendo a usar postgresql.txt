@@ -34,6 +34,10 @@ SELECT * FROM <nombe de la tabla>; = esto se usa para ver el contenido de todas 
 
 SELECT * FROM information_schema.tables; = \dt *.* = \dt <schema particular>.* = para ver todas las tablas
 
+sudo service postgresql restart = reiniciar postgres
 
+sudo passwd postgres = cambiar contraseña de usuario postgres 
+pero es preferible hacerlo asi: 
 
-
+1)sudo -u user_name psql db_name
+2)ALTER USER user_name WITH PASSWORD 'new_password';
