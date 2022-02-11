@@ -5,21 +5,20 @@ import mediapipe as mp
 from math import  acos,degrees
 import os
 import pickle
-import matplotlib.pyplot as plt
 
 nombres = []
 mp_face_mesh = mp.solutions.face_mesh
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
 camara = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-pickle_in = open("/home/seguricel/Downloads/nombres.pickle","rb")
+pickle_in = open("/home/ivan/Downloads/nombres.pickle","rb")
 nombres = pickle.load(pickle_in)
-
-tflite_interpreter = tflite.Interpreter("/home/seguricel/Downloads/modelolite er-iv-di conv2d (128,128,256)(64,128,128) colab 300x300")
+parpado=0
+tflite_interpreter = tflite.Interpreter("/home/ivan/Downloads/modelolite er-iv-di conv2d (128,128,256)(64,128,128) colab 300x300")
 tflite_interpreter.allocate_tensors()
 
 def preparar(imagen):
-    matriz_imagen = cv2.imread(imagen, cv2.IMREAD_GRAYSCALE)  # lee la imagen y la convierte a escala de grises
+    matriz_imagen = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)  # lee la imagen y la convierte a escala de grises
     #cv2.imread(os.path.join(ruta,foto), cv2.IMREAD_GRAYSCALE)
     nueva_matriz_imagen = cv2.resize(matriz_imagen, (300, 300))  # redimensiona la imagen
     nueva_matriz_imagen = nueva_matriz_imagen.reshape(-1, 300, 300, 1)
@@ -40,11 +39,12 @@ with mp_face_detection.FaceDetection(
         while True:
 
             ret,video = camara.read()
-            video = cv2.flip(video, 0)
+            #video = cv2.flip(video, 0)
             #video = cv2.imread("pruebaaa.jpg")  # para pruebas con una foto
             videorgb = cv2.cvtColor(video, cv2.COLOR_BGR2RGB)
             alto, ancho, _ = video.shape
             results = face_detection.process(videorgb)
+            
             
             
             if results.detections is not None:
@@ -109,49 +109,72 @@ with mp_face_detection.FaceDetection(
 
                     alineargb = cv2.cvtColor(alinear, cv2.COLOR_BGR2RGB)
                     
-                    results2 = face_mesh.process(videorgb)   
+                    results2 = face_mesh.process(videorgb)
+                    cv2.imshow("vista previa", vista_previa)   
 
 
                                     
-                    #if results2.multi_face_landmarks is not None:
-                     #   for face_landmarks in results2.multi_face_landmarks:
-                      #      mp_drawing.draw_landmarks(video, face_landmarks, mp_face_mesh.FACEMESH_CONTOURS, mp_drawing.DrawingSpec(color=(255, 0, 0), thickness=1, circle_radius=1),mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=1))
-                                # FACEMESH_TESSELATION CONTOURS
+                    if results2.multi_face_landmarks is not None:
+                    	for face_landmarks in results2.multi_face_landmarks:
+                            y_386 = int(face_landmarks.landmark[386].y * alto) 
+                            y_374 = int(face_landmarks.landmark[374].y * alto) 
+                            y_159 = int(face_landmarks.landmark[159].y * alto)
+                            y_145 = int(face_landmarks.landmark[145].y * alto)
+                            
+                            p1 = np.array([0, y_386])
+                            p2 = np.array([0, y_374])
+                            p3 = np.array([0, y_159])
+                            p4 = np.array([0, y_145])
 
+                            d1 = np.linalg.norm(p2-p1)
+                            d2 = np.linalg.norm(p4-p3)
 
-                    cv2.imwrite(f'rostrorver.jpg', vista_previa)
-                    cv2.imshow("vista previa", vista_previa) 
-                    
-                    #codigo donde se usa tensorflow lite
-                    input_details = tflite_interpreter.get_input_details()
-                    output_details = tflite_interpreter.get_output_details()
-                    
-                    #print("== Input details ==")
-                    #print("shape:", input_details[0]['shape'])
-                    #print("type:", input_details[0]['dtype'])
-                    #print("\n== Output details ==")
-                    #print("shape:", output_details[0]['shape'])
-                    #print("type:", output_details[0]['dtype'])
-                    
-                    tflite_interpreter.resize_tensor_input(input_details[0]['index'], (1, 300, 300, 1))
-                    tflite_interpreter.resize_tensor_input(output_details[0]['index'], (1, 3))
-                    tflite_interpreter.allocate_tensors()
-                    tflite_interpreter.set_tensor(input_details[0]['index'], preparar('rostrorver.jpg'))
-                    # Run inference
-                    tflite_interpreter.invoke()
-                    # Get prediction results
-                    tflite_model_predictions = tflite_interpreter.get_tensor(output_details[0]['index'])
-                    #print("Prediction results shape:", tflite_model_predictions.shape)
-                    print(tflite_model_predictions)
-                    print(nombres)
-                    
-                    #fin del codigo donde se usa tensorflow lite
-                    
-                 
+                            print(d1)
+                            print(d2)
+                            
+                            dif1 = (d1old*29)/100
+                            dif2 = (d2old*29)/100
 
+                            if d1==d1old and d2==d2old:
+                                parpado=1
                         
-        
+                            if d1<=d1old-dif1 and d2<=d2old-dif2 and parpado==1:	
+
+                                #codigo donde se usa tensorflow lite
+                                input_details = tflite_interpreter.get_input_details()
+                                output_details = tflite_interpreter.get_output_details()
+                                
+                                #print("== Input details ==")
+                                #print("shape:", input_details[0]['shape'])
+                                #print("type:", input_details[0]['dtype'])
+                                #print("\n== Output details ==")
+                                #print("shape:", output_details[0]['shape'])
+                                #print("type:", output_details[0]['dtype'])
+                                
+                                tflite_interpreter.resize_tensor_input(input_details[0]['index'], (1, 300, 300, 1))
+                                tflite_interpreter.resize_tensor_input(output_details[0]['index'], (1, 3))
+                                tflite_interpreter.allocate_tensors()
+                                tflite_interpreter.set_tensor(input_details[0]['index'], preparar(vista_previa))
+                                # Run inference
+                                tflite_interpreter.invoke()
+                                # Get prediction results
+                                tflite_model_predictions = tflite_interpreter.get_tensor(output_details[0]['index'])
+                                #print("Prediction results shape:", tflite_model_predictions.shape)
+                                print(tflite_model_predictions)
+                                print(nombres)
+                                
+                                #fin del codigo donde se usa tensorflow lite            
+                                parpado=0
+                                d1old=0
+                                d2old=0
+
+                            if d1 >= d1old:
+                                d1old=d1
+                            if d1 >= d1old:
+                                d2old=d1
+
             cv2.imshow('imagenn', video)
+
             if cv2.waitKey(1) & 0xFF == 27:
                 break
 
