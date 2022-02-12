@@ -30,11 +30,13 @@ docker run -d <nombre de la imagen> = inicia a correr un contenedor en backgroun
 
 docker build -t <tag del contenedor> = asi se contruye la imagen
 
-docker run -dp <puerto del contenedor>:<puerto de la computadora> = este comando lo que
+docker run --name <nombre del contenedor> -d -p <puerto de la computadora>:<puerto del contenedor que se quiere escuchar> <ID de la imagen> = este comando lo que
 hace es empezar a correr un contenedor en back ground y comunica un puerto del
 contenedor con el de la computadora
 
-docker run -d -v <ruta de origen de lo que va dentro del contenedor>:<ruta de donde se guardaran los cambios> -p <puerto del contenedor>:<puerto de la computadora> = con este comando se guardan los cambios que se hicieron en el contenedor en una base de datos en la ruta donde se guardan los cambios
+docker run --name <nombre del contenedor> -e POSTGRES_PASSWORD=<contraseña del usuario de postgres> -d -p <puerto de la computadora>:<puerto del contenedor que se quiere escuchar> <ID de la imagen> = este comando es parecido al de arriba perose le agrega otra cosa para dale una contraseña al usuario de postgres
+
+docker run -d -v <ruta de origen de lo que va dentro del contenedor>:<ruta de donde se guardaran los cambios> -p <puerto de la computadora>:<puerto del conetendor que se quiere escuchar> = con este comando se guardan los cambios que se hicieron en el contenedor en una base de datos en la ruta donde se guardan los cambios
 
 
 docker image rm -f $(docker images | grep "<none>" | awk '{print$3}') = con este se borran todas las imagenes vacias
