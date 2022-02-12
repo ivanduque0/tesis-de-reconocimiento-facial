@@ -22,6 +22,8 @@ docker exec <container ID> = ejecuta un comando dentro de un contenedor que esta
 docker exec -it <container ID> = ejecuta una seseion interactiva con el contenedor que esta 
 corriendo, la "i" crea una sesion interactiva y la "t" va a habilitar uns terminal
 
+docker exec -it <container ID> bash = se usa para acceder al bash del contenedor y empezar a introducir comandos como usuario root
+
 docker stop <docker ID> = detiene un contenedor
 
 docker stop <docker ID1> <docker ID2> <docker ID3>= detiene varios contenedores a la vez
