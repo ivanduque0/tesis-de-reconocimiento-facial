@@ -78,6 +78,8 @@ DROP ROLE <nombre del rol>; = asi se elimina un rol del cluster
 
 INSERT INTO weather (city, temp_lo, temp_hi, prcp, date) VALUES ('San Francisco', 43, 57, 0.0, '1994-11-29'); = asi se rellenan las tablas, con esa sintaxis, primero se colocan los nombres de las columnas y luego se colocan los valores de cada columna
 
+DELETE FROM <nombre de la tabla> WHERE <condicion que se cumple en la tabla>
+
 SELECT * FROM <nombe de la tabla>; = esto se usa para ver el contenido de todas las columnas de una tabla
 
 SELECT * FROM information_schema.tables; = \dt *.* = \dt <schema particular>.* = para ver todas las tablas
