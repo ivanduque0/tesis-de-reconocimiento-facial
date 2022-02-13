@@ -170,8 +170,8 @@ try:
                         # if cv2.waitKey(1) & 0xFF == ord('s'):
                         #     razon = "salida"
 
-                            dif1 = (d1old*27)/100
-                            dif2 = (d2old*27)/100
+                            dif1 = (d1old*26)/100
+                            dif2 = (d2old*26)/100
 
                             if d1==d1old and d2==d2old:
                                 parpado=1
