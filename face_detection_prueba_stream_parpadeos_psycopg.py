@@ -11,14 +11,15 @@ from math import  acos,degrees
 import mediapipe as mp
 
 conn = None
-directorio="/home/ivan/Desktop/dockerfacerecognition/personas"
+directorio="personas"
 imagenes = os.listdir(directorio)
 nombres = []
 caras = []
 mp_face_detection = mp.solutions.face_detection
 mp_face_mesh = mp.solutions.face_mesh
 mp_drawing = mp.solutions.drawing_utils
-camara = cv2.VideoCapture("http://192.168.21.102:81/stream")
+camara = cv2.VideoCapture("http://192.168.20.146:81/stream") #camara en la empresa
+#camara = cv2.VideoCapture("http://192.168.21.102:81/stream") #camara en mi casa
 parpado=0
 parpadeos=0
 d1old=0
@@ -50,7 +51,7 @@ print(caras2.shape)
 try:
 
     conn = psycopg2.connect(
-        database="tesis", user="tesis", password="tesis", host="localhost", port="4444"
+        database="tesis", user="tesis", password="tesis", host="postgres", port="5432"
     )
 
     conn.autocommit = False
@@ -183,12 +184,12 @@ try:
                             dif1 = (d1old*20)/100
                             dif2 = (d2old*20)/100
 
-                            if d1==d1old and d2==d2old:
+                            if d1>=d1old and d2>=d2old:
                                 parpado=1
                             t2=time.perf_counter()
                             if t2-t1 < 0:
                                 t2=0
-                            if d1<=d1old-dif1 and d2<=d2old-dif2 and parpado==1 and x_1 <= xrefold+5 and x_1>=xrefold-5 and y_1 <= yrefold+5 and y_1 >= yrefold-5 and xref != 0 and yref != 0:
+                            if d1<=d1old-dif1 and d2<=d2old-dif2 and parpado==1 and x_1 <= xrefold+5 and x_1>=xrefold-5 and y_1 <= yrefold+5 and y_1 >= yrefold-5 and xref == xrefold and yref == yrefold:
                                 parpadeos=parpadeos+1  
                                 print(parpadeos)        
                                 #face_locations = face_recognition.face_locations(alinear_rgb)
