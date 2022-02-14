@@ -57,6 +57,27 @@ docker save -o <save image to path> <image name> = esto se usa para guardar una 
 
 docker load -i <path to image tar file> = con esto se corre una imagen que habia sido guardada y fue traida a la pc como un archivo
 
+docker network create <nombre de la red de conetenedores> = esto se usa para cuando se quieran usar varios contenedores a la vez que trabajen en conjunto, se crea una red que contendra esos contenedores
+
+docker run -d --network <nombre de la red> --network-alias <alias del contenedor en la red> <nombre o ID de la imagen> = asi es es comando base para correr un conetenedor en una red de docker, sin embargo se le puede agregar mas comandos a la linea.
+
+docker run -d --network=<nombre de la red> --net-alias <alias del contenedor en la red> -e POSTGRES_PASSWORD=<contraseña del usuario de postgres> <nombre o ID de la imagen> = asi seria por ejemplo el codigo para correr uncontenedor de postgres en background en la red de docker que se creo
+
+docker run -d \
+--network=<nombre de la red>\
+--net-alias <alias del contenedor en la red>\
+-e POSTGRES_PASSWORD=<password del usuario de postgres>\
+<ID de la imagen oo su nombre con su tag correspondiente> = asi se ve mas limpio en la terminal
+
+docker run -d\
+--network=dockernetworktesis\
+--net-alias postgres\
+-e POSTGRES_PASSWORD=postgres\
+-v postgresdata:/var/lib/postgresql\
+ac47df06c03d
+
+
+
 
 
 
