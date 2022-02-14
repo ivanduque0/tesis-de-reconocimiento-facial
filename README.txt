@@ -1,4 +1,6 @@
-El archivo docker file en la rama maestra es para ser usado en una computadora con una aquitectura amd. El codigo llamado face_detection_prueba_stream_parpadeos_psycopg.py es el que por ahora esta mas actualizado en cuanto a la funcionalidad de captar los parpadeos y a las consultas de la base de datos en postgres
+En este repositorio se encuentran los archivos y explicaciones necesarias para hacer correr una aplicacion de reconocimiento facial que interacciona con una base de datos en postgres. La aplicacion y la base de datos corren en contenedores docker independiente el uno del otro.
+
+El archivo Dockerfile es para ser usado en una computadora con una aquitectura amd. El codigo llamado face_detection_prueba_stream_parpadeos_psycopg.py es el que por ahora esta mas actualizado en cuanto a la funcionalidad de captar los parpadeos y a las consultas de la base de datos en postgres usando la libreria face recognition
 
 para poder correr la aplicacion se debe hacer lo siguiente:
 1) Crear una imagen docker con el archivo docker Dockerfile
