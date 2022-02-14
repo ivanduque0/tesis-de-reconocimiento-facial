@@ -26,8 +26,14 @@ d2old=0
 vista_previargb = 0
 vista_previa = 0
 razon="entrada"
-t1=0
+t1=time.perf_counter()
 t2=0
+xref=0
+yref=0
+xrefold=0
+yrefold=0
+x_1=0
+y_1=0
 for imagen in imagenes:
     nombre = os.path.splitext(imagen)[0]
     nombres.append(nombre)
@@ -158,26 +164,31 @@ try:
                             # dify1_1=
                             # dify1_2=
 
-                            if t1 == 0 or (xmin >= xref+5 and xmin <= xref-5 and ymin >= yref+5 and ymin <= yref-5):
-                                xref = xmin
-                                yref = ymin
+                            
 
-                        
-
+                            if t2-t1 >= 0.7 and (x_1 >= xref+5 or x_1 <= xref-5 or y_1 >= yref+5 or y_1 <= yref-5):
+                                yref = y_1
+                                xref = x_1
+                            
+                            if xrefold != 0 and (xrefold != xref or yrefold != yref):
+                                xref=0
+                                yref=0
+                            
                         # if cv2.waitKey(1) & 0xFF == ord('e'):
                         #     razon = "entrada"
             
                         # if cv2.waitKey(1) & 0xFF == ord('s'):
                         #     razon = "salida"
 
-                            dif1 = (d1old*26)/100
-                            dif2 = (d2old*26)/100
+                            dif1 = (d1old*20)/100
+                            dif2 = (d2old*20)/100
 
                             if d1==d1old and d2==d2old:
                                 parpado=1
                             t2=time.perf_counter()
-
-                            if d1<=d1old-dif1 and d2<=d2old-dif2 and parpado==1 and xmin <= xref+5 and xmin>=xref-5 and ymin <= yref+5 and ymin >= yref-5:
+                            if t2-t1 < 0:
+                                t2=0
+                            if d1<=d1old-dif1 and d2<=d2old-dif2 and parpado==1 and x_1 <= xrefold+5 and x_1>=xrefold-5 and y_1 <= yrefold+5 and y_1 >= yrefold-5 and xref != 0 and yref != 0:
                                 parpadeos=parpadeos+1  
                                 print(parpadeos)        
                                 #face_locations = face_recognition.face_locations(alinear_rgb)
@@ -207,16 +218,30 @@ try:
                                 d1old=0
                                 d2old=0
                                 
-                            if d1 >= d1old:
+                            if t2-t1 >= 0.9:
                                 d1old=d1
+                                d2old=d2
                                 t1=time.perf_counter()
-                            if d1 >= d1old:
-                                d2old=d1
-                            if (t2-t1)>=0.4:
-                                d1old=0
-                                d2old=0
-                                t1=0
-                                
+                            
+                            xrefold=xref
+                            yrefold=yref
+
+                                # d2old=0
+                                # d1old=0
+                            # print("referencias")
+                            # print(f"xref={xref}")
+                            # print(f"yref={yref}")
+                            # print(f"xrefold={xrefold}")
+                            # print(f"yrefold={yrefold}")
+                            # print("distancias")
+                            # print(f"d1={d1}")
+                            # print(f"d2={d2}")
+                            # print(f"d1old={d1old}")
+                            # print(f"d2old={d2old}")
+                            # print(f"tiempo={t2-t1}")
+                            # print(f"parpadeos={parpadeos}")
+                            # print("----------------------------")
+                                    
                                 
                 
                 tecla = cv2.waitKey(1)
@@ -247,5 +272,3 @@ finally:
         cursor.close()
         conn.close()
         print("se ha cerrado la conexion a la base de datos")
-         
-
