@@ -56,3 +56,7 @@ git reset HEAD <nombre_de_archivo> = se usa para eliminar archivos del staging a
 git push --set-upstream origin <nombre de la version a subir> = se usa para subir una nueva version
 al repositorio de
 
+git checkout -b <nombre de la version a traer> origin/<nombre de la version a traer> = con esto se trae una version remota al repositorio local y se cambia a esa version de una vez
+
+git branch -f <nombre de la version> origin/<nombre de la version> = esto sirve para crear la version en el repositorio local pero sin cambiar a esa version
+
