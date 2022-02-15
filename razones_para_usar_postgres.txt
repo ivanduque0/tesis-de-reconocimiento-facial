@@ -1,0 +1,6 @@
+1) postgres es altamente escalable por lo que si un proyecto de repente pasa de ser pequeno a uno mas grande, no hace falta cambiar de motor de base de datos
+2) puesto que en el proyecto se requiere de consultas simultaneas debido a la naturaleza del proyecto, es mas conveniente usar postgres por este aspecto ya que en una sola residencia o urbanizacion pueden haber distintas entradas y salidas.
+3) con postgres se pueden hacer consultas en una base de datos incluso si esta ya esta siendo usada para otra cosa, es decir, tiene la opcion de correr en paralelo co varios usuarios usando una sola al mismo tiempo, cosa que no tiene mysql
+4) tiene un tipo de dato array, lo cual es muy conveniente para este proyecto ya que las imagenes se pueden decodificar como matrices y no haria falta tener un archivo de imagen en el servidor, solo su codificacion en la base de datos.
+5) postgresql sigue un estandar internacional y debido a que estoy rpototipando, es mucho mejor usar postgresql por ahora
+
