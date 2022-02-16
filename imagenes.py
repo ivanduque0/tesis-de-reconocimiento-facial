@@ -59,14 +59,13 @@ with mp_face_detection.FaceDetection(
                 w = int(detection.location_data.relative_bounding_box.width * ancho)
                 h = int(detection.location_data.relative_bounding_box.height * alto)
 
-                if xmin < 0 or ymin < 0:
-                    continue
+                if ymin >=20 and xmin >= 20:
+                    vista_previa = alinear[ymin-20 : ymin + h +20, xmin - 20: xmin + w +20]
+                    vista_previargb = cv2.cvtColor(vista_previa, cv2.COLOR_BGR2RGB)
 
-                vista_previa = alinear[ymin : ymin + h, xmin : xmin + w]
-
-                vista_previa_rgb = cv2.cvtColor(imagen, cv2.COLOR_BGR2RGB)
-                #ruta3=os.path.join(carpetas, imagen)
-                #print(ruta3)
-                cv2.imwrite(f"/home/ivan/Desktop/app/personas/{imagenes[0]}", vista_previa)
-                print(f"se imprimio {imagenes[0]}")
+                    vista_previa_rgb = cv2.cvtColor(imagen, cv2.COLOR_BGR2RGB)
+                    #ruta3=os.path.join(carpetas, imagen)
+                    #print(ruta3)
+                    cv2.imwrite(f"/home/ivan/Desktop/app/personas/{imagenes[0]}", vista_previa)
+                    print(f"se imprimio {imagenes[0]}")
 
