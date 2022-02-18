@@ -15,7 +15,7 @@ conn = None
 try:
     #aqui se establece la coenxion con la base de datos
     conn = psycopg2.connect(
-        database="tesis", user="tesis", password="tesis", host="localhost", port="4444"
+        database="tesis", user="tesis", password="tesis", host="localhost", port="4443"
     )
 
     #aqui se habilita la opcion para hacer los guardados automaticos a la base de datos
@@ -30,7 +30,7 @@ try:
     #crear tabla
     #cursor.execute('''CREATE TABLE <nombre_nueva_tabla> (columna1 varchar(80), columna2 varchar(80), ...)''')
     #ejemplo
-    #cursor.execute('''CREATE TABLE prueba (fecha date, hora varchar(80))''')
+    #cursor.execute('''CREATE TABLE personas (nombre varchar(80));''')
     
     #--------------------------------
     #borrar tabla
@@ -43,8 +43,14 @@ try:
     #cursor.execute('''INSERT INTO <nombre_tabla> (<columna1>, <columna2, ...>) 
     # VALUES (%s, %s, ...)''', (valor1, valor2, ...))
     #ejemplo
-    cursor.execute('''INSERT INTO prueba (fecha, hora) 
-    VALUES (%s, %s);''', (fecha, hora))
+    #cursor.execute('''INSERT INTO personas (nombre) 
+    #VALUES (%s);''', (hora,))
+    
+    #SI VAS A CREAR UNA TABLA CON UNA SOLA COLUMNA, DEBES COLOCAR UNA COMA
+    #EN EL SITIO DONDE ESTAN LAS VARIABLES AUNQUE NO HAYA OTRA COLUMNA
+    #ejemplo
+    #cursor.execute('''INSERT INTO personas (nombre) 
+    #VALUES (%s);''', (hora,))
 
     #------------------------------------------
     # cursor.execute('''INSERT INTO EMPLOYEE(FIRST_NAME, LAST_NAME, AGE, SEX,
