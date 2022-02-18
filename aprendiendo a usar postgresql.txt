@@ -86,3 +86,4 @@ SELECT * FROM information_schema.tables; = \dt *.* = \dt <schema particular>.* =
 
 DROP DATABASE [IF EXISTS] database_name;
 
+UPDATE <nombre de la tabla> SET <nombre de la columna>=<valor a cambiar en la columna> WHERE <nombre de la columna>=<valor actual en la columna>; = esto se usa para reescribir el valor de una fila en una tabla
