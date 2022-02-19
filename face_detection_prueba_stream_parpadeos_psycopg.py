@@ -13,12 +13,13 @@ import mediapipe as mp
 conn = None
 directorio="personas"
 imagenes = os.listdir(directorio)
-imagenesold=imagenes
 nombres = []
 caras = []
 mp_face_detection = mp.solutions.face_detection
 mp_face_mesh = mp.solutions.face_mesh
 mp_drawing = mp.solutions.drawing_utils
+#camara = cv2.VideoCapture("http://192.168.20.146:81/stream") #camara en la empresa
+#camara en mi casa
 parpado=0
 parpadeos=0
 d1old=0
@@ -34,26 +35,24 @@ xrefold=0
 yrefold=0
 x_1=0
 y_1=0
-listimg=0
-listimgold=0
 
-def decodificar_imagenes(lista, dir):
-    for imagen in lista:
-        ruta=os.path.join(dir,imagen)
-        subir_foto = face_recognition.load_image_file(ruta)
-        decodificar = face_recognition.face_encodings(subir_foto)
-        if decodificar != []:
-            decodificar = face_recognition.face_encodings(subir_foto)[0]
-            caras.append(decodificar)
-            nombre = os.path.splitext(imagen)[0]
-            nombres.append(nombre)
-    return caras, nombres
+for imagen in imagenes:
+    ruta=os.path.join(directorio,imagen)
+    subir_foto = face_recognition.load_image_file(ruta)
+    decodificar = face_recognition.face_encodings(subir_foto)
+    if decodificar != []:
+        decodificar = face_recognition.face_encodings(subir_foto)[0]
+        caras.append(decodificar)
+        nombre = os.path.splitext(imagen)[0]
+        nombres.append(nombre)
 
-caras, nombres = decodificar_imagenes(imagenes, directorio)
 caras2 = np.array(caras)
 print(caras2.shape)
-#print(nombres)
-camara = cv2.VideoCapture("http://192.168.20.146:81/stream")
+
+# for khe in nombres:
+#     if khe=="ivan.jpg":
+#         print("si estoy xd")
+
 try:
 
     conn = psycopg2.connect(
@@ -65,7 +64,8 @@ try:
 
     with mp_face_detection.FaceDetection(
         min_detection_confidence=0.7) as face_detection:
-        
+        #camara = cv2.VideoCapture("http://192.168.21.102:81/stream")
+        camara = cv2.VideoCapture("http://192.168.21.102:8080/?action=stream")
         with mp_face_mesh.FaceMesh(
         static_image_mode=False,
         max_num_faces=1,
@@ -73,26 +73,32 @@ try:
         min_tracking_confidence=0.75) as face_mesh:
 
             while True:
-                
+                tz = pytz.timezone('America/Caracas')
+                caracas_now = datetime.now(tz)
                 
                 ret,video = camara.read()
                 video = cv2.flip(video, 0)
-
+                #print(video)
                 if video is not None:
-                    videorgb = cv2.cvtColor(video, cv2.COLOR_BGR2RGB)
-                    alto, ancho, _ = video.shape
-                    results = face_detection.process(videorgb)
-
-
                     
-                    #listimgold=len(os.listdir(directorio))
+                    alto, ancho, _ = video.shape
+                    K = np.float32([[1,0,100],[0,1,100]])
+                    video2 = cv2.warpAffine(video, K, (ancho+200,alto+200))
+                    alto2, ancho2, _ = video2.shape
+                    K = cv2.getRotationMatrix2D((ancho2 // 2, alto2 // 2), 90, 1)
+                    video2 = cv2.warpAffine(video2, K, (alto2,ancho2))
+                    K = np.float32([[1,0,-180],[0,1,-21]])
+                    video = cv2.warpAffine(video2, K, (alto, ancho))
+                    alto, ancho, _ = video.shape
+                    videorgb = cv2.cvtColor(video, cv2.COLOR_BGR2RGB)
+                    results = face_detection.process(videorgb)
                     
 
                     if results.detections is not None:
                         for detection in results.detections:
-                            #mp_drawing.draw_detection(video, detection, 
-                                #mp_drawing.DrawingSpec(color=(0, 255, 255), circle_radius=5), 
-                                #mp_drawing.DrawingSpec(color=(255, 0, 255)))
+                            # mp_drawing.draw_detection(video, detection, 
+                            #     mp_drawing.DrawingSpec(color=(0, 255, 255), circle_radius=5), 
+                            #     mp_drawing.DrawingSpec(color=(255, 0, 255)))
                             
                             
                             #deteccion de coordenadas de ojo 1
@@ -103,34 +109,39 @@ try:
                             x2 =int(detection.location_data.relative_keypoints[1].x * ancho)
                             y2 =int(detection.location_data.relative_keypoints[1].y * alto)
 
-                            #creando coordenadas de cada punto
-                            p1 = np.array([x1, y1])
-                            p2 = np.array([x2, y2])
-                            p3 = np.array([x2, y1])
+                        #creando coordenadas de cada punto
+                        p1 = np.array([x1, y1])
+                        p2 = np.array([x2, y2])
+                        p3 = np.array([x2, y1])
 
-                            #obteniendo distancias entre los puntos
-                            d1 = np.linalg.norm(p1-p2)
-                            d2 = np.linalg.norm(p1-p3)
+                        #obteniendo distancias entre los puntos
+                        d1 = np.linalg.norm(p1-p2)
+                        d2 = np.linalg.norm(p1-p3)
 
-                            angulo = degrees(acos(d2/d1))
-                            
-                            #haciendo que el angulo sea negativo cuando se rote la cabeza
-                            #a la derecha
-                            if y1 < y2:
-                                angulo= -angulo
+                        angulo = degrees(acos(d2/d1))
+                        
+                        #haciendo que el angulo sea negativo cuando se rote la cabeza
+                        #a la derecha
+                        if y1 < y2:
+                            angulo= -angulo
 
-                            #registrando la rotacion
-                            m = cv2.getRotationMatrix2D((ancho // 2, alto // 2), -angulo, 1)
-                            
-                            #crearndo nueva ventana y dandole la rotacion a la imagen
-                            alinear = cv2.warpAffine(video, m, (ancho,alto))
+                        #registrando la rotacion
+                        m = cv2.getRotationMatrix2D((ancho // 2, alto // 2), -angulo, 1)
+                        
+                        #crearndo nueva ventana y dandole la rotacion a la imagen
+                        alinear = cv2.warpAffine(video, m, (ancho,alto))
+                        alinear_rgb = cv2.cvtColor(alinear, cv2.COLOR_BGR2RGB)
                             #cv2.imshow("alinear", alinear)
+                            
+                        results3=face_detection.process(alinear_rgb)
+                        
+                        if results3.detections is not None:
+                            for detection in results3.detections:
 
-
-                            xmin = int(detection.location_data.relative_bounding_box.xmin * ancho)
-                            ymin = int(detection.location_data.relative_bounding_box.ymin * alto)
-                            w = int(detection.location_data.relative_bounding_box.width * ancho)
-                            h = int(detection.location_data.relative_bounding_box.height * alto)
+                                xmin = int(detection.location_data.relative_bounding_box.xmin * ancho)
+                                ymin = int(detection.location_data.relative_bounding_box.ymin * alto)
+                                w = int(detection.location_data.relative_bounding_box.width * ancho)
+                                h = int(detection.location_data.relative_bounding_box.height * alto)
 
                             punto_izquierda = np.array([xmin, ymin])
                             punto_derecha = np.array([w, ymin])
@@ -145,7 +156,6 @@ try:
                             if ymin >=20 and xmin >= 20:
                                 vista_previa = alinear[ymin-20 : ymin + h +20, xmin - 20: xmin + w +20]
                                 vista_previargb = cv2.cvtColor(vista_previa, cv2.COLOR_BGR2RGB)
-                            alinear_rgb = cv2.cvtColor(alinear, cv2.COLOR_BGR2RGB)
                             
                             results2 = face_mesh.process(alinear_rgb)
                             
@@ -201,7 +211,8 @@ try:
                                 if t2-t1 < 0:
                                     t2=0
                                 if d1<=d1old-dif1 and d2<=d2old-dif2 and parpado==1 and x_1 <= xrefold+5 and x_1>=xrefold-5 and y_1 <= yrefold+5 and y_1 >= yrefold-5 and xref == xrefold and yref == yrefold:
-                                    parpadeos=parpadeos+1          
+                                    parpadeos=parpadeos+1  
+                                    print(parpadeos)        
                                     #face_locations = face_recognition.face_locations(alinear_rgb)
                                     encodingcamara = face_recognition.face_encodings(vista_previargb)          
                                     if encodingcamara != []:
@@ -215,18 +226,29 @@ try:
                                         if True in resultado:
                                             rostro_encontrado = resultado.index(True)
                                             nombre = nombres[rostro_encontrado]
-                                            tz = pytz.timezone('America/Caracas')
-                                            caracas_now = datetime.now(tz)
                                             fecha=str(caracas_now)[:10]
                                             hora=str(caracas_now)[11:16]
                                             cursor.execute('''INSERT INTO interacciones (nombre, fecha, hora, razon)
                                             VALUES (%s, %s, %s, %s);''', (nombre, fecha, hora, razon))
+                                            cursor.execute('''UPDATE led SET onoff=1 WHERE onoff=0;''')
                                             conn.commit()
+                                            cursor.execute('SELECT * FROM led')
+                                            estado_led= cursor.fetchall()
+                                            while estado_led[0][0]==1:
+                                                cursor.execute('SELECT * FROM led')
+                                                estado_led= cursor.fetchall()
                                             tabla = pandas.read_sql('SELECT*FROM interacciones', conn)
                                             print(tabla)
                                             print("\n")
-                                        print(nombre)
-                                    print(f"numero de parpadeos en esta sesion= {parpadeos}")
+                                        else:
+                                            cursor.execute('''UPDATE led SET onoff=2 WHERE onoff=0;''')
+                                            estado_led= cursor.fetchall()
+                                            while estado_led[0][0]==2:
+                                                cursor.execute('SELECT * FROM led')
+                                                estado_led= cursor.fetchall()
+                                            conn.commit()
+                                            print(nombre)
+
                                     parpado=0
                                     d1old=0
                                     d2old=0
@@ -239,7 +261,6 @@ try:
                                 xrefold=xref
                                 yrefold=yref
 
-                    
                                     # d2old=0
                                     # d1old=0
                                 # print("referencias")
@@ -258,8 +279,6 @@ try:
                                         
                                     
                     
-
-                    
                     tecla = cv2.waitKey(1)
 
                     #esto es solo para simular la entrada y salida para las consultas
@@ -269,33 +288,6 @@ try:
                     if tecla & 0xFF == 225:
                         razon = "salida"
                     
-                    if tecla & 0xFF == ord('g'):
-                        print("ingrese el nombre de la persona a agregar: ") #, end=""
-                        nombre = input() # nombre = input("ingrese el nombre de la persona a agregar: ")
-                        cv2.imwrite(os.path.join(directorio,f'{nombre}.jpg'),vista_previa)
-                    
-                    if tecla & 0xFF == ord('r'):
-                        imagenes = os.listdir(directorio)
-                        
-                        for img in imagenes:
-                            try:
-                                comprobar = imagenesold.index(img)
-                                #camara.release()
-                                #camara = cv2.VideoCapture("http://192.168.20.146:81/stream")
-                            except ValueError:
-                                ruta=os.path.join(directorio,img)
-                                subir_foto = face_recognition.load_image_file(ruta)
-                                decodificar = face_recognition.face_encodings(subir_foto)
-                                if decodificar != []:
-                                    decodificar = face_recognition.face_encodings(subir_foto)[0]
-                                    caras.append(decodificar)
-                                    nombre = os.path.splitext(img)[0]
-                                    nombres.append(nombre)
-                                print(nombres)
-                                imagenesold=imagenes
-
-                    #listimg = len(os.listdir(directorio))
-
                     cv2.imshow('imagen', vista_previa)
                     cv2.imshow('imagenn', video)
                     
