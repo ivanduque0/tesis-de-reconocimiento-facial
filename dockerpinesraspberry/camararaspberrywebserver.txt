@@ -1,0 +1,14 @@
+~/mjpg-streamer/mjpg-streamer-experimental
+
+./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so"
+
+./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x 640 -y 480 -fps 15 -ex night"
+
+
+para docker se utiliza una imagen de raspbian bullseye
+y se instala lo siguiente:
+
+apt-get install subversion libjpeg-dev imagemagick ffmpeg cmake
+
+sudo apt-get install libraspberrypi0 (aun no lo se)
+
