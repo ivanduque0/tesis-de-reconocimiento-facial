@@ -86,7 +86,6 @@ try:
                 
                 ret,video = camara.read()
                 #video = cv2.flip(video, 0)
-                video = cv2.flip(video, )
                 if video is not None:
                     alto, ancho, _ = video.shape
                     K = np.float32([[1,0,100],[0,1,100]])
@@ -246,14 +245,16 @@ try:
                                             tabla = pandas.read_sql('SELECT*FROM interacciones', conn)
                                             print(tabla)
                                             print("\n")
-                                        else:
+                                        if not True in resultado:
                                             cursor.execute('''UPDATE led SET onoff=2 WHERE onoff=0;''')
+                                            conn.commit()
+                                            cursor.execute('SELECT * FROM led')
                                             estado_led= cursor.fetchall()
                                             while estado_led[0][0]==2:
                                                 cursor.execute('SELECT * FROM led')
                                                 estado_led= cursor.fetchall()
-                                            conn.commit()
-                                            print(nombre)
+                                    
+                                        print(nombre)
                                     print(f"numero de parpadeos en esta sesion= {parpadeos}")
                                     parpado=0
                                     d1old=0
