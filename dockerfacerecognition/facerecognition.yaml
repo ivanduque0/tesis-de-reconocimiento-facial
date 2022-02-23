@@ -1,0 +1,18 @@
+version: '3.3'
+
+services:
+
+   postgres:
+      image: 02da44b1d4a6
+
+      environment:
+         - POSTGRES_PASSWORD=postgres
+      ports:
+         - 4443:5432
+      volumes:
+         - ~/Desktop/app/postgresdata:/var/lib/postgresql/data                
+   facerecognition:
+      image: c1b77b70f7d1
+
+      volumes: 
+         - ~/Desktop/app:/app
