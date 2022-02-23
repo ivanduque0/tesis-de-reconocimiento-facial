@@ -47,4 +47,4 @@ RUN pip3 install face_recognition
 
 ENV QT_DEBUG_PLUGINS=1
 
-CMD ["python3", "face_detection_prueba_stream_parpadeos_psycopg"]
+CMD ["python3", "codigo.py"]
