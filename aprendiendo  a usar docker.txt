@@ -76,8 +76,9 @@ docker run -d\
 -v postgresdata:/var/lib/postgresql\
 ac47df06c03d
 
+docker-compose -f <nombre del archivo .yaml> up -d = inicia los contendores en background con la configuracion del archivo 
 
-
+docker-compose -f <nombre del archivo .yaml> down = detiene los ontenedores en el archivo
 
 
 
