@@ -1,0 +1,3 @@
+django-admin startproject <nombre del proyecto> = esto es lo que se debe hacer para inciar un proyecto con django
+
+python3 manage.py runserver <puerto a usar> = esto inicia un servidor temporal para poder visualizar el proyecto corriendo, si no se coloca un puerto, automaticamente sera usado el puerto 8000 
