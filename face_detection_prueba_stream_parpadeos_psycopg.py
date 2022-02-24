@@ -296,18 +296,19 @@ try:
                         razon = "salida"
                     
                     if tecla & 0xFF == ord('g'):
-                        print("ingrese el nombre de la persona a agregar: ") #, end=""
-                        nombre = input() # nombre = input("ingrese el nombre de la persona a agregar: ")
-                        cv2.imwrite(os.path.join(directorio,f'{nombre}.jpg'),vista_previa)
-                    
-                    if tecla & 0xFF == ord('r'):
+                        print("ingrese el nombre de la persona a agregar: ", end="") #, end=""
+                        nombree = input() # nombre = input("ingrese el nombre de la persona a agregar: ")
+                        cv2.imwrite(os.path.join(directorio,f'{nombree}.jpg'),vista_previa)
+
+                        #if tecla & 0xFF == ord('r'):
                         imagenes = os.listdir(directorio)
-                        
                         for img in imagenes:
                             try:
-                                comprobar = imagenesold.index(img)
+                                nombrecarpeta=os.path.splitext(img)[0]         
+                                comprobar = nombres.index(nombrecarpeta)
                                 #camara.release()
                                 #camara = cv2.VideoCapture("http://192.168.20.146:81/stream")
+
                             except ValueError:
                                 ruta=os.path.join(directorio,img)
                                 subir_foto = face_recognition.load_image_file(ruta)
@@ -317,8 +318,23 @@ try:
                                     caras.append(decodificar)
                                     nombre = os.path.splitext(img)[0]
                                     nombres.append(nombre)
-                                print(nombres)
-                                imagenesold=imagenes
+                                    print(f"rostro de {nombre} registrado con exito!")
+                                #print(nombres)
+                                imagenes = os.listdir(directorio)
+                                
+                        
+                        while len(imagenes) != len(nombres):
+                                    
+                                    for img in imagenes:
+                                        nombre=os.path.splitext(img)[0]
+                                        try:
+                                            comprobar = nombres.index(nombre)
+                                        except ValueError:
+                                            ruta=os.path.join(directorio,img)
+                                            os.remove(ruta)
+                                            imagenes = os.listdir(directorio)
+                                            print(f"rostro de {nombre} no registrado!")
+                        imagenesold=imagenes
 
 
                     #cv2.imshow('imagen', vista_previa)

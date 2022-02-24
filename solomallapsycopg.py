@@ -68,7 +68,7 @@ try:
     min_detection_confidence=0.75,
     min_tracking_confidence=0.75) as face_mesh:
         #camara = cv2.VideoCapture("http://192.168.21.102:81/stream")
-        camara = cv2.VideoCapture("http://192.168.21.102:8080/?action=stream")
+        camara = cv2.VideoCapture("http://192.168.20.102:8080/?action=stream")
 
         while True:
             tz = pytz.timezone('America/Caracas')
@@ -199,8 +199,8 @@ try:
                         # if cv2.waitKey(1) & 0xFF == ord('s'):
                         #     razon = "salida"
 
-                            dif1 = (d1old*20)/100
-                            dif2 = (d2old*20)/100
+                            dif1 = (d1old*18)/100
+                            dif2 = (d2old*18)/100
 
                             if d1>=d1old and d2>=d2old:
                                 parpado=1
@@ -286,34 +286,50 @@ try:
                 if tecla & 0xFF == 225:
                     razon = "salida"
                 
-                    if tecla & 0xFF == ord('g'):
-                        print("ingrese el nombre de la persona a agregar: ") #, end=""
-                        nombre = input() # nombre = input("ingrese el nombre de la persona a agregar: ")
-                        cv2.imwrite(os.path.join(directorio,f'{nombre}.jpg'),vista_previa)
+                if tecla & 0xFF == ord('g'):
+                    print("ingrese el nombre de la persona a agregar: ", end="") #, end=""
+                    nombree = input() # nombre = input("ingrese el nombre de la persona a agregar: ")
+                    cv2.imwrite(os.path.join(directorio,f'{nombree}.jpg'),vista_previa)
+
+                    #if tecla & 0xFF == ord('r'):
+                    imagenes = os.listdir(directorio)
+                    for img in imagenes:
+                        try:
+                            nombrecarpeta=os.path.splitext(img)[0]         
+                            comprobar = nombres.index(nombrecarpeta)
+                            #camara.release()
+                            #camara = cv2.VideoCapture("http://192.168.20.146:81/stream")
+
+                        except ValueError:
+                            ruta=os.path.join(directorio,img)
+                            subir_foto = face_recognition.load_image_file(ruta)
+                            decodificar = face_recognition.face_encodings(subir_foto)
+                            if decodificar != []:
+                                decodificar = face_recognition.face_encodings(subir_foto)[0]
+                                caras.append(decodificar)
+                                nombre = os.path.splitext(img)[0]
+                                nombres.append(nombre)
+                                print(f"rostro de {nombre} registrado con exito!")
+                            #print(nombres)
+                            imagenes = os.listdir(directorio)
+                            
                     
-                    if tecla & 0xFF == ord('r'):
-                        imagenes = os.listdir(directorio)
-                        
-                        for img in imagenes:
-                            try:
-                                comprobar = imagenesold.index(img)
-                                #camara.release()
-                                #camara = cv2.VideoCapture("http://192.168.20.146:81/stream")
-                            except ValueError:
-                                ruta=os.path.join(directorio,img)
-                                subir_foto = face_recognition.load_image_file(ruta)
-                                decodificar = face_recognition.face_encodings(subir_foto)
-                                if decodificar != []:
-                                    decodificar = face_recognition.face_encodings(subir_foto)[0]
-                                    caras.append(decodificar)
-                                    nombre = os.path.splitext(img)[0]
-                                    nombres.append(nombre)
-                                print(nombres)
-                                imagenesold=imagenes
+                    while len(imagenes) != len(nombres):
+                                
+                                for img in imagenes:
+                                    nombre=os.path.splitext(img)[0]
+                                    try:
+                                        comprobar = nombres.index(nombre)
+                                    except ValueError:
+                                        ruta=os.path.join(directorio,img)
+                                        os.remove(ruta)
+                                        imagenes = os.listdir(directorio)
+                                        print(f"rostro de {nombre} no registrado!")
+                    imagenesold=imagenes
 
 
-                cv2.imshow('imagen', vista_previa)
-                cv2.imshow('imagenn', video)
+                #cv2.imshow('imagen', vista_previa)
+                #cv2.imshow('imagenn', video)
                 
 
                 if tecla & 0xFF == 27:
