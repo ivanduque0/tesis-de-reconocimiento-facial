@@ -34,6 +34,8 @@ xrefold=0
 yrefold=0
 x_1=0
 y_1=0
+listimg=0
+listimgold=0
 
 def decodificar_imagenes(lista, dir):
     for imagen in lista:
@@ -81,6 +83,7 @@ try:
             while True:
                 tz = pytz.timezone('America/Caracas')
                 caracas_now = datetime.now(tz)
+                
                 ret,video = camara.read()
                 #video = cv2.flip(video, 0)
                 if video is not None:
@@ -98,7 +101,7 @@ try:
                 
 
                     
-
+                    #listimgold=len(os.listdir(directorio))
                     
 
                     if results.detections is not None:
@@ -320,6 +323,7 @@ try:
                                 print(nombres)
                                 imagenesold=imagenes
 
+                    #listimg = len(os.listdir(directorio))
 
                     #cv2.imshow('imagen', vista_previa)
                     #cv2.imshow('imagenn', video)

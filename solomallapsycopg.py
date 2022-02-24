@@ -13,13 +13,12 @@ import mediapipe as mp
 conn = None
 directorio="personas"
 imagenes = os.listdir(directorio)
+imagenesold=imagenes
 nombres = []
 caras = []
 mp_face_detection = mp.solutions.face_detection
 mp_face_mesh = mp.solutions.face_mesh
 mp_drawing = mp.solutions.drawing_utils
-#camara = cv2.VideoCapture("http://192.168.20.146:81/stream") #camara en la empresa
-#camara en mi casa
 parpado=0
 parpadeos=0
 d1old=0
@@ -76,7 +75,7 @@ try:
             caracas_now = datetime.now(tz)
             
             ret,video = camara.read()
-            video = cv2.flip(video, 0)
+            #video = cv2.flip(video, 0)
             #print(video)
             if video is not None:
                 
@@ -209,8 +208,7 @@ try:
                             if t2-t1 < 0:
                                 t2=0
                             if d1<=d1old-dif1 and d2<=d2old-dif2 and parpado==1 and x_1 <= xrefold+5 and x_1>=xrefold-5 and y_1 <= yrefold+5 and y_1 >= yrefold-5 and xref == xrefold and yref == yrefold:
-                                parpadeos=parpadeos+1  
-                                print(parpadeos)        
+                                parpadeos=parpadeos+1         
                                 #face_locations = face_recognition.face_locations(alinear_rgb)
                                 encodingcamara = face_recognition.face_encodings(vista_previargb)          
                                 if encodingcamara != []:
@@ -238,15 +236,17 @@ try:
                                         tabla = pandas.read_sql('SELECT*FROM interacciones', conn)
                                         print(tabla)
                                         print("\n")
-                                    else:
+                                    if not True in resultado:
                                         cursor.execute('''UPDATE led SET onoff=2 WHERE onoff=0;''')
+                                        conn.commit()
+                                        cursor.execute('SELECT * FROM led')
                                         estado_led= cursor.fetchall()
                                         while estado_led[0][0]==2:
                                             cursor.execute('SELECT * FROM led')
                                             estado_led= cursor.fetchall()
-                                        conn.commit()
-                                        print(nombre)
-
+                                        
+                                    print(nombre)
+                                print(f"numero de parpadeos en esta sesion= {parpadeos}")
                                 parpado=0
                                 d1old=0
                                 d2old=0
@@ -286,6 +286,32 @@ try:
                 if tecla & 0xFF == 225:
                     razon = "salida"
                 
+                    if tecla & 0xFF == ord('g'):
+                        print("ingrese el nombre de la persona a agregar: ") #, end=""
+                        nombre = input() # nombre = input("ingrese el nombre de la persona a agregar: ")
+                        cv2.imwrite(os.path.join(directorio,f'{nombre}.jpg'),vista_previa)
+                    
+                    if tecla & 0xFF == ord('r'):
+                        imagenes = os.listdir(directorio)
+                        
+                        for img in imagenes:
+                            try:
+                                comprobar = imagenesold.index(img)
+                                #camara.release()
+                                #camara = cv2.VideoCapture("http://192.168.20.146:81/stream")
+                            except ValueError:
+                                ruta=os.path.join(directorio,img)
+                                subir_foto = face_recognition.load_image_file(ruta)
+                                decodificar = face_recognition.face_encodings(subir_foto)
+                                if decodificar != []:
+                                    decodificar = face_recognition.face_encodings(subir_foto)[0]
+                                    caras.append(decodificar)
+                                    nombre = os.path.splitext(img)[0]
+                                    nombres.append(nombre)
+                                print(nombres)
+                                imagenesold=imagenes
+
+
                 cv2.imshow('imagen', vista_previa)
                 cv2.imshow('imagenn', video)
                 
@@ -299,9 +325,13 @@ try:
 
 except (Exception, psycopg2.Error) as error:
     print("fallo en hacer las consultas")
+    camara.release()
+    cv2.destroyAllWindows()
 
 finally:
     if conn:
         cursor.close()
         conn.close()
         print("se ha cerrado la conexion a la base de datos")
+        camara.release()
+        cv2.destroyAllWindows()

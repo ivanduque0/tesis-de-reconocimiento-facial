@@ -1,4 +1,0 @@
-cd ~/Desktop/camara/mjpg-streamer/mjpg-streamer-experimental
-
-./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x 640 -y 480 -fps 15 -ex night"
-
