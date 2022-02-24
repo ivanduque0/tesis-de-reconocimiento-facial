@@ -60,3 +60,5 @@ git checkout -b <nombre de la version a traer> origin/<nombre de la version a tr
 
 git branch -f <nombre de la version> origin/<nombre de la version> = esto sirve para crear la version en el repositorio local pero sin cambiar a esa version
 
+git push --set-upstream origin <nombre de la rama> =  esto se utuliza para cuando se le quiera hacer un push a una rama nueva en el repositorio remoto
+
