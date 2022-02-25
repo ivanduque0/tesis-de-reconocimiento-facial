@@ -10,9 +10,16 @@ services:
       ports:
          - 4443:5432
       volumes:
-         - ~/Desktop/app/postgresdata:/var/lib/postgresql/data                
+         - ~/Desktop/app/postgresdata:/var/lib/postgresql/data
    facerecognition:
       image: c1b77b70f7d1
 
-      volumes: 
+      environment:
+         - DISPLAY=unix$DISPLAY
+         - XAUTHORITY=/tmp/.docker.xauth
+      volumes:
          - ~/Desktop/app:/app
+         - /tmp/.X11-unix:/tmp/.X11-unix
+         - /tmp/.docker.xauth:/tmp/.docker.xauth
+         
+      privileged: true
