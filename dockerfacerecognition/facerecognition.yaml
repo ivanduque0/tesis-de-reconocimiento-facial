@@ -13,7 +13,8 @@ services:
          - ~/Desktop/app/postgresdata:/var/lib/postgresql/data
    facerecognition:
       image: c1b77b70f7d1
-
+      stdin_open: true
+      tty: true 
       environment:
          - DISPLAY=unix$DISPLAY
          - XAUTHORITY=/tmp/.docker.xauth
