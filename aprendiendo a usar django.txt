@@ -1,3 +1,68 @@
 django-admin startproject <nombre del proyecto> = esto es lo que se debe hacer para inciar un proyecto con django
 
 python3 manage.py runserver <puerto a usar> = esto inicia un servidor temporal para poder visualizar el proyecto corriendo, si no se coloca un puerto, automaticamente sera usado el puerto 8000 
+
+python3 manage.py startapp <nombre de la aplicacion> = con esot se crea una aplicacion dentro del proyecto
+
+python3 manage.py createsuperuser = con esto se crea un super usuario para el panel dee administracion
+
+python3 manage.py shell = de esta forma se interactuca con la aplicacion de django en tiempo real desde la terminal
+
+
+ORM BASES DE DATOS DJANGO DESDE LA TERMINAL
+
+<nombre de la instancia como una variable> = <nombre del modelo>.objects.create(<item1 de la fila a agregar>, <item2 de la fila a agregar>, <etc>) = asi se agrega una fila al modelo o tabla
+
+<nombre de la instancia como una variable> = <nombre del modelo>.objects.get(<id o llave primaria de la fila a la que se desea que la instancia a crear apunte>)
+EJEMPLO: google = empresa.objects.get(id=1)
+
+<nombre de la intancia del modelo hacia el que apunta la llave foranea>.<nombre del modelo>_set = con esto se activa la posibildad de que se puedan hacer consultas en reversa, es decir, no solo de la llave foranea hacia la otra tabla, sino desde la otra tabla hacia la que tiene la llave foranea
+EJEMPLO: google.programador_set  (aqui "google" es una instancia del modelo "empresa" en la que esta el nombre de la empresa y el ano de su fundacion, mientras que "programador" es el modelo en el cual estan los nombres de los programadores y la empresa a la que estan adjuntos, y dichas empresas son llaves foraneas del modelo "empresa"). Esto no es muy usado, sino que lo que se hace es agregar ", related_name=<nombre a conveniencia para apuntar a la otra tabla>" en el valor donde esta la llave foranea, y en este caso seria asi: <nombre de la intancia del modelo hacia el que apunta la llave foranea>.<nombre puesto en related_name>
+
+<nombre de la intancia del modelo hacia el que apunta la llave foranea>.<nombre del modelo>_set.all() = asi se listan todos los item de la explicacion anterior
+
+<nombre del modelo>.objects.all() = con esto se muestran todos los elementos de la tabla, pero solo se muestran sus instancias, es decir, lo que se supone que retorna la clase
+
+<nombre del modelo>.objects.filter(<condicion>)  = asi se hacen consultas en los modelos con condiciones, es como usar una clausula WHERE en postgres 
+EJMPLO: interacciones.object.filter(hora='13:20')
+
+<nombre del modelo>.objects.filter(<nombre de la columna>__iexact='<nombre del item>') = asi se busca una fila que contenga un item pero se ignora la diferencia de letras mayusculas y minusculas
+
+<nombre del modelo>.objects.filter(<nombre de la columna>__gt='<condicion>')  = asi se filtra la consulta cuando se busca que aparezcan solo los valores mayores a la condicion.
+EL "gt" puede cambiar dependiendo de lo que se quiera: 
+gt=mayor que
+gte=mayor o igual que
+lt=menor que
+lte=menor o igual que
+EJMPLO: interacciones.object.filter(hora__gt='13:20')
+
+nombre del modelo>.objects.filter(<nombre de la columna>__contains='<caracteres que esten contenidos>') = con esto lo que se hace es que se puede hacer una consulta donde se mostraran todas las filas que contengan los caracteres que se coloquen, es usado para cuando no se este muy seguro del nombre de alguien en una tabla por ejemplo, si buscamos a alguien que recordamos que cuyo nombre contiene las letra "i" o la silaba "va", usando este comando nos apareceran todos los nombres en la lista que contengan las letra "i" y la silaba "va"
+EJEMPLO 
+personas.object.filter(nombre__contains='i')
+personas.object.filter(nombre__contains='va')
+
+nombre del modelo>.objects.filter(<nombre de la columna>__in=['<primer nombre contenido>', '<segundo nombre contenido>'],'<etc>') = asi se busca en una lista las distintas filas que contengan los items dentro de la lista de python
+EJEMPLO : personas.object.filter(nombre__in=['ivan', 'pepe'. 'jose'])
+
+nombre del modelo>.objects.filter(<nombre de la columna>__startswith/endswith='<letra con la que inicia o termina el item, dependiendo de si se usa startswith o endswith>') = con esto se listan todas ls filas cuyos items en la fila empiezan o terminan con cierto caracter
+EJEMPLO : personas.object.filter(nombre__startswith='i')
+ 
+nombre del modelo>.objects.filter(<nombre de la columna>__isnull=True/False) = con esto se listan todas las filas cuyos items en la fila sean valores nulos
+EJEMPLO: personas.object.filter(nombre__isnull=True)
+
+<nombre del modelo>.objects.filter(<condicion>).filter(<condicion>).filter<condicion>)... = con esto se pueden hacer consultas como si de una AND se tratara, solo de bene concatenar los filtros
+EJEMPLO : interacciones.objects.filter(hora__gt='13:20').filter(hora__lt='13:30').filter(nombre__contains='ivan')
+
+<nombre del modelo>.objects.count() = esto cuenta la cantidad de filas en el modelo
+EJEMPLO = interacciones.objects.count()
+
+<nombre del modelo>.objects.all().order_by('columna por la cual ordenar') = esto se usa para ordenar un modelo por los items de una columna en especifico. Si se quiere hacer de forma descendente se le antepone un signo menos
+EJEMPLO = interacciones.objects.all().order_by('fecha')
+EJEMPLO2 = interacciones.objects.all().order_by('-fecha')
+
+<nombre de la instancia como una variable> = <nombre del modelo>(<item1 de la fila a agregar>, <item2 de la fila a agregar>, <etc>)  = asi se crea una instancia a la vez que se agregan items de una fila que se va a crear en una tabla, si se va a agregar un dato en bruto se deben usar comillas, pero si se va a usar una instancia, no se usan comillas, esto se hace para cuando se tienen llaves foraneas, primero se crea una instancia donde se supone va a estar dirigisa la llave foranea y luego
+EJEMPLO: google = empresa(nombre='Google', fundacion='1980')
+
+<nombre del modelo>.objects.exclude(<condicion 1>, <condicion 2>, <etc>) = asi se excluyen de la lista las filas que cumplan con las condiciones que se quieran
+
+
