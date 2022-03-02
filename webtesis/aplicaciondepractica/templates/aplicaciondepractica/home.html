@@ -1,0 +1,18 @@
+{% extends 'aplicaciondepractica/base.html' %}
+
+{% block head %}
+    <title>pagina principal</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Lista de tareas</h1>
+    <ol>
+    {% for tarea in tareas %}
+        <li>{{tarea}}</li>
+    {% endfor %}
+    </ol>
+
+    <!--aqui se coloca el name que va en los url de urls.py
+    no se deben poner los links directos-->
+    <a href="{% url 'agregar' %}"> agregar una tarea nueva</a>
+{% endblock %}

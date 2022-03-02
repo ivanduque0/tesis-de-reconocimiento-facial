@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d5)ej%q(^f5u=zvhoz%jfa*h1irxpb(_gfg1z#igyoyznhq#%8'
+SECRET_KEY = 'django-insecure-am%y*ccb3&_4mfkzfz)9i1f1lk^dm!^s3s5t&6t2o6awx&!wer'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'pruebadb',
+    'aplicaciondepractica',
+    'practica',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,11 +79,11 @@ WSGI_APPLICATION = 'webtesis.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tesis',
-        'USER': 'tesis',
-        'PASSWORD': 'tesis',
-        'HOST': '192.168.20.135',
-        'PORT': '5432',
+        'NAME':'tesis',
+        'USER':'tesis',
+        'PASSWORD':'tesis',
+        'HOST':'0.0.0.0',
+        'PORT':'4443',
     }
 }
 
