@@ -1,0 +1,36 @@
+{% extends 'crudpostgres/base.html' %}
+
+{% block head %}
+    <title>pagina principal</title>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+<h1>lista de interacciones</h1>
+
+<table>
+    <tr>
+        <th>nombre</th>
+        <th>fecha</th>
+        <th>hora</th>
+        <th>razon</th>
+    </tr>
+    
+    {% for interaccion in interaccioness %}
+
+        <tr>
+        <td>{{ interaccion.nombre }}</td>
+        <td>{{ interaccion.fecha }}</td>
+        <td>{{ interaccion.hora }}</td>
+        <td>{{ interaccion.razon }}</td>
+        </tr>
+        
+    {% endfor %}
+</table>
+
+{% endblock %}

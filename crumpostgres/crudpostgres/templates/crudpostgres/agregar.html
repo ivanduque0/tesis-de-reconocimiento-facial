@@ -1,0 +1,22 @@
+{% extends 'crudpostgres/base.html' %}
+
+{% block head %}
+    <title>Agregar clientes</title>
+
+{% endblock %}
+
+{% block body %}
+
+<form method="post">
+    {% csrf_token %}
+    {% for forms in form%}
+    
+    {{form}}
+    
+    {% endfor %}
+    
+    <button>Agregar usuario</button>
+
+</form>
+
+{% endblock %}
