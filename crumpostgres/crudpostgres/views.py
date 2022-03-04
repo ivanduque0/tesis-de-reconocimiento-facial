@@ -6,7 +6,8 @@ from .forms import clienteform
 def home(request):
     interaccioness = interacciones.objects.all()
     interaccioness = interaccioness[::-1]
-    context= {'interaccioness': interaccioness}
+    cedulas = oficina.objects.all()
+    context= {'interaccioness': interaccioness, 'cedulas':cedulas}
     return render(request, 'crudpostgres/home.html',context)
 
 def agregarusuario(request):
@@ -17,7 +18,14 @@ def agregarusuario(request):
             return redirect('home')
     else:
         form = clienteform()
-    context= {'form' : form}
-    return render(request, 'crudpostgres/agregar.html',context)
+    
+    context = {'form' : form}
 
+    return render(request, 'crudpostgres/agregar.html', context)
+
+def eliminarusuario(request, cedula_id):
+    usuario = oficina.objects.get(cedula=cedula_id)
+    usuario.delete()
+
+    return redirect('home')
 

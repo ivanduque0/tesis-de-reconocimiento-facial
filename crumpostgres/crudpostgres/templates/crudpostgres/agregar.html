@@ -9,14 +9,12 @@
 
 <form method="post">
     {% csrf_token %}
-    {% for forms in form%}
-    
+
     {{form}}
-    
-    {% endfor %}
     
     <button>Agregar usuario</button>
 
 </form>
 
+<a href="{% url 'home' %}"> volver</a>
 {% endblock %}

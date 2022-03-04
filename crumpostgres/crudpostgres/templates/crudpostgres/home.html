@@ -11,10 +11,31 @@
 
 {% block body %}
 
+<h1>Usuarios registrados</h1>
+
+<table>
+    <tr>
+        <th>cedula</th>
+        <th>nombre</th>
+    </tr>
+    
+    {% for cedula in cedulas %}
+
+        <tr>
+        <td>{{ cedula.cedula}}</td>
+        <td>{{ cedula.nombre }}</td>
+        <td><button><a href="{% url 'eliminar' cedula.cedula %}">eliminar</a></button></td>
+        </tr>
+        
+    {% endfor %}
+</table>
+
+<a href="{% url 'agregar' %}"> agregar nuevo usuario</a>
 <h1>lista de interacciones</h1>
 
 <table>
     <tr>
+        <th>cedula</th>
         <th>nombre</th>
         <th>fecha</th>
         <th>hora</th>
@@ -24,6 +45,7 @@
     {% for interaccion in interaccioness %}
 
         <tr>
+        <td>{{ interaccion.cedula }}</td>
         <td>{{ interaccion.nombre }}</td>
         <td>{{ interaccion.fecha }}</td>
         <td>{{ interaccion.hora }}</td>

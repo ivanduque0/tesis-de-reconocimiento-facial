@@ -3,6 +3,6 @@ from .models import oficina
 
 class clienteform(forms.ModelForm):
 
-    class datos:
-        model: oficina
+    class Meta:
+        model = oficina
         fields = ['cedula', 'nombre']
