@@ -1,0 +1,46 @@
+{% extends 'postgrescrud/base.html' %}
+
+{% block head %}
+    <title>Agregar clientes</title>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+
+<form method="post">
+    {% csrf_token %}
+    
+    {{formcliente.cedula}}
+    {{formcliente.nombre}}
+    <div hidden>{{formcliente.contrato}}</div>
+    
+    <button>Agregar usuario</button>
+
+</form>
+
+<h1>Usuarios registrados en {{contrato}}</h1>
+
+<table>
+    <tr>
+        <th>cedula</th>
+        <th>nombre</th>
+    </tr>
+    
+    {% for usuario in usuarios %}
+
+        <tr>
+        <td>{{ usuario.cedula}}</td>
+        <td>{{ usuario.nombre }}</td>
+        <td><button><a href="{% url 'eliminarusuario' usuario.cedula %}">eliminar</a></button></td>
+        </tr>
+        
+    {% endfor %}
+
+
+</table>
+{% endblock %}

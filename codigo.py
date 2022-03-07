@@ -55,7 +55,7 @@ print(caras2.shape)
 try:
 
     conn = psycopg2.connect(
-        database="tesis2", user="tesis2", password="tesis2", host="postgres", port="5432"
+        database="tesis", user="tesis", password="tesis", host="postgres", port="5432"
     )
 
     conn.autocommit = False
@@ -67,8 +67,8 @@ try:
     max_num_faces=1,
     min_detection_confidence=0.75,
     min_tracking_confidence=0.75) as face_mesh:
-        #camara = cv2.VideoCapture("http://192.168.21.102:81/stream")
-        camara = cv2.VideoCapture("http://192.168.20.102:8080/?action=stream")
+        camara = cv2.VideoCapture("http://192.168.21.103:81/stream")
+        #camara = cv2.VideoCapture("http://192.168.20.102:8080/?action=stream")
 
         while True:
             tz = pytz.timezone('America/Caracas')
@@ -221,34 +221,24 @@ try:
 
                                     if True in resultado:
                                         rostro_encontrado = resultado.index(True)
-                                        nombre = nombres[rostro_encontrado]
+                                        cedula_id = nombres[rostro_encontrado]
                                         fecha=str(caracas_now)[:10]
                                         hora=str(caracas_now)[11:16]
-                                        cursor.execute('SELECT * FROM crudpostgres_oficina where cedula=%s', (nombre,))
+                                        cursor.execute('SELECT * FROM postgrescrud_usuarios where cedula=%s', (cedula_id,))
                                         nombrecedula = cursor.fetchall()
-                                        nombre=nombrecedula[0][0]
-                                        cedula=nombrecedula[0][1]
-                                        cursor.execute('''INSERT INTO crudpostgres_interacciones (nombre, fecha, hora, razon, cedula_id)
-                                        VALUES (%s, %s, %s, %s, %s);''', (nombre, fecha, hora, razon, cedula))
-                                        cursor.execute('''UPDATE led SET onoff=1 WHERE onoff=0;''')
-                                        conn.commit()
-                                        cursor.execute('SELECT * FROM led')
-                                        estado_led= cursor.fetchall()
-                                        while estado_led[0][0]==1:
-                                            cursor.execute('SELECT * FROM led')
-                                            estado_led= cursor.fetchall()
-                                        tabla = pandas.read_sql('SELECT*FROM crudpostgres_interacciones', conn)
-                                        print(tabla)
-                                        print("\n")
-                                    if not True in resultado:
-                                        cursor.execute('''UPDATE led SET onoff=2 WHERE onoff=0;''')
-                                        conn.commit()
-                                        cursor.execute('SELECT * FROM led')
-                                        estado_led= cursor.fetchall()
-                                        while estado_led[0][0]==2:
-                                            cursor.execute('SELECT * FROM led')
-                                            estado_led= cursor.fetchall()
-                                        
+                                        #print(nombrecedula)
+                                        if nombrecedula != []:
+                                            cedula=nombrecedula[0][0]
+                                            nombre=nombrecedula[0][1]
+                                            contrato=nombrecedula[0][2]
+                                            print(cedula, nombre, fecha, hora, razon)
+                                            cursor.execute('''INSERT INTO postgrescrud_interacciones (cedula_id, nombre, fecha, hora, razon, contrato)
+                                            VALUES (%s, %s, %s, %s, %s, %s);''', (cedula, nombre, fecha, hora, razon, contrato))
+                                            conn.commit()
+                                            tabla = pandas.read_sql('SELECT*FROM postgrescrud_interacciones', conn)
+                                            print(tabla)
+                                            print("\n")
+
                                     print(nombre)
                                 print(f"numero de parpadeos en esta sesion= {parpadeos}")
                                 parpado=0
