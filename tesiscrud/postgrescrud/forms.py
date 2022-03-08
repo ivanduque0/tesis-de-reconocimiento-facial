@@ -1,13 +1,19 @@
 from select import select
 from attr import fields
 from django import forms
-from .models import contratos, usuarios
+from .models import contratos, horariospermitidos, usuarios
 
 class clienteform(forms.ModelForm):
 
     class Meta:
         model = usuarios
         fields = ['cedula', 'nombre', 'contrato']
+
+class clienteformhorarios(forms.ModelForm):
+
+    class Meta:
+        model = horariospermitidos
+        fields = ['cedula', 'dia', 'entrada', 'salida']
 
 class contratosform(forms.ModelForm):
 

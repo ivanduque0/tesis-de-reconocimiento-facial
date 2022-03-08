@@ -14,9 +14,9 @@
 
 <form method="post">
     {% csrf_token %}
+    <label>cedula: {{formcliente.cedula}}</label>
+    <label>nombre: {{formcliente.nombre}}</label>
     
-    {{formcliente.cedula}}
-    {{formcliente.nombre}}
     <div hidden>{{formcliente.contrato}}</div>
     
     <button>Agregar usuario</button>
@@ -36,6 +36,7 @@
         <tr>
         <td>{{ usuario.cedula}}</td>
         <td>{{ usuario.nombre }}</td>
+        <td><button><a href="{% url 'editarusuario' usuario.cedula %}">editar</a></button></td>
         <td><button><a href="{% url 'eliminarusuario' usuario.cedula %}">eliminar</a></button></td>
         </tr>
         

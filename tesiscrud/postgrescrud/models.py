@@ -15,7 +15,7 @@ class contratos(models.Model):
 class usuarios(models.Model):
     cedula = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=50)
-    contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='contrato', verbose_name='contrato') #models.CharField(max_length=100)
+    contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='contrato', verbose_name='contratousuarios') #models.CharField(max_length=100)
     
     class Meta:
         verbose_name_plural = "Usuarios"
@@ -24,7 +24,7 @@ class usuarios(models.Model):
     #    return self.cedula
 
 class interacciones(models.Model):
-    cedula = models.ForeignKey(usuarios, db_constraint=False, on_delete = models.DO_NOTHING, related_name='cedulaa') #models.IntegerField()
+    cedula = models.ForeignKey(usuarios, db_constraint=False, on_delete = models.DO_NOTHING, related_name='cedulainteracciones') #models.IntegerField()
     nombre = models.CharField(max_length=50)
     fecha = models.DateField()
     hora = models.TimeField()
@@ -35,3 +35,11 @@ class interacciones(models.Model):
     #def __str__(self):
         #return self.cedula,self.nombre, self.fecha, self.hora, self.razon
         #return self.nombre
+
+class horariospermitidos(models.Model):
+    cedula = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name="ceduladiaspermitidos")
+    dia=models.CharField(max_length=20)
+    entrada=models.TimeField()
+    salida=models.TimeField()
+    class Meta:
+        verbose_name_plural = "Horarios"

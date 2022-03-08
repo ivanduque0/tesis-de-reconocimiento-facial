@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .models import contratos, interacciones, usuarios
-from .forms import clienteform, contratosform, elegircontrato
+from .forms import clienteform, clienteformhorarios, contratosform, elegircontrato
 # Create your views here.
 
 def interaccionesss(request):
@@ -14,6 +14,7 @@ def interaccionesss(request):
             contratoinstancia = contratos.objects.get(nombre=contratoo)
             usuarioss = contratoinstancia.contrato.all()
             interaccioness = interacciones.objects.filter(contrato=contratoo)
+            interaccioness=interaccioness[::-1]
     else:
         select=elegircontrato()
     
@@ -30,8 +31,10 @@ def editarcontrato(request, contrato_id):
     usuarioss = usuarios.objects.filter(contrato=contrato_id)
     if request.method == 'POST':
         formcliente = clienteform(request.POST)
+        formclientehorarios = clienteformhorarios(request.POST)
         if formcliente.is_valid():
             formcliente.save()
+            formclientehorarios.save()
     else:
         formcliente = clienteform({'contrato': contrato_id})
     
@@ -40,12 +43,20 @@ def editarcontrato(request, contrato_id):
 
     return render(request, 'postgrescrud/editarcontrato.html', context)
 
+def editarusuarios(request, cedula_id):
+    pass
+
 def eliminarusuario(request, cedula_id):
     usuario = usuarios.objects.get(cedula=cedula_id)
     contrato = usuario.contrato
     usuario.delete()
 
     return redirect(f'/editarcontrato/{contrato}/')
+
+def editarusuario(request, cedula_id):
+    usuario = usuarios.objects.get(cedula=cedula_id)
+    
+    return render(request, 'postgrescrud/editarcontrato.html')
 
 def agregarcontrato(request):
     contratoss = contratos.objects.all()
@@ -58,7 +69,7 @@ def agregarcontrato(request):
     
     context = {'formcontrato' : formcontrato, 'contratos': contratoss}
 
-    return render(request, 'postgrescrud/agregarcontrato.html', context)
+    return render(request, 'postgrescrud/editarusuario.html', context)
 
 
 def eliminarcontrato(request, contrato_id):
