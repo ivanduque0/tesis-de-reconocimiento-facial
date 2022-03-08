@@ -218,22 +218,26 @@ try:
                                     resultado = face_recognition.compare_faces(caras, encodingcamaraa, tolerance=0.5)
 
                                     nombre = "rostro no identificado. parpadee otra vez"
-
+                                    nombrecedula = []
                                     if True in resultado:
                                         rostro_encontrado = resultado.index(True)
                                         cedula_id = nombres[rostro_encontrado]
+                                        #print(cedula_id)
                                         fecha=str(caracas_now)[:10]
                                         hora=str(caracas_now)[11:16]
                                         cursor.execute('SELECT * FROM postgrescrud_usuarios where cedula=%s', (cedula_id,))
                                         nombrecedula = cursor.fetchall()
+                                        #print(nombrecedula)
                                         if nombrecedula != []:
                                             cedula=nombrecedula[0][0]
                                             nombre=nombrecedula[0][1]
                                             contrato=nombrecedula[0][2]
+                                            #print(nombre,fecha, hora, razon, contrato, cedula)
                                             cursor.execute('''INSERT INTO postgrescrud_interacciones (nombre, fecha, hora, razon, contrato, cedula_id)
                                             VALUES (%s, %s, %s, %s, %s, %s);''', (nombre, fecha, hora, razon, contrato, cedula))
                                             cursor.execute('''UPDATE led SET onoff=1 WHERE onoff=0;''')
                                             conn.commit()
+                                            
                                             cursor.execute('SELECT * FROM led')
                                             estado_led= cursor.fetchall()
                                             while estado_led[0][0]==1:
@@ -242,6 +246,7 @@ try:
                                             #tabla = pandas.read_sql('SELECT*FROM postgrescrud_interacciones', conn)
                                             #print(tabla)
                                             #print("\n")
+                                    
                                     if nombrecedula == []:
                                         cursor.execute('''UPDATE led SET onoff=2 WHERE onoff=0;''')
                                         conn.commit()
@@ -293,7 +298,7 @@ try:
                     razon = "salida"
                 
                 if tecla & 0xFF == ord('g'):
-                    print("ingrese el nombre de la persona a agregar: ") #, end=""
+                    print("ingrese la cedula de la persona a agregar: ") #, end=""
                     nombree = input() # nombre = input("ingrese el nombre de la persona a agregar: ")
                     cv2.imwrite(os.path.join(directorio,f'{nombree}.jpg'),vista_previa)
 
