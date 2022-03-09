@@ -11,6 +11,10 @@ from math import  acos,degrees
 import mediapipe as mp
 
 conn = None
+dias_semana = ("Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo")
+ultimahora = datetime.strptime('23:59:59', '%H:%M:%S').time()
+primerahora = datetime.strptime('00:00:00', '%H:%M:%S').time()
+flaghorario = 0 #1 para dar acceso y 0 para denegarlo
 directorio="personas"
 imagenes = os.listdir(directorio)
 imagenesold=imagenes
@@ -52,6 +56,26 @@ print(caras2.shape)
 #     if khe=="ivan.jpg":
 #         print("si estoy xd")
 
+def aperturaconcedida(nombref, fechaf, horaf, razonf, contratof, cedulaf, cursorf,connf):
+    cursorf.execute('''INSERT INTO postgrescrud_interacciones (nombre, fecha, hora, razon, contrato, cedula_id)
+    VALUES (%s, %s, %s, %s, %s, %s);''', (nombre, fecha, hora, razon, contrato, cedula))
+    cursorf.execute('''UPDATE led SET onoff=1 WHERE onoff=0;''')
+    connf.commit()
+    
+    cursorf.execute('SELECT * FROM led')
+    estado_led= cursorf.fetchall()
+    while estado_led[0][0]==1:
+        cursorf.execute('SELECT * FROM led')
+        estado_led= cursor.fetchall()
+
+def aperturadenegada(cursorf, connf):
+    cursorf.execute('''UPDATE led SET onoff=2 WHERE onoff=0;''')
+    connf.commit()
+    cursorf.execute('SELECT * FROM led')
+    estado_led= cursorf.fetchall()
+    while estado_led[0][0]==2:
+        cursorf.execute('SELECT * FROM led')
+        estado_led= cursorf.fetchall()
 try:
 
     conn = psycopg2.connect(
@@ -222,9 +246,9 @@ try:
                                     if True in resultado:
                                         rostro_encontrado = resultado.index(True)
                                         cedula_id = nombres[rostro_encontrado]
+                                        dia = caracas_now.weekday()
+                                        diahoy = dias_semana[dia]
                                         #print(cedula_id)
-                                        fecha=str(caracas_now)[:10]
-                                        hora=str(caracas_now)[11:16]
                                         cursor.execute('SELECT * FROM postgrescrud_usuarios where cedula=%s', (cedula_id,))
                                         nombrecedula = cursor.fetchall()
                                         #print(nombrecedula)
@@ -232,29 +256,38 @@ try:
                                             cedula=nombrecedula[0][0]
                                             nombre=nombrecedula[0][1]
                                             contrato=nombrecedula[0][2]
-                                            #print(nombre,fecha, hora, razon, contrato, cedula)
-                                            cursor.execute('''INSERT INTO postgrescrud_interacciones (nombre, fecha, hora, razon, contrato, cedula_id)
-                                            VALUES (%s, %s, %s, %s, %s, %s);''', (nombre, fecha, hora, razon, contrato, cedula))
-                                            cursor.execute('''UPDATE led SET onoff=1 WHERE onoff=0;''')
-                                            conn.commit()
-                                            
-                                            cursor.execute('SELECT * FROM led')
-                                            estado_led= cursor.fetchall()
-                                            while estado_led[0][0]==1:
-                                                cursor.execute('SELECT * FROM led')
-                                                estado_led= cursor.fetchall()
-                                            #tabla = pandas.read_sql('SELECT*FROM postgrescrud_interacciones', conn)
-                                            #print(tabla)
-                                            #print("\n")
-                                    
+                                            cursor.execute('SELECT * FROM postgrescrud_horariospermitidos where cedula_id=%s', (cedula,))
+                                            horarios_permitidos = cursor.fetchall()
+                                            if horarios_permitidos != []:
+                                                for _, entrada, salida, _, dia in horarios_permitidos:
+                                                    if dia==diahoy:
+                                                        hora=str(caracas_now)[11:16]
+                                                        horahoy = datetime.strptime(hora, '%H:%M').time()
+                                                        fecha=str(caracas_now)[:10]
+                                                        if entrada<salida:
+                                                            if horahoy >= entrada and horahoy <= salida:
+                                                                print('entrada concedida')
+                                                                aperturaconcedida(nombre, fecha, horahoy, razon, contrato, cedula, cursor,conn)
+                                                            else:
+                                                                aperturadenegada(cursor, conn)
+                                                                print('fuera de horario')
+                                                        if entrada>salida:
+                                                            if (horahoy>=entrada and horahoy <=ultimahora) or (horahoy>=primerahora and horahoy <= salida):
+                                                                print('entrada concedida')
+                                                                aperturaconcedida(nombre, fecha, horahoy, razon, contrato, cedula, cursor,conn)
+                                                            else:
+                                                                aperturadenegada(cursor, conn)
+                                                                print('fuera de horario')
+                                                #print(nombre,fecha, hora, razon, contrato, cedula)
+                                                
+                                                #tabla = pandas.read_sql('SELECT*FROM postgrescrud_interacciones', conn)
+                                                #print(tabla)
+                                                #print("\n")
+                                            else:
+                                                aperturadenegada(cursor, conn) 
+                                                print('este usuario no tiene horarios establecidos')
                                     if nombrecedula == []:
-                                        cursor.execute('''UPDATE led SET onoff=2 WHERE onoff=0;''')
-                                        conn.commit()
-                                        cursor.execute('SELECT * FROM led')
-                                        estado_led= cursor.fetchall()
-                                        while estado_led[0][0]==2:
-                                            cursor.execute('SELECT * FROM led')
-                                            estado_led= cursor.fetchall()
+                                        aperturadenegada(cursor, conn)
                                         
                                     print(nombre)
                                 print(f"numero de parpadeos en esta sesion= {parpadeos}")

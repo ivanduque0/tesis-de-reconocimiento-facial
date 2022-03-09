@@ -1,6 +1,7 @@
-from email.policy import default
 from django.db import models
-from datetime import datetime    
+from datetime import datetime
+
+from sqlalchemy import BIGINT    
 # Create your models here.
 
 class contratos(models.Model):
@@ -37,7 +38,7 @@ class interacciones(models.Model):
         #return self.nombre
 
 class diasdelasemana(models.Model):
-    dia=models.CharField(max_length=20)
+    dia=models.CharField(primary_key=True, max_length=20)
     class Meta:
         verbose_name_plural = "Dias de la semana"
     def __str__(self):
@@ -45,9 +46,8 @@ class diasdelasemana(models.Model):
 
 class horariospermitidos(models.Model):
     cedula = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name="ceduladiaspermitidos")
-    dia=models.ForeignKey(diasdelasemana, db_constraint=False, on_delete = models.DO_NOTHING, related_name='diadelasemana')
+    dia=models.ForeignKey(diasdelasemana, db_constraint=False, on_delete = models.DO_NOTHING, related_name='diasdelasemana')
     entrada=models.TimeField()
     salida=models.TimeField()
     class Meta:
         verbose_name_plural = "Horarios"
-        

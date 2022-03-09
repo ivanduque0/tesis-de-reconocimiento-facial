@@ -13,8 +13,17 @@
 <form method="post">
     {% csrf_token %}
     {{select}}
+    
 
     <input type="submit" value="Seleccionar">
+</form>
+
+<form method="post">
+    {% csrf_token %}
+    
+    {{filtro}}
+
+    <input type="submit" value="Filtrar">
 </form>
 {{usuarioss}}
 <h4>Usuarios registrados en este contrato</h4>

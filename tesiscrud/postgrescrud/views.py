@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
-from .models import contratos, horariospermitidos, interacciones, usuarios
-from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios
+from .models import contratos, interacciones, usuarios, horariospermitidos
+from .forms import clienteform, clienteformhorarios, contratosform, elegircontrato, filtrarinteracciones
 # Create your views here.
 
 def interaccionesss(request):
@@ -9,17 +9,34 @@ def interaccionesss(request):
     contratoo=''
     if request.method == "POST":
         select=elegircontrato(request.POST)
+        filtro=filtrarinteracciones(request.POST)
         if select.is_valid():
             contratoo=select.cleaned_data.get('contrato')
             contratoinstancia = contratos.objects.get(nombre=contratoo)
             usuarioss = contratoinstancia.contrato.all()
             interaccioness = interacciones.objects.filter(contrato=contratoo)
             interaccioness=interaccioness[::-1]
+        else:
+            select=elegircontrato()
+            filtro=filtrarinteracciones
+        if filtro.is_valid():
+            contratoo=select.cleaned_data.get('contrato')
+            nombrefiltro=filtro.cleaned_data.get('nombre')
+            cedulafiltro=filtro.cleaned_data.get('cedula')
+            fechafiltro=filtro.cleaned_data.get('fecha')
+            horadesdefiltro=filtro.cleaned_data.get('horadesde')
+            horahastafiltro=filtro.cleaned_data.get('horahasta')
+            razonfiltro=filtro.cleaned_data.get('razon')
+            contratoinstancia = contratos.objects.get(nombre=contratoo)
+            usuarioss = contratoinstancia.contrato.all()
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(nombre=nombrefiltro).filter(cedula=cedulafiltro).filter(fecha=fechafiltro).filter(razon=razonfiltro).filter(hora__gte=horadesdefiltro).filter(hora__lte=horahastafiltro)
     else:
         select=elegircontrato()
+        filtro=filtrarinteracciones
+
     
 
-    context= {'interaccioness': interaccioness, 'usuarios':usuarioss, 'contratos':contratoo,'select':select}
+    context= {'interaccioness': interaccioness, 'usuarios':usuarioss, 'contratos':contratoo,'select':select,'filtro':filtro}
     return render(request, 'postgrescrud/interacciones.html',context)
 
 def index(request):
@@ -46,7 +63,7 @@ def eliminarusuario(request, cedula_id):
     contrato = usuario.contrato
     usuario.delete()
 
-    return redirect(f'/editarcontrato/{contrato}')
+    return redirect(f'/editarcontrato/{contrato}/')
 
 def editarusuario(request, cedula_id):
     usuario = usuarios.objects.get(cedula=cedula_id)
