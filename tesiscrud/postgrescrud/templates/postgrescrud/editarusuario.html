@@ -11,4 +11,38 @@
 
 {% block body %}
 
+<h3>Estas editando al usuario {{usuario.nombre}} del contrato {{usuario.contrato}}</h3>
+
+<form method="post">
+  {% csrf_token %}
+  <label>Dia: {{formclientehorarios.dia}}</label>
+  <label>entrada: {{formclientehorarios.entrada}}</label>
+  <label>salida: {{formclientehorarios.salida}}</label>
+  <div hidden>{{formclientehorarios.cedula}}</div>
+  <button>Agregar</button>
+
+</form>
+
+<h3>Dias y horarios en los que {{usuario.nombre}} tiene permitido entrar y salir de {{usuarios.contrato}}</h3>
+
+<table>
+  <tr>
+      <th>Dia</th>
+      <th>Entrada</th>
+      <th>Salida</th>
+  </tr>
+  
+  {% for dato in datos %}
+
+    <tr>
+    <td>{{dato.dia}}</td>
+    <td>{{dato.entrada}}</td>
+    <td>{{dato.salida}}</td>
+    <td><button><a href="{% url 'eliminarhorario' dato.id %}">eliminar</a></button></td>
+    </tr>
+      
+  {% endfor %}
+
+
+</table>
 {% endblock %}

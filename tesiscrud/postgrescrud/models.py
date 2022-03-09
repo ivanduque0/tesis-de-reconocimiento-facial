@@ -36,10 +36,18 @@ class interacciones(models.Model):
         #return self.cedula,self.nombre, self.fecha, self.hora, self.razon
         #return self.nombre
 
+class diasdelasemana(models.Model):
+    dia=models.CharField(max_length=20)
+    class Meta:
+        verbose_name_plural = "Dias de la semana"
+    def __str__(self):
+        return self.dia
+
 class horariospermitidos(models.Model):
     cedula = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name="ceduladiaspermitidos")
-    dia=models.CharField(max_length=20)
+    dia=models.ForeignKey(diasdelasemana, db_constraint=False, on_delete = models.DO_NOTHING, related_name='diadelasemana')
     entrada=models.TimeField()
     salida=models.TimeField()
     class Meta:
         verbose_name_plural = "Horarios"
+        

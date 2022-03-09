@@ -1,7 +1,7 @@
 from select import select
 from attr import fields
 from django import forms
-from .models import contratos, horariospermitidos, usuarios
+from .models import contratos, usuarios, horariospermitidos
 
 class clienteform(forms.ModelForm):
 

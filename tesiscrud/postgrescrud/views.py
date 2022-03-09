@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
-from .models import contratos, interacciones, usuarios
-from .forms import clienteform, clienteformhorarios, contratosform, elegircontrato
+from .models import contratos, horariospermitidos, interacciones, usuarios
+from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios
 # Create your views here.
 
 def interaccionesss(request):
@@ -31,10 +31,8 @@ def editarcontrato(request, contrato_id):
     usuarioss = usuarios.objects.filter(contrato=contrato_id)
     if request.method == 'POST':
         formcliente = clienteform(request.POST)
-        formclientehorarios = clienteformhorarios(request.POST)
         if formcliente.is_valid():
             formcliente.save()
-            formclientehorarios.save()
     else:
         formcliente = clienteform({'contrato': contrato_id})
     
@@ -43,20 +41,33 @@ def editarcontrato(request, contrato_id):
 
     return render(request, 'postgrescrud/editarcontrato.html', context)
 
-def editarusuarios(request, cedula_id):
-    pass
-
 def eliminarusuario(request, cedula_id):
     usuario = usuarios.objects.get(cedula=cedula_id)
     contrato = usuario.contrato
     usuario.delete()
 
-    return redirect(f'/editarcontrato/{contrato}/')
+    return redirect(f'/editarcontrato/{contrato}')
 
 def editarusuario(request, cedula_id):
     usuario = usuarios.objects.get(cedula=cedula_id)
-    
-    return render(request, 'postgrescrud/editarcontrato.html')
+    datos = horariospermitidos.objects.filter(cedula=cedula_id)
+    if request.method == 'POST':
+        formclientehorarios = clienteformhorarios(request.POST)
+        if formclientehorarios.is_valid():
+            formclientehorarios.save()
+    else:
+        formclientehorarios = clienteformhorarios({'cedula': cedula_id})
+
+    context = {'usuario':usuario, 'datos': datos, 'formclientehorarios':formclientehorarios}
+    return render(request, 'postgrescrud/editarusuario.html', context)
+
+def eliminarhorario(request, id_web):
+    horario = horariospermitidos.objects.get(id=id_web)
+    cedula_id = horario.cedula.cedula
+    horario.delete()
+
+    return redirect(f'/editarusuario/{cedula_id}')
+
 
 def agregarcontrato(request):
     contratoss = contratos.objects.all()
@@ -69,7 +80,7 @@ def agregarcontrato(request):
     
     context = {'formcontrato' : formcontrato, 'contratos': contratoss}
 
-    return render(request, 'postgrescrud/editarusuario.html', context)
+    return render(request, 'postgrescrud/agregarcontrato.html', context)
 
 
 def eliminarcontrato(request, contrato_id):

@@ -14,21 +14,21 @@
 
 <form method="post">
     {% csrf_token %}
-    <label>cedula: {{formcliente.cedula}}</label>
-    <label>nombre: {{formcliente.nombre}}</label>
-    
+    <label>Cedula: {{formcliente.cedula}}</label>
+    <label>Nombre: {{formcliente.nombre}}</label>
     <div hidden>{{formcliente.contrato}}</div>
     
     <button>Agregar usuario</button>
 
 </form>
 
-<h1>Usuarios registrados en {{contrato}}</h1>
+<h3>Usuarios registrados en {{contrato}}</h3>
 
 <table>
     <tr>
         <th>cedula</th>
         <th>nombre</th>
+        
     </tr>
     
     {% for usuario in usuarios %}
@@ -42,6 +42,7 @@
         
     {% endfor %}
 
-
 </table>
+
+
 {% endblock %}
