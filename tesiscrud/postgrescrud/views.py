@@ -1,40 +1,133 @@
 from django.shortcuts import redirect, render
-from .models import contratos, interacciones, usuarios, horariospermitidos
-from .forms import clienteform, clienteformhorarios, contratosform, elegircontrato, filtrarinteracciones
+from .models import contratos, horariospermitidos, interacciones, usuarios
+from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios, filtrarinteracciones
 # Create your views here.
 
 def interaccionesss(request):
     interaccioness = []
     usuarioss = []
     contratoo=''
+    cedulafiltro=None
+    fechadesdefiltro=None
+    fechahastafiltro=None
+    horadesdefiltro=None
+    horahastafiltro=None
+
     if request.method == "POST":
         select=elegircontrato(request.POST)
         filtro=filtrarinteracciones(request.POST)
+        
         if select.is_valid():
             contratoo=select.cleaned_data.get('contrato')
             contratoinstancia = contratos.objects.get(nombre=contratoo)
             usuarioss = contratoinstancia.contrato.all()
-            interaccioness = interacciones.objects.filter(contrato=contratoo)
-            interaccioness=interaccioness[::-1]
-        else:
-            select=elegircontrato()
-            filtro=filtrarinteracciones
+        
         if filtro.is_valid():
-            contratoo=select.cleaned_data.get('contrato')
-            nombrefiltro=filtro.cleaned_data.get('nombre')
             cedulafiltro=filtro.cleaned_data.get('cedula')
-            fechafiltro=filtro.cleaned_data.get('fecha')
+            fechadesdefiltro=filtro.cleaned_data.get('fechadesde')
+            fechahastafiltro=filtro.cleaned_data.get('fechahasta')
             horadesdefiltro=filtro.cleaned_data.get('horadesde')
             horahastafiltro=filtro.cleaned_data.get('horahasta')
-            razonfiltro=filtro.cleaned_data.get('razon')
-            contratoinstancia = contratos.objects.get(nombre=contratoo)
-            usuarioss = contratoinstancia.contrato.all()
-            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(nombre=nombrefiltro).filter(cedula=cedulafiltro).filter(fecha=fechafiltro).filter(razon=razonfiltro).filter(hora__gte=horadesdefiltro).filter(hora__lte=horahastafiltro)
+            
+        if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo)
+        
+        if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__gte=fechadesdefiltro)
+
+        if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__gte=fechadesdefiltro).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__lte=fechahastafiltro)
+
+        if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__lte=fechahastafiltro).filter(cedula=cedulafiltro)
+        
+        if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro)
+
+        if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro)
+
+        if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(fecha__gte=fechadesdefiltro)
+
+        if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro)
+
+        if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro)
+
+        if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro)
+
+        if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(cedula=cedulafiltro)
+            
+        if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(fecha__gte=fechadesdefiltro)
+
+        if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(fecha__lte=fechahastafiltro)
+
+        if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(fecha__lte=fechahastafiltro).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro)
+
+        if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro)
+
+        if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__gte=fechadesdefiltro)
+
+        if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro)
+
+        if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(cedula=cedulafiltro)
+
+        if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro)
+
+        if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula=cedulafiltro)
+
     else:
         select=elegircontrato()
-        filtro=filtrarinteracciones
-
-    
+        filtro=filtrarinteracciones()
 
     context= {'interaccioness': interaccioness, 'usuarios':usuarioss, 'contratos':contratoo,'select':select,'filtro':filtro}
     return render(request, 'postgrescrud/interacciones.html',context)
@@ -52,8 +145,8 @@ def editarcontrato(request, contrato_id):
             formcliente.save()
     else:
         formcliente = clienteform({'contrato': contrato_id})
-    
-    clienteform 
+
+    clienteform
     context = {'formcliente' : formcliente, 'usuarios':usuarioss, 'contrato':contrato_id, 'select':select} #'usuarios':usuarioss,
 
     return render(request, 'postgrescrud/editarcontrato.html', context)
@@ -63,7 +156,7 @@ def eliminarusuario(request, cedula_id):
     contrato = usuario.contrato
     usuario.delete()
 
-    return redirect(f'/editarcontrato/{contrato}/')
+    return redirect(f'/editarcontrato/{contrato}')
 
 def editarusuario(request, cedula_id):
     usuario = usuarios.objects.get(cedula=cedula_id)
@@ -94,7 +187,7 @@ def agregarcontrato(request):
             formcontrato.save()
     else:
         formcontrato = contratosform()
-    
+
     context = {'formcontrato' : formcontrato, 'contratos': contratoss}
 
     return render(request, 'postgrescrud/agregarcontrato.html', context)

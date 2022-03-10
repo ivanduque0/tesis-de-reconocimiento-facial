@@ -1,7 +1,7 @@
 from select import select
 from attr import fields
 from django import forms
-from .models import contratos, horariospermitidos, usuarios
+from .models import contratos, usuarios, horariospermitidos
 
 class clienteform(forms.ModelForm):
 
@@ -25,9 +25,9 @@ class elegircontrato(forms.Form):
     contrato=forms.ModelChoiceField(queryset=contratos.objects.all(), widget=forms.Select)
 
 class filtrarinteracciones(forms.Form):
-    nombre=forms.ModelChoiceField(queryset=usuarios.objects.values_list('nombre').distinct(), widget=forms.Select, required=False)
-    cedula=forms.ModelChoiceField(queryset=usuarios.objects.values_list('cedula').distinct(), widget=forms.Select, required=False)
-    fecha=forms.DateField(required=False)
-    horadesde=forms.TimeField(required=False)
-    horahasta=forms.TimeField(required=False)
-    razon=forms.CharField(required=False)
+    #cedula=forms.ModelChoiceField(queryset=usuarios.objects.values_list('cedula', flat=True).distinct(), widget=forms.Select, required=False)
+    cedula=forms.IntegerField(required=False)
+    fechadesde=forms.DateField(required=False) #aaaa-mm-dd
+    fechahasta=forms.DateField(required=False) #aaaa-mm-dd
+    horadesde=forms.TimeField(required=False) #hh:mm
+    horahasta=forms.TimeField(required=False) #hh:mm
