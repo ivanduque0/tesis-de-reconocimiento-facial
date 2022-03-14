@@ -1,4 +1,7 @@
 from django.db import models
+from datetime import datetime
+
+from sqlalchemy import BIGINT    
 # Create your models here.
 
 class contratos(models.Model):
@@ -43,9 +46,8 @@ class diasdelasemana(models.Model):
 
 class horariospermitidos(models.Model):
     cedula = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name="ceduladiaspermitidos")
-    dia=models.ForeignKey(diasdelasemana, db_constraint=False, on_delete = models.DO_NOTHING, related_name='diadelasemana')
+    dia=models.ForeignKey(diasdelasemana, db_constraint=False, on_delete = models.DO_NOTHING, related_name='diasdelasemana')
     entrada=models.TimeField()
     salida=models.TimeField()
     class Meta:
         verbose_name_plural = "Horarios"
-        

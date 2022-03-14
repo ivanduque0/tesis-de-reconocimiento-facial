@@ -7,14 +7,12 @@ from .forms import clienteform, contratosform, elegircontrato, clienteformhorari
 def interaccionesss(request):
     interaccioness = []
     usuarioss = []
-    contratoo=''
+    contratoo= None
     cedulafiltro=None
     fechadesdefiltro=None
     fechahastafiltro=None
     horadesdefiltro=None
     horahastafiltro=None
-    usuariosscedula=[]
-    usuariossnombre=[]
     cantidadusuarios=0
     cantidadinteracciones=0
 

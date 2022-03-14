@@ -17,10 +17,16 @@
     <input type="submit" value="Filtrar">
 </form>
 
-
-{%if cantidadinteracciones == 0%}
+{%if cantidadinteracciones == 0 and contratos != None%}
 
     <h4>No se encontraron coincidencias</h4>
+
+    <form method="post">
+        {% csrf_token %}
+        <div hidden>{{select}}</div>
+        <button>volver a mostrar todas</button>
+
+    </form>
 
 {%endif%}
 
