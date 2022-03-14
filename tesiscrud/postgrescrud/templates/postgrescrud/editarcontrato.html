@@ -11,26 +11,46 @@
 
 {% block body %}
 
+<h3>Añadir nuevo usuario en {{contrato}}</h3>
+
 
 <form method="post">
     {% csrf_token %}
-    <label>cedula: {{formcliente.cedula}}</label>
-    <label>nombre: {{formcliente.nombre}}</label>
-    
+    <label>Cedula: {{formcliente.cedula}}</label>
+    <label>Nombre: {{formcliente.nombre}}</label>
     <div hidden>{{formcliente.contrato}}</div>
+    <div hidden>{{filtro}}</div>
     
-    <button>Agregar usuario</button>
-
+    <input type="submit" value="Añadir usuario">
 </form>
 
-<h3>Usuarios registrados en {{contrato}}</h3>
+<h3>Buscar usuario</h3>
 
-<h4>Filtrar por:</h4>
+<form method="post">
+    {% csrf_token %}
+
+    {{filtro}}
+    <div hidden>{{formcliente.contrato}}</div>
+    
+    <input type="submit" value="Buscar">
+
+</form>
+{%if cedulafiltro == None%}
+<h3>Usuarios registrados en {{contrato}}({{cantidad}})</h3>
+{%endif%}
+
+{% if cedulafiltro != None %}
+<h3>Usuarios cuya cedula coincide con "{{cedulafiltro}}" ({{cantidad}})</h3>
+
+<td><button><a href="{% url 'editarcontrato' contrato %}">mostrar todos</a></button></td>
+
+{% endif %}
 
 <table>
     <tr>
         <th>cedula</th>
         <th>nombre</th>
+        
     </tr>
     
     {% for usuario in usuarios %}
@@ -44,6 +64,7 @@
         
     {% endfor %}
 
-
 </table>
+
+
 {% endblock %}

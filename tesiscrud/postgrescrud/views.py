@@ -1,6 +1,7 @@
+from ast import Return
 from django.shortcuts import redirect, render
 from .models import contratos, horariospermitidos, interacciones, usuarios
-from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios, filtrarinteracciones
+from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios, filtrarinteracciones, filtrarusuarios
 # Create your views here.
 
 def interaccionesss(request):
@@ -12,6 +13,10 @@ def interaccionesss(request):
     fechahastafiltro=None
     horadesdefiltro=None
     horahastafiltro=None
+    usuariosscedula=[]
+    usuariossnombre=[]
+    cantidadusuarios=0
+    cantidadinteracciones=0
 
     if request.method == "POST":
         select=elegircontrato(request.POST)
@@ -28,12 +33,13 @@ def interaccionesss(request):
             fechahastafiltro=filtro.cleaned_data.get('fechahasta')
             horadesdefiltro=filtro.cleaned_data.get('horadesde')
             horahastafiltro=filtro.cleaned_data.get('horahasta')
+            select=elegircontrato({'contrato': contratoo})
             
         if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
             interaccioness = interacciones.objects.filter(contrato=contratoo)
         
         if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
-            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(cedula=cedulafiltro)
+            interaccioness = interacciones.objects.filter(contrato=contratoo).filter(cedula__cedula__icontains=cedulafiltro)
 
         if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__gte=fechadesdefiltro)
@@ -125,11 +131,36 @@ def interaccionesss(request):
         if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula=cedulafiltro)
 
+        if cedulafiltro == None and (fechadesdefiltro != None or fechahastafiltro != None or horadesdefiltro != None or horahastafiltro != None):
+            #nombreslista = interaccioness.values_list('nombre', flat=True)
+            cedulaslista = interaccioness.values_list('cedula', flat=True)
+            cedulasunicaslista=[]
+            usuarioss=[]
+            for cedula in cedulaslista:
+                if not cedula in cedulasunicaslista:
+                    cedulasunicaslista.append(cedula)
+            for cedulaunica in cedulasunicaslista:
+                usuarioss.append(usuarios.objects.get(cedula=cedulaunica))
+
+        if cedulafiltro != None and len(interaccioness)>0:
+            cedulaslista = interaccioness.values_list('cedula', flat=True)
+            cedulasunicaslista=[]
+            usuarioss=[]
+            for cedula in cedulaslista:
+                if not cedula in cedulasunicaslista:
+                    cedulasunicaslista.append(cedula)
+            for cedulaunica in cedulasunicaslista:
+                usuarioss.append(usuarios.objects.get(cedula=cedulaunica))
+        if cedulafiltro != None and len(interaccioness)==0:
+            usuarioss = []
+        cantidadinteracciones=len(interaccioness)
+        cantidadusuarios=len(usuarioss)
+
     else:
         select=elegircontrato()
         filtro=filtrarinteracciones()
 
-    context= {'interaccioness': interaccioness, 'usuarios':usuarioss, 'contratos':contratoo,'select':select,'filtro':filtro}
+    context= {'interaccioness': interaccioness, 'usuarios':usuarioss, 'contratos':contratoo,'select':select,'filtro':filtro,'cedulafiltro':cedulafiltro,'fechadesdefiltro':fechadesdefiltro,'fechahastafiltro':fechahastafiltro,'horadesdefiltro':horadesdefiltro,'horahastafiltro':horahastafiltro, 'cantidadinteracciones':cantidadinteracciones, 'cantidadusuarios':cantidadusuarios}
     return render(request, 'postgrescrud/interacciones.html',context)
 
 def index(request):
@@ -137,17 +168,34 @@ def index(request):
 
 def editarcontrato(request, contrato_id):
     #contratoss = contratos.objects.all()
-    select=elegircontrato()
+    cedulafiltro=None
     usuarioss = usuarios.objects.filter(contrato=contrato_id)
+    cant1 = len(usuarioss)
+    select=elegircontrato({'contrato': contrato_id})
     if request.method == 'POST':
         formcliente = clienteform(request.POST)
+        filtro= filtrarusuarios(request.POST)
+        if filtro.is_valid():
+            cedulafiltro=filtro.cleaned_data.get('cedulaf')
+            if cedulafiltro!=None:
+                usuarioss = usuarios.objects.filter(cedula__contains=cedulafiltro)
         if formcliente.is_valid():
             formcliente.save()
+
     else:
         formcliente = clienteform({'contrato': contrato_id})
+        filtro = filtrarusuarios()
+        usuarioss = usuarios.objects.filter(contrato=contrato_id)
 
-    clienteform
-    context = {'formcliente' : formcliente, 'usuarios':usuarioss, 'contrato':contrato_id, 'select':select} #'usuarios':usuarioss,
+    if cedulafiltro==None:
+        usuarioss = usuarios.objects.filter(contrato=contrato_id)
+
+    cantidadusuarios = len(usuarioss)
+    context = {'formcliente' : formcliente, 'usuarios':usuarioss, 'contrato':contrato_id,'select':select, 'filtro':filtro, 'cantidad':cantidadusuarios, 'cedulafiltro':cedulafiltro} #'usuarios':usuarioss,
+
+
+    if len(usuarios.objects.filter(contrato=contrato_id)) != cant1 and cedulafiltro==None:
+        return redirect(f'/editarcontrato/{contrato_id}')
 
     return render(request, 'postgrescrud/editarcontrato.html', context)
 
@@ -178,7 +226,6 @@ def eliminarhorario(request, id_web):
 
     return redirect(f'/editarusuario/{cedula_id}')
 
-
 def agregarcontrato(request):
     contratoss = contratos.objects.all()
     if request.method == 'POST':
@@ -191,7 +238,6 @@ def agregarcontrato(request):
     context = {'formcontrato' : formcontrato, 'contratos': contratoss}
 
     return render(request, 'postgrescrud/agregarcontrato.html', context)
-
 
 def eliminarcontrato(request, contrato_id):
     contrato = contratos.objects.get(nombre=contrato_id)
@@ -206,7 +252,7 @@ def seleccionarcontrato(request):
             contratoo=select.cleaned_data.get('contrato')
     else:
         select=elegircontrato()
-        contratoo=0
+        contratoo=None
     #cont= request.GET['contrato']
     #'usuarios':usuarioss,
     usuarioss = usuarios.objects.filter(contrato=contratoo)

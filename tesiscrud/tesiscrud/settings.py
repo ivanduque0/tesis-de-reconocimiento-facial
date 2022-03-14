@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b9bj)v8=l2d5zv3v02vy2u=p_ksdd++a65n%mv*q8bdwee=#m6'
+SECRET_KEY = 'django-insecure-1@z&8p@%dn@0z@v%0x$2-x&$7#7!!kdfq1qx537l_lyxybz&+!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -77,11 +77,12 @@ WSGI_APPLICATION = 'tesiscrud.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tesis2',
-        'USER': 'tesis2',
-        'PASSWORD': 'tesis2',
+        'NAME': 'tesis',
+        'USER': 'tesis',
+        'PASSWORD': 'tesis',
         'HOST': '0.0.0.0',
         'PORT': '4443',
+    
     }
 }
 
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-VE'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Caracas'
 
 USE_I18N = True
 

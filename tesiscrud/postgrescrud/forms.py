@@ -31,3 +31,6 @@ class filtrarinteracciones(forms.Form):
     fechahasta=forms.DateField(required=False) #aaaa-mm-dd
     horadesde=forms.TimeField(required=False) #hh:mm
     horahasta=forms.TimeField(required=False) #hh:mm
+
+class filtrarusuarios(forms.Form):
+    cedulaf=forms.IntegerField(required=False, label="Buscar por cedula")

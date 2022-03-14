@@ -18,7 +18,7 @@
     <input type="submit" value="Seleccionar">
 </form>
 
-{% if contrato != 0%}
+{% if contrato != None%}
     <h1>Usuarios registrados ({{cantidad}})</h1>
     
     <button><a href="{% url 'editarcontrato' contrato %}">editar contrato</a></button></td>
