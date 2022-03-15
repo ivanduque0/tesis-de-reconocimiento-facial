@@ -1,5 +1,5 @@
 from select import select
-from attr import fields
+from attr import attr, fields
 from django import forms
 from .models import contratos, usuarios, horariospermitidos
 
@@ -14,6 +14,10 @@ class clienteformhorarios(forms.ModelForm):
     class Meta:
         model = horariospermitidos
         fields = ['cedula', 'dia', 'entrada', 'salida']
+        widgets = {
+            'entrada': forms.TimeInput(attrs={'placeholder':'hora:minuto', 'type': 'time'}),
+            'salida': forms.TimeInput(attrs={'placeholder':'hora:minuto', 'type': 'time'}),
+            }
 
 class contratosform(forms.ModelForm):
 
@@ -27,10 +31,15 @@ class elegircontrato(forms.Form):
 class filtrarinteracciones(forms.Form):
     #cedula=forms.ModelChoiceField(queryset=usuarios.objects.values_list('cedula', flat=True).distinct(), widget=forms.Select, required=False)
     cedula=forms.IntegerField(required=False)
-    fechadesde=forms.DateField(required=False, label="Desde(Fecha)") #aaaa-mm-dd
-    fechahasta=forms.DateField(required=False, label="Hasta(Fecha)") #aaaa-mm-dd
-    horadesde=forms.TimeField(required=False, label="Desde(Hora)") #hh:mm
-    horahasta=forms.TimeField(required=False, label="Hasta(Hora)") #hh:mm
+    fechadesde=forms.DateField(required=False, label="Desde(Fecha)",widget=forms.DateInput(attrs={'type': 'date'})) #aaaa-mm-dd
+    fechahasta=forms.DateField(required=False, label="Hasta(Fecha)",widget=forms.DateInput(attrs={'type': 'date'})) #aaaa-mm-dd
+    horadesde=forms.TimeField(required=False, label="Desde(Hora)", widget=forms.TimeInput(attrs={'type': 'time'})) #hh:mm
+    horahasta=forms.TimeField(required=False, label="Hasta(Hora)", widget=forms.TimeInput(attrs={'type': 'time'})) #hh:mm
 
+    # fechadesde=forms.DateField(required=False, label="Desde(Fecha)",widget=forms.DateInput(attrs={'type': 'date'})) #aaaa-mm-dd
+    # fechahasta=forms.DateField(required=False, label="Hasta(Fecha)",widget=forms.DateInput(attrs={'type': 'date'})) #aaaa-mm-dd
+    # horadesde=forms.TimeField(required=False, label="Desde(Hora)", widget=forms.TimeInput(attrs={'placeholder':'hora:minuto'})) #hh:mm
+    # horahasta=forms.TimeField(required=False, label="Hasta(Hora)", widget=forms.TimeInput(attrs={'placeholder':'hora:minuto'}))
+    
 class filtrarusuarios(forms.Form):
     cedulaf=forms.IntegerField(required=False, label="Buscar por cedula")

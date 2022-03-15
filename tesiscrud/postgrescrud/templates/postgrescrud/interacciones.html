@@ -15,7 +15,9 @@
     {{select}}
     {{filtro}}
     <input type="submit" value="Filtrar">
+
 </form>
+
 
 {%if cantidadinteracciones == 0 and contratos != None%}
 
@@ -31,6 +33,7 @@
 {%endif%}
 
 {% if cedulafiltro != None or fechadesdefiltro != None or fechahastafiltro != None or horadesdefiltro != None or horahastafiltro != None %}
+
 
     {% if cantidadinteracciones > 0%}
         <h4>Usuarios encontrados en las coincidencias ({{cantidadusuarios}})</h4>
@@ -62,7 +65,7 @@
         <form method="post">
             {% csrf_token %}
             <div hidden>{{select}}</div>
-            <button>volver a mostrar todas</button>
+            <button>Limpiar campos</button>
         
         </form>
     {%endif%}
