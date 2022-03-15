@@ -27,10 +27,10 @@ class elegircontrato(forms.Form):
 class filtrarinteracciones(forms.Form):
     #cedula=forms.ModelChoiceField(queryset=usuarios.objects.values_list('cedula', flat=True).distinct(), widget=forms.Select, required=False)
     cedula=forms.IntegerField(required=False)
-    fechadesde=forms.DateField(required=False) #aaaa-mm-dd
-    fechahasta=forms.DateField(required=False) #aaaa-mm-dd
-    horadesde=forms.TimeField(required=False) #hh:mm
-    horahasta=forms.TimeField(required=False) #hh:mm
+    fechadesde=forms.DateField(required=False, label="Desde(Fecha)") #aaaa-mm-dd
+    fechahasta=forms.DateField(required=False, label="Hasta(Fecha)") #aaaa-mm-dd
+    horadesde=forms.TimeField(required=False, label="Desde(Hora)") #hh:mm
+    horahasta=forms.TimeField(required=False, label="Hasta(Hora)") #hh:mm
 
 class filtrarusuarios(forms.Form):
     cedulaf=forms.IntegerField(required=False, label="Buscar por cedula")
