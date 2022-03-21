@@ -1,7 +1,5 @@
 from django.db import models
-from datetime import datetime
-
-from sqlalchemy import BIGINT    
+   
 # Create your models here.
 
 class contratos(models.Model):
