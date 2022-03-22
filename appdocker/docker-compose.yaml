@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+
+   postgres:
+      image: 0f92610e9336
+      
+      #restart: always
+
+      environment:
+         - POSTGRES_PASSWORD=postgres
+      ports:
+         - 44:5432
+      volumes:
+         - ~/Desktop/appdocker/postgresdata:/var/lib/postgresql/data
+   
+
+   web:
+      image: e58de0e69efd
+      #build: ./envdjango
+      command: python manage.py runserver 0.0.0.0:8000
+      volumes:
+         - /home/ivan/Desktop/appdocker/tesisweb:/usr/src/app
+      ports:
+         - 8282:8000
+   
