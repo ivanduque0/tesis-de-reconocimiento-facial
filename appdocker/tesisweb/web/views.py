@@ -208,6 +208,8 @@ def editarusuario(request, cedula_id):
     usuario = usuarios.objects.get(cedula=cedula_id)
     datos = horariospermitidos.objects.filter(cedula=cedula_id)
     foto = fotos.objects.filter(cedula__cedula__icontains=cedula_id)
+    if foto:
+        foto = foto[0]
     if request.method == 'POST':
         formclientehorarios = clienteformhorarios(request.POST)
         formfoto = subirfoto(request.POST, request.FILES)
@@ -215,7 +217,9 @@ def editarusuario(request, cedula_id):
             formclientehorarios.save()
         if formfoto.is_valid():
             formfoto.save()   
-            foto = formfoto.instance 
+            foto = fotos.objects.filter(cedula__cedula__icontains=cedula_id)
+            if foto:
+                foto = foto[0]
             #imagen = formfoto.cleaned_data['img']
 
     else:
@@ -247,9 +251,22 @@ def agregarcontrato(request):
 
 def eliminarcontrato(request, contrato_id):
     contrato = contratos.objects.get(nombre=contrato_id)
+    usuarioscontrato = usuarios.objects.filter(contrato=contrato_id)
+    for usuariofoto in usuarioscontrato:
+        usuariocedula = usuariofoto.cedula
+        foto = fotos.objects.get(cedula=usuariocedula)
+        foto.foto.delete(save=False)
     contrato.delete()
 
     return redirect('agregarcontrato')
+
+def eliminarfoto(request, cedula_id):
+    foto = fotos.objects.get(cedula=cedula_id)
+    foto.foto.delete(save=False)
+    foto.delete()
+
+    return redirect(f'/editarusuario/{cedula_id}')
+
 
 def seleccionarcontrato(request):
     if request.method == "POST":

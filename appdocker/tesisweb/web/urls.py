@@ -11,4 +11,5 @@ urlpatterns = [
     path('agregarcontrato', views.agregarcontrato, name='agregarcontrato'),
     path('eliminarcontrato/<str:contrato_id>/', views.eliminarcontrato, name='eliminarcontrato'),
     path('editarcontrato', views.seleccionarcontrato, name='seleccionarcontrato'),
+    path('eliminarfoto/<int:cedula_id>/', views.eliminarfoto, name='eliminarfoto'),
 ]

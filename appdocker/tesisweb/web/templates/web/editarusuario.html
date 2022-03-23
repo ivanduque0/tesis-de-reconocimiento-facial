@@ -22,6 +22,8 @@
   <button>Agregar</button>
 </form>
 
+{% if not foto %}
+
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   <label>{{formfoto.foto}}</label>
@@ -30,8 +32,13 @@
   <button>Agregar foto</button>
 </form>
 
-{% if foto == True %}
-  <img src="{{ foto.image.url}}" alt="connect">
+{% endif %}
+
+{% if foto %}
+<h3>Imagen registrada de {{usuario.nombre}}</h3>
+<img src="{{ foto.foto.url }}" />
+<td><button><a href="{% url 'eliminarfoto' usuario.cedula %}">eliminar foto</a></button></td>
+
 {% endif %}
 
 <h3>Dias y horarios en los que {{usuario.nombre}} tiene permitido entrar y salir de {{usuario.contrato}}</h3>

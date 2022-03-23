@@ -8,6 +8,11 @@ python3 manage.py createsuperuser = con esto se crea un super usuario para el pa
 
 python3 manage.py shell = de esta forma se interactuca con la aplicacion de django en tiempo real desde la terminal
 
+python3 manage.py migrate --fake <Nombre de la aplicacion> zero = esto lo que hace es resetear las migraciones como si no las hubiera hecho antes
+
+python3 manage.py migrate --fake <Nombre de la aplicacion> <numero de la migracion> = esto lo que hace es resetear las migraciones hasta una migracion especifica
+
+(mas informacion de las migraciones aqui: https://docs.djangoproject.com/en/dev/ref/django-admin/#migrate)
 
 ORM BASES DE DATOS DJANGO DESDE LA TERMINAL
 

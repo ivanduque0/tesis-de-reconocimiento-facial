@@ -16,11 +16,12 @@ RUN apk add --no-cache --virtual .build-deps \
     musl-dev \
     zlib-dev \
     jpeg-dev \
-    libjpeg \
     postgresql-dev \
     && pip install --no-cache-dir psycopg2 \
     && pip install --no-cache-dir psycopg2-binary \
     && pip install --no-cache-dir Pillow \
     && apk del --no-cache .build-deps
-    
+
+RUN apk add libjpeg
 RUN pip install -r requirements.txt
+

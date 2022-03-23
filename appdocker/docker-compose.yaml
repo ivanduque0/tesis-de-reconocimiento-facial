@@ -8,7 +8,9 @@ services:
       #restart: always
 
       environment:
-         - POSTGRES_PASSWORD=postgres
+         - POSTGRES_USER=tesis
+         - POSTGRES_PASSWORD=tesis
+         - POSTGRES_DB=tesis
       ports:
          - 44:5432
       volumes:
@@ -16,11 +18,11 @@ services:
    
 
    web:
-      image: e58de0e69efd
+      image: ac86b30a873b
       #build: ./envdjango
       command: python manage.py runserver 0.0.0.0:8000
       volumes:
-         - /home/ivan/Desktop/appdocker/tesisweb:/usr/src/app
+         - ~/Desktop/codigostesis/appdocker/tesisweb:/usr/src/app
       ports:
          - 8282:8000
    
