@@ -80,6 +80,20 @@ docker-compose -f <nombre del archivo .yaml> up -d = inicia los contendores en b
 
 docker-compose -f <nombre del archivo .yaml> down = detiene los ontenedores en el archivo
 
+IMPORTANTE!!!!: si por alguna razon no se inicia el servicio de docker al instalarlo en la raspberry, se debe correr el comando "sudo rpi-update"
+
+PASOS PARA CONFIGURAR DOCKER LUEGO DE INSTALARLO
+
+crear un grupo de docker
+sudo groupadd docker
+
+agregar el usuario al grupo de docker
+sudo usermod -aG docker ${USER}
+
+reloguear el usuario(si esto no se puede hacer por falta de la contrasena, solo reinciia la raspberry, o puedes ingresar como usuario root "sudo su" y luego cambiar la contrasena con "passwd")
+su -s ${USER}
+
+SE DEBE REVISAR MUY BIEN EL LINK DEL CURL AL INSTALAR DOCKER-COMPOSE DE LA DOCUMENTACION, ES NECESARIO METERSE AL REPOSITORIO DE GITHUB Y COPIAR EL LINK DE LA VERSION QUE SE QUIERE
 
 
 
