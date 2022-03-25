@@ -1,7 +1,6 @@
 import RPi.GPIO as GPIO
 import time
 import psycopg2
-import os
 
 GPIO.cleanup()
 # Tiempo de encendido
@@ -23,7 +22,7 @@ while True:
         total=t2-t1
     try:  
         conn = psycopg2.connect(
-            database=os.environ.get("SQL_DATABASE"), user=os.environ.get("SQL_USER"), password=os.environ.get("SQL_PASSWORD"), host=os.environ.get("SQL_HOST"), port=os.environ.get("SQL_PORT")
+            database="tesis", user="tesis", password="tesis", host="192.168.21.101", port="4443"
         )
         conn.autocommit = False
         cursor = conn.cursor()

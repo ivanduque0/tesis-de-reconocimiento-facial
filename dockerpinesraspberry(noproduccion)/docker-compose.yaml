@@ -10,7 +10,6 @@ services:
          - 8080:8080
       devices:
          - /dev/vchiq
-         
       privileged: true
       
       restart: always
@@ -23,9 +22,12 @@ services:
 
       volumes:
          - ~/dockerpinesraspberry:/app
-      
-      env_file:
-         - .env.pines
-      
-      restart: always
 
+   pines2:
+      image: ivanduque0/pin-control-raspberry:v1
+
+      devices:
+         - /dev/gpiomem
+
+      volumes:
+         - ~/dockerpinesraspberry/2:/app
