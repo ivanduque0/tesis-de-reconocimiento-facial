@@ -79,7 +79,7 @@ def aperturadenegada(cursorf, connf):
 try:
 
     conn = psycopg2.connect(
-        database="tesis2", user="tesis2", password="tesis2", host="postgres", port="5432"
+        database=os.environ.get("SQL_DATABASE"), user=os.environ.get("SQL_USER"), password=os.environ.get("SQL_PASSWORD"), host=os.environ.get("SQL_HOST"), port=os.environ.get("SQL_PORT")
     )
 
     conn.autocommit = False
@@ -92,8 +92,8 @@ try:
     min_detection_confidence=0.75,
     min_tracking_confidence=0.75) as face_mesh:
         #camara = cv2.VideoCapture("http://192.168.21.102:81/stream")
-        camara = cv2.VideoCapture("http://192.168.20.102:8080/?action=stream")
-
+        #camara = cv2.VideoCapture("http://192.168.20.102:8080/?action=stream")
+        camara = cv2.VideoCapture(os.environ.get("HOST_STREAM"))
         while True:
             tz = pytz.timezone('America/Caracas')
             caracas_now = datetime.now(tz)

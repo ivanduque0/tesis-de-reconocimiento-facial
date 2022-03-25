@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-
+   
    postgres:
       image: 02da44b1d4a6
 
@@ -11,13 +11,22 @@ services:
          - 4443:5432
       volumes:
          - ~/Desktop/app/postgresdata:/var/lib/postgresql/data
+      restart: always
+  
    facerecognition:
-      image: c1b77b70f7d1
+   
       stdin_open: true
-      tty: true 
+      
+      tty: true
+      
+      image: c1b77b70f7d1
+      
       environment:
          - DISPLAY=unix$DISPLAY
-         - XAUTHORITY=/tmp/.docker.xauth
+      
+      env_file:
+         - .env.recognition
+      
       volumes:
          - ~/Desktop/app:/app
          - /tmp/.X11-unix:/tmp/.X11-unix
