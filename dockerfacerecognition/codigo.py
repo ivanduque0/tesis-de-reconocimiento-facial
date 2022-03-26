@@ -52,12 +52,8 @@ for imagen in imagenes:
 caras2 = np.array(caras)
 print(caras2.shape)
 
-# for khe in nombres:
-#     if khe=="ivan.jpg":
-#         print("si estoy xd")
-
 def aperturaconcedida(nombref, fechaf, horaf, razonf, contratof, cedulaf, cursorf,connf):
-    cursorf.execute('''INSERT INTO postgrescrud_interacciones (nombre, fecha, hora, razon, contrato, cedula_id)
+    cursorf.execute('''INSERT INTO web_interacciones (nombre, fecha, hora, razon, contrato, cedula_id)
     VALUES (%s, %s, %s, %s, %s, %s);''', (nombre, fecha, hora, razon, contrato, cedula))
     cursorf.execute('''UPDATE led SET onoff=1 WHERE onoff=0;''')
     connf.commit()
@@ -249,14 +245,14 @@ try:
                                         dia = caracas_now.weekday()
                                         diahoy = dias_semana[dia]
                                         #print(cedula_id)
-                                        cursor.execute('SELECT * FROM postgrescrud_usuarios where cedula=%s', (cedula_id,))
+                                        cursor.execute('SELECT * FROM web_horariospermitidos where cedula=%s', (cedula_id,))
                                         nombrecedula = cursor.fetchall()
                                         #print(nombrecedula)
                                         if nombrecedula != []:
                                             cedula=nombrecedula[0][0]
                                             nombre=nombrecedula[0][1]
                                             contrato=nombrecedula[0][2]
-                                            cursor.execute('SELECT * FROM postgrescrud_horariospermitidos where cedula_id=%s', (cedula,))
+                                            cursor.execute('SELECT * FROM web_horariospermitidos where cedula_id=%s', (cedula,))
                                             horarios_permitidos = cursor.fetchall()
                                             if horarios_permitidos != []:
                                                 for _, entrada, salida, _, dia in horarios_permitidos:
@@ -329,14 +325,10 @@ try:
                 
                 if tecla & 0xFF == 225:
                     razon = "salida"
-                
-                if tecla & 0xFF == ord('g'):
-                    print("ingrese la cedula de la persona a agregar: ") #, end=""
-                    nombree = input() # nombre = input("ingrese el nombre de la persona a agregar: ")
-                    cv2.imwrite(os.path.join(directorio,f'{nombree}.jpg'),vista_previa)
 
+                imagenes = os.listdir(directorio)
+                if imagenes > imagenesold:
                     #if tecla & 0xFF == ord('r'):
-                    imagenes = os.listdir(directorio)
                     for img in imagenes:
                         try:
                             nombrecarpeta=os.path.splitext(img)[0]         

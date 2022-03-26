@@ -1,17 +1,6 @@
 version: '3.3'
 
 services:
-   
-   postgres:
-      image: 02da44b1d4a6
-
-      environment:
-         - POSTGRES_PASSWORD=postgres
-      ports:
-         - 4443:5432
-      volumes:
-         - ~/Desktop/app/postgresdata:/var/lib/postgresql/data
-      restart: always
   
    facerecognition:
    
@@ -28,7 +17,8 @@ services:
          - .env.recognition
       
       volumes:
-         - ~/Desktop/app:/app
+         - ~/Desktop/appdocker/recognition:/app
+         - ~/Desktop/appdocker/media_volume/personas:/app/personas
          - /tmp/.X11-unix:/tmp/.X11-unix
          - /tmp/.docker.xauth:/tmp/.docker.xauth
          
