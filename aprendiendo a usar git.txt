@@ -62,3 +62,5 @@ git branch -f <nombre de la version> origin/<nombre de la version> = esto sirve 
 
 git push --set-upstream origin <nombre de la rama> =  esto se utuliza para cuando se le quiera hacer un push a una rama nueva en el repositorio remoto
 
+ for remote in `git branch -r`; do git branch --track ${remote#origin/} $remote; done = Con esto puedo traer todas las ramas de un repositorio recien clonado
+
