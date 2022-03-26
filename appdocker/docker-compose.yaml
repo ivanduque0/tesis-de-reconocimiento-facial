@@ -15,14 +15,16 @@ services:
          - .env.postgres
 
    web:
-      image: 842c5dfbc873
+      user: "${UID}:${GID}"
+      image: daff3a22d4b7
       #build: ./tesisweb
       #image: webdjango:v0.8
       #command: python manage.py runserver 0.0.0.0:8000
       command: gunicorn tesisweb.wsgi:application --bind 0.0.0.0:8000
       volumes:
          #- ~/Desktop/codigostesis/appdocker/tesisweb:/usr/src/app
-         - ~/Desktop/codigostesis/appdocker/tesisweb:/home/app/web
+         - ~/Desktop/codigostesis/appdocker/tesisweb/web:/home/app/web/web
+         - ~/Desktop/codigostesis/appdocker/tesisweb/tesisweb:/home/app/web/tesisweb
          - ~/Desktop/appdocker/static_volume:/home/app/web/static
          - ~/Desktop/appdocker/media_volume:/home/app/web/media
       #ports:

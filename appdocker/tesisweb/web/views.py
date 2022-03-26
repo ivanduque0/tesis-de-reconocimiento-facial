@@ -252,6 +252,7 @@ def agregarcontrato(request):
 def eliminarcontrato(request, contrato_id):
     contrato = contratos.objects.get(nombre=contrato_id)
     usuarioscontrato = usuarios.objects.filter(contrato=contrato_id)
+    foto = None
     for usuariofoto in usuarioscontrato:
         usuariocedula = usuariofoto.cedula
         foto = fotos.objects.get(cedula=usuariocedula)
