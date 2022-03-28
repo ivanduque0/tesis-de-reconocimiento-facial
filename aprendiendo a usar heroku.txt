@@ -1,0 +1,33 @@
+heroku create = para crear una aplicacion e heroku
+
+heroku container:login = para loguearse en el registro de contenedores de heroku
+
+heroku addons:create heroku-postgresql:hobby-dev --app <nombre de la aplicacion en heroku> = con esto se crea una base de datosde postgresql en heroku
+
+heroku config --app <nombre de la aplicacion en heroku>  -s | grep DATABASE_URL = con esto se hace el seguimiento de la base de datos en heroku
+
+heroku pg:info --app <nombre de la aplicacion en heroku> = con esto se visualiza la informacion del addon de postgresql activo en la aplicaion en heroku
+
+heroku apps:info -a <nombre de la aplicacion en heroku> = con esto se ve la informacion de la aplicacion
+
+
+
+SUBIR IMAGENES AL REPOSITORIO DE DOCKERHUB DE HEROKU
+
+sin haber sido creado la imagen
+heroku container:push <proceso> -a <nombre de la aplicacion en heroku> = con esto se crea la imagen y de una vez se sube a docker hub
+
+
+con la imagen previamente creada
+docker tag <imagen> registry.heroku.com/<app>/<process-type> = con esto se le da un nombre apropiado a la imaen antes de subirla al docker hub 
+docker push registry.heroku.com/<app>/<process-type> = con esto se sube al repositorio de dockerhub
+
+
+
+PGUSER=<usuario de la base de datos> PGPASSWORD=<contraseña de la base de datos>  heroku pg:push postgres://<host de la base de datos con su respectivo puerto>/<nombre de la base de datos> <base de datos de heroku> -a <nombre de la aplicacion en heroku> = con esto se puede subir la informacion de una base de datos existente de forma local hacia la base de datos en heroku
+
+
+heroku container:release -a <nombre de la aplicacion en heroku> <proceso> = esto se usa para iniciar el contenedor en heroku
+
+heroku run -a <nombre de la aplicacion en heroku> <lo que se va a ejecutar en el contenedor> --type=<proceso> = esto se usa pra ejecurtar un comando en el contenedor de heroku
+
