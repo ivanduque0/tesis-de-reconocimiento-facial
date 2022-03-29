@@ -3,12 +3,13 @@ version: '3.3'
 services:
 
    postgres:
-      image: 0f92610e9336
+      #image: 0f92610e9336
+      image: 02da44b1d4a6
       
       #restart: always
 
       ports:
-         - 44:5432
+         - 43:5432
       volumes:
          - ~/Desktop/appdocker/postgresdata:/var/lib/postgresql/data
       env_file:
