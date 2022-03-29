@@ -6,13 +6,16 @@ import subprocess
 #DATABASE_URL = config('DATABASE_URL', default='')
 CONTRATO='casa'
 conn = None
+usuarios_faltantes_foto=[]
 try:
 
+    #con esto se apunta a la base de datos local
     connlocal = psycopg2.connect(
         database="tesis", user="tesis", password="tesis", host="0.0.0.0", port="44"
     )
     cursorlocal = connlocal.cursor()
     
+    #con esto se apunta a la base de datos en heroku
     conn_info = subprocess.run(["heroku", "config:get", "DATABASE_URL", "-a", 'tesis-reconocimiento-facial'], stdout = subprocess.PIPE)
     connuri = conn_info.stdout.decode('utf-8').strip()
     connheroku = psycopg2.connect(connuri)
@@ -90,7 +93,7 @@ try:
                 cedula=usuario[0]
                 nombre=usuario[1]
                 contrato=interaccion[2]
-
+                usuarios_faltantes_foto.append(cedula)
                 cursorlocal.execute('''INSERT INTO web_usuarios (cedula, nombre, contrato_id)
                 VALUES (%s, %s, %s);''', (cedula, nombre, contrato))
                 connlocal.commit()
@@ -105,31 +108,32 @@ try:
         cedula=None
         foto=None
 
-        cursorlocal.execute('SELECT * FROM web_fotos')
-        fotos_local= cursorlocal.fetchall()
+        # cursorlocal.execute('SELECT * FROM web_fotos')
+        # fotos_local= cursorlocal.fetchall()
 
-        cursorheroku.execute('SELECT * FROM web_fotos')
-        fotos_heroku= cursorheroku.fetchall()
+        # cursorheroku.execute('SELECT * FROM web_fotos')
+        # fotos_heroku= cursorheroku.fetchall()
 
-        nro_fotos_local = len(fotos_local)
-        nro_fotos_heroku = len(fotos_heroku)
+        # nro_fotos_local = len(fotos_local)
+        # nro_fotos_heroku = len(fotos_heroku)
 
-        if nro_fotos_heroku > nro_fotos_local:
-            diferencia = nro_fotos_heroku - nro_fotos_local
-            diferencia_rango = list(range(diferencia))
 
-            fotos_heroku = fotos_heroku[::-1]
+        if len(usuarios_faltantes_foto) > 0:
+            
+            for usuario_foto in usuarios_faltantes_foto:
 
-            for posicion in diferencia_rango:
+                cursorheroku.execute('SELECT * FROM web_fotos WHERE=%s',(usuario_foto,))
+                foto_usuario= cursorheroku.fetchall()
+                if len(foto_usuario) > 0:
 
-                usuario = fotos_heroku[posicion]
+                    foto=foto_usuario[1]
+                    cedula=foto_usuario[2]
+                    #NECESITO AGREGAR UNA COLUMNA CON EL CONTRATO PARA MANIPULAR MAS FACIL ESTA TABLA
+                    cursorlocal.execute('''INSERT INTO web_usuarios (foto, cedula_id)
+                    VALUES (%s, %s, %s);''', (foto, cedula))
+                    connlocal.commit()
+                    usuarios_faltantes_foto.remove(usuario_foto)
 
-                foto=usuario[1]
-                cedula=usuario[2]
-                #NECESITO AGREGAR UNA COLUMNA CON EL CONTRATO PARA MANIPULAR MAS FACIL ESTA TABLA
-                cursorlocal.execute('''INSERT INTO web_usuarios (foto, cedula_id)
-                VALUES (%s, %s, %s);''', (foto, cedula))
-                connlocal.commit()
         diferencia=0
         diferencia_rango=0
 
