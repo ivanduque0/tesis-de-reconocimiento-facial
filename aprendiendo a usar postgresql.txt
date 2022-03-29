@@ -87,3 +87,5 @@ SELECT * FROM information_schema.tables; = \dt *.* = \dt <schema particular>.* =
 DROP DATABASE [IF EXISTS] database_name;
 
 UPDATE <nombre de la tabla> SET <nombre de la columna>=<valor a cambiar en la columna> WHERE <nombre de la columna>=<valor actual en la columna>; = esto se usa para reescribir el valor de una fila en una tabla
+
+select pg_typeof(<nombre de la columna>) from <tabla> limit 1; = esto se usa para consultar el tipo de valor que acepta la columna en una tabla
