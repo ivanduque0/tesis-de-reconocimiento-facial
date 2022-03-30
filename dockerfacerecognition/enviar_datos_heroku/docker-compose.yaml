@@ -3,10 +3,9 @@ version: '3.3'
 services:
 
    postgres:
-      image: 0f92610e9336
-      #image: 02da44b1d4a6
+      image: postgres:14-alpine
       
-      #restart: always
+      restart: always
 
       ports:
          - 44:5432
@@ -14,6 +13,21 @@ services:
          - ~/Desktop/baselocal/postgresdata:/var/lib/postgresql/data
       env_file:
          - .env.postgres
+   
+   dbmanager:
+      image: 1ab4f913f8e8
+      
+      restart: always
+      
+      volumes:
+         - ~/Desktop/codigo:/app
+      env_file:
+         - .env.manager
+         
+   dbmaker:
+      image: 7303efb762d9
+
+   
 
    
       

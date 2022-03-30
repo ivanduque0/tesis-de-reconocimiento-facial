@@ -7,25 +7,25 @@ import urllib.request
 import numpy as np
 import cv2
 
-#DATABASE_URL = config('DATABASE_URL', default='')
-CONTRATO='oficina'
+CONTRATO=os.environ.get("CONTRATO")
 connlocal = None
 connheroku = None
+cursorheroku=None
+cursorlocal=None
 usuarios_faltantes_foto=[]
 listausuariosheroku=[]
 listausuarioslocal=[]
 total=0
 nro_int_local_old=0
 siguiente=0 #esta variable se encargar de dar la orden de cuando se va a revisar la base de datos para agregar o eliminar los distintos datos
-
-
-if not os.path.exists('media/personas'): 
-    os.makedirs('media/personas')
+DIRECTORIO=os.environ.get("DIRECTORIO", "media/personas")
+if not os.path.exists(DIRECTORIO): 
+    os.makedirs(DIRECTORIO)
 
 cloudinary.config( 
-    cloud_name = 'dhvdt2wsd', 
-    api_key = '984476536665388', 
-    api_secret = 's4pymShC9UrS0Ma3qBrTIkV-nrg',
+    cloud_name = os.environ.get("CLOUD_NAME"), 
+    api_key = os.environ.get("API_KEY"), 
+    api_secret = os.environ.get("API_SECRET"),
     secure = True
 )
 
@@ -40,7 +40,11 @@ while True:
         
         #con esto se apunta a la base de datos local
         connlocal = psycopg2.connect(
-            database="tesis", user="tesis", password="tesis", host="0.0.0.0", port="44"
+            database=os.environ.get("DATABASE"), 
+            user=os.environ.get("USER"), 
+            password=os.environ.get("PASSWORD"), 
+            host=os.environ.get("HOST"), 
+            port=os.environ.get("PORT")
         )
         cursorlocal = connlocal.cursor()
         
@@ -136,7 +140,6 @@ while True:
                         try:
                             listausuariosheroku.index(usuario)
                         except ValueError:
-                            print(usuario)
                             cursorlocal.execute('DELETE FROM web_usuarios WHERE cedula=%s', (usuario,))
                             cursorlocal.execute('DELETE FROM web_fotos WHERE cedula_id=%s', (usuario,))
                             cursorlocal.execute('DELETE FROM web_horariospermitidos WHERE cedula_id=%s', (usuario,))
@@ -285,15 +288,17 @@ while True:
 
     except (Exception, psycopg2.Error) as error:
         print("fallo en hacer las consultas")
-        if connlocal or connheroku:
+        if connlocal:
             cursorlocal.close()
             connlocal.close()
+        if connheroku:
             cursorheroku.close()
             connheroku.close()
     finally:
-        if connlocal or connheroku:
+        if connlocal:
             cursorlocal.close()
             connlocal.close()
+        if connheroku:
             cursorheroku.close()
             connheroku.close()
             print("se ha cerrado la conexion a la base de datos")

@@ -10,7 +10,11 @@ RUN DEBIAN_FRONTEND="noninteractive" TZ="America/Caracas" apt-get install curl f
 RUN pip3 install psycopg2
 RUN curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 RUN pip3 install cloudinary
+RUN pip3 install urllib3
+RUN pip3 install opencv-python
+RUN pip3 install numpy
 
-CMD ["python3", "codigo.py"]
+
+CMD heroku login -i && python3 codigo.py
 
 #SE DEBE INSTALAR CLOUDINARY PARA TRAER LAS IMAGENES!!
