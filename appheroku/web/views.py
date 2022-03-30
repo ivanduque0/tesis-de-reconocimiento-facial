@@ -255,8 +255,9 @@ def eliminarcontrato(request, contrato_id):
     foto = None
     for usuariofoto in usuarioscontrato:
         usuariocedula = usuariofoto.cedula
-        foto = fotos.objects.get(cedula=usuariocedula)
-        if foto.foto:
+        foto = fotos.objects.filter(cedula__cedula__icontains=usuariocedula)
+        if len(foto) > 0:
+            foto=foto[0]
             foto.foto.delete(save=False)
     contrato.delete()
 
