@@ -3,29 +3,71 @@ version: '3.3'
 services:
 
    postgres:
+   
       image: postgres:14-alpine
       
       restart: always
 
       ports:
          - 44:5432
+         
       volumes:
          - ~/Desktop/baselocal/postgresdata:/var/lib/postgresql/data
+         
       env_file:
          - .env.postgres
    
+   dbmaker:
+   
+      image: ivanduque0/dbmakermanager:V0.2
+      
+      volumes:
+         - ./dbmaker:/app
+         
+      command: python3 codigo.py
+         
+      env_file:
+         - .env.maker
+         
+      depends_on:
+         - postgres
+
    dbmanager:
-      image: 1ab4f913f8e8
+   
+      image: ivanduque0/dbmakermanager:V0.2
       
       restart: always
       
       volumes:
-         - ~/Desktop/codigo:/app
+         - ~/Desktop/baselocal/dbmanager:/app
+         
       env_file:
          - .env.manager
+      
+      depends_on:
+         - postgres
          
-   dbmaker:
-      image: 7303efb762d9
+   facerecognition:
+
+      image: c1b77b70f7d1
+      
+      environment:
+         - DISPLAY=unix$DISPLAY
+      
+      env_file:
+         - .env.recognition
+      
+      volumes:
+         - ~/Desktop/baselocal/facerecognition:/app
+         - ~/Desktop/baselocal/dbmanager/media/personas:/app/personas
+         - /tmp/.X11-unix:/tmp/.X11-unix
+         - /tmp/.docker.xauth:/tmp/.docker.xauth
+         
+      privileged: true
+      
+      depends_on:
+         - postgres
+
 
    
 

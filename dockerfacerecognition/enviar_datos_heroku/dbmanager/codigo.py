@@ -81,15 +81,15 @@ while True:
                 diferencia= list(range(diferencia_rango))
                 interacciones_local = interacciones_local[::-1]
 
-                for posicion in diferencia_rango:
+                for posicion in diferencia:
 
                     interaccion = interacciones_local[posicion]
 
-                    nombre=interaccion[1]
-                    fecha=interaccion[2]
-                    hora=interaccion[3]
-                    razon=interaccion[4]
-                    cedula=interaccion[6]
+                    nombre=interaccion[0]
+                    fecha=interaccion[1]
+                    hora=interaccion[2]
+                    razon=interaccion[3]
+                    cedula=interaccion[5]
 
                     cursorheroku.execute('''INSERT INTO web_interacciones (nombre, fecha, hora, razon, contrato, cedula_id)
                     VALUES (%s, %s, %s, %s, %s, %s);''', (nombre, fecha, hora, razon, CONTRATO, cedula))
@@ -117,7 +117,7 @@ while True:
             nro_usu_local = len(usuarios_local)
             nro_usu_heroku = len(usuarios_heroku)
 
-            if total>1 and siguiente==0:
+            if total>5 and siguiente==0:
             
                 #cuando se va a eliminar un usuario
                 if nro_usu_local > nro_usu_heroku:
@@ -179,12 +179,12 @@ while True:
                 nombre=None
                 listausuariosheroku=[]
                 listausuarioslocal=[]
-                siguiente=2
+                siguiente=1
                 total=0
                 t1=time.perf_counter()
 
             #en esta parte se agrega o eliminan horarios de la base de datos local
-            if total >1 and siguiente==1:
+            if total >5 and siguiente==1:
 
                 for usuario in usuarios_local:
                     cedula=usuario[0]
@@ -233,7 +233,7 @@ while True:
                 t1=time.perf_counter()
 
             #En esta parte se se agregan o eliminan imagenes
-            if total>1 and siguiente==2:
+            if total>5 and siguiente==2:
                 
                 for usuario in usuarios_heroku:
                     cedula=usuario[0]

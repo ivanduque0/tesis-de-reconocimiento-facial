@@ -17,4 +17,3 @@ RUN pip3 install numpy
 
 CMD heroku login -i && python3 codigo.py
 
-#SE DEBE INSTALAR CLOUDINARY PARA TRAER LAS IMAGENES!!
