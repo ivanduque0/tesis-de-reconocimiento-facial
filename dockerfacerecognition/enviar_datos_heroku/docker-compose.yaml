@@ -8,8 +8,8 @@ services:
       
       restart: always
 
-      ports:
-         - 44:5432
+      #ports:
+         #- 44:5432
          
       volumes:
          - ~/Desktop/baselocal/postgresdata:/var/lib/postgresql/data
@@ -32,14 +32,67 @@ services:
       depends_on:
          - postgres
 
-   dbmanager:
+   dbmanagerfotos:
    
       image: ivanduque0/dbmakermanager:V0.2
       
       restart: always
       
+      command: python3 codigo.py
+      
       volumes:
-         - ~/Desktop/baselocal/dbmanager:/app
+         - ~/Desktop/baselocal/dbmanagerfotos:/app
+         
+      env_file:
+         - .env.manager
+         
+      depends_on:
+         - postgres
+         
+   dbmanagerusuarios:
+   
+      image: ivanduque0/dbmakermanager:V0.2
+      
+      restart: always
+      
+      command: python3 codigo.py
+      
+      volumes:
+         - ~/Desktop/baselocal/dbmanagerusuarios:/app
+         
+      env_file:
+         - .env.manager
+      
+      depends_on:
+         - postgres
+         
+   dbmanagerhorarios:
+   
+      image: ivanduque0/dbmakermanager:V0.2
+      
+      restart: always
+      
+      command: python3 codigo.py
+      
+      volumes:
+         - ~/Desktop/baselocal/dbmanagerhorarios:/app
+         
+      env_file:
+         - .env.manager
+      
+      depends_on:
+         - postgres
+         
+   dbmanagerinteracciones:
+   
+      image: ivanduque0/dbmakermanager:V0.2
+      
+      restart: always
+      
+      command: python3 codigo.py
+      
+      volumes:
+         - ~/Desktop/baselocal/dbmanagerinteracciones:/app
          
       env_file:
          - .env.manager
@@ -49,7 +102,7 @@ services:
          
    facerecognition:
 
-      image: c1b77b70f7d1
+      image: ivanduque0/dockermpfrpsy:v1
       
       environment:
          - DISPLAY=unix$DISPLAY
@@ -59,7 +112,7 @@ services:
       
       volumes:
          - ~/Desktop/baselocal/facerecognition:/app
-         - ~/Desktop/baselocal/dbmanager/media/personas:/app/personas
+         - ~/Desktop/baselocal/dbmanagerfotos/media/personas:/app/personas
          - /tmp/.X11-unix:/tmp/.X11-unix
          - /tmp/.docker.xauth:/tmp/.docker.xauth
          
