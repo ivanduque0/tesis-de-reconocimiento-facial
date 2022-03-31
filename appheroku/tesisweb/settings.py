@@ -169,6 +169,6 @@ MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-CSRF_TRUSTED_ORIGINS = 'http://tesis-reconocimiento-facial.herokuapp.com'
+CSRF_TRUSTED_ORIGINS = ['https://tesis-reconocimiento-facial.herokuapp.com']
 
 # CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS").split(" ")
