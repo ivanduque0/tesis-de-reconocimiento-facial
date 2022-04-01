@@ -53,6 +53,10 @@ RUN apk add --no-cache --virtual .build-deps \
     && pip install --no-cache-dir psycopg2 \
     && pip install --no-cache-dir psycopg2-binary \
     && pip install --no-cache-dir Pillow \
+    && pip install --no-cache-dir djangorestframework \
+    && pip install --no-cache-dir markdown \
+    && pip install --no-cache-dir django-filter \
+    && pip install --no-cache-dir django-cors-headers \
     && apk del --no-cache .build-deps
 RUN apk add libjpeg
 COPY --from=builder /usr/src/app/wheels /wheels
