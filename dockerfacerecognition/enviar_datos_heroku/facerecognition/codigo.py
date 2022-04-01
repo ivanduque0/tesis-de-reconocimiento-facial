@@ -112,6 +112,7 @@ while True:
                 if video is None:
                     camara = cv2.VideoCapture(os.environ.get("HOST_STREAM"))
                     ret,video = camara.read()
+                    cv2.destroyAllWindows()
                 #video = cv2.flip(video, 0)
                 #print(video)
                 if video is not None:
