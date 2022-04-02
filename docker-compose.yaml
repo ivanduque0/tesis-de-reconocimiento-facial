@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+
+   angular:
+    
+      image: angular-cli-userapp:V0.6
+      
+      volumes:
+         - ~/Desktop/angular:/home/app/angular
+            
+      command: /bin/bash
+        
+      ports:
+         - 4200:4200
+        
+#docker run -it -p 4200:4200 -v ~/Desktop/angular:/home/app/angular angular-cli-userapp:V0.6 /bin/bash
