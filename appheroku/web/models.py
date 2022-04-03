@@ -35,16 +35,19 @@ class interacciones(models.Model):
         #return self.cedula,self.nombre, self.fecha, self.hora, self.razon
         #return self.nombre
 
-class diasdelasemana(models.Model):
-    dia=models.CharField(primary_key=True, max_length=20)
-    class Meta:
-        verbose_name_plural = "Dias de la semana"
-    def __str__(self):
-        return self.dia
-
 class horariospermitidos(models.Model):
+
+    class dias(models.TextChoices):
+        LUNES = 'Lunes', 'Lunes'
+        MARTES = 'Martes', 'Martes'
+        MIERCOLES = 'Miercoles','Miercoles'
+        JUEVES = 'Jueves', 'Jueves'
+        VIERNES = 'Viernes', 'Viernes'
+        SABADO = 'Sabado', 'Sabado'
+        DOMINGO = 'Domingo', 'Domingo'
+
     cedula = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name="ceduladiaspermitidos")
-    dia=models.ForeignKey(diasdelasemana, db_constraint=False, on_delete = models.DO_NOTHING, related_name='diasdelasemana')
+    dia=models.CharField(max_length=20, choices=dias.choices, default=dias.LUNES)
     entrada=models.TimeField()
     salida=models.TimeField()
     class Meta:
