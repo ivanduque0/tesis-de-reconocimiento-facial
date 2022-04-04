@@ -1,5 +1,11 @@
 ng new <nombre del proyecto de angular> = con esto se crea un nuevo proyecto de angular
 
+ng g s services/<nombre del servicio> = con esto se crea un servicio en la carpeta del proyecto de angular
+
+ng g c components/<nombre del componente> = con esto se crea un componente en el proyecto de angular
+
+ng g class models/<nombre del modelo> --type=model = con esto se crea un modelo en angular, esto es muy importante para importar los modelos de django hasta angular
+
 ng serve --host=<nombre del host> = con esto se inicia el servidor que va a mostrar el proyecto de angular
 
 
