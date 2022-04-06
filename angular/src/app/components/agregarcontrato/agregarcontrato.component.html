@@ -1,0 +1,24 @@
+
+<form (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="contrato">Nombre del nuevo contrato: </label>
+    <input type="text" class="form-control" id="nombre" required [(ngModel)]="contrato.nombre" name="nombre">
+    <button type="submit" class="btn btn-success">Agregar contrato</button>
+  </div>
+</form>
+
+<div class="list row">
+      <h4>Lista de contratos</h4>
+      
+      <ul class="list-group">
+          <li
+              class="list-group-item"
+              *ngFor="let contrato of contratos; let i = index"
+              [class.active]="i == currentindex"
+              >
+              {{ contrato.nombre }}
+
+              <button (click)="removercontrato(contrato.nombre)" (click)="onSubmit2()">Eliminar</button>
+          </li>
+      </ul>
+</div>

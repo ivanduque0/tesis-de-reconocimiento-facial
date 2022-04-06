@@ -1,0 +1,42 @@
+<h4 *ngFor="let user of usuario; let i = index">Estas editando al usuario {{user.nombre}}</h4>
+
+<form method="post" (ngSubmit)="onSubmit()">
+<label> Dia: <select [(ngModel)]="diaseleccionado" name="dia" (ngModelChange)="nuevohorario()">
+    <option [ngValue]="null" disabled>Dias</option>
+    <option [value]="dia" *ngFor="let dia of diasdelasemana; let i = index">
+    {{ dia }}
+    </option>    
+</select>
+</label>
+<label> Hora de entrada: 
+    <input type="time" [(ngModel)]="entradaseleccionada" name="entrada" (ngModelChange)="nuevohorario()">
+</label>
+<label> Hora de salida: 
+    <input type="time" [(ngModel)]="salidaseleccionada" name="salida" (ngModelChange)="nuevohorario()">
+</label>
+<button type="submit">Agregar</button>
+</form>
+
+<div *ngIf="horarios?.length">
+    <table>
+        <tr>
+            <th>Dia</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+        </tr>
+    
+        <tr class="list-group-usuarios"
+            *ngFor="let horario of horarios; let i = index">
+            <td>{{ horario.dia}}</td>
+            <td>{{ horario.entrada }}</td>
+            <td>{{ horario.salida }}</td>
+            <td><button (click)="removerhorario(horario.id)">Eliminar</button></td>
+        </tr>
+    </table>
+</div>
+
+<div *ngIf="!horarios?.length">
+   <h4>Este usuario no tiene horarios agregados</h4>
+</div>
+
+

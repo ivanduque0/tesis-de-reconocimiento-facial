@@ -1,0 +1,25 @@
+<h4>Lista de contratos</h4>
+<select [(ngModel)]="contratoseleccionado" (ngModelChange)="seleccion(contratoseleccionado)">
+    <option [ngValue]="null" disabled>contratos</option>
+    <option [value]="contrato.nombre" *ngFor="let contrato of contratos; let i = index"
+    [class.active]="i == currentindex">
+    {{ contrato.nombre }}
+    </option>    
+</select>
+<button *ngIf="contratoseleccionado"><a *ngIf="contratoseleccionado" routerLink="{{contratoseleccionado}}">Editar contrato</a></button>
+<br>
+
+<table *ngIf="contratoseleccionado && usuarios?.length">
+    <tr>
+        <th>cedula</th>
+        <th>nombre</th>
+    </tr>
+
+        <tr class="list-group-usuarios"
+        *ngFor="let usuario of usuarios; let i = index">
+        <td>{{ usuario.cedula}}</td>
+        <td>{{ usuario.nombre }}</td>
+        </tr>
+</table>
+
+<h4 *ngIf="contratoseleccionado && !usuarios?.length">No hay usuarios en este contrato</h4>

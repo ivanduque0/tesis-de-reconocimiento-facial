@@ -1,0 +1,46 @@
+<h4>Agregar usuario nuevo</h4>
+<form method="post" (ngSubmit)="onSubmit()">
+    <label>Cedula:<input type="number" id="cedula" [(ngModel)]="usuario.cedula" required name="cedula"></label>
+    <label>Nombre:<input type="text" id="nombre" [(ngModel)]="usuario.nombre" required name="nombre"></label>
+    <input hidden type="text" name="contrato" id="contrato" [(ngModel)]="usuario.contrato">
+    <button type="submit">Agregar usuario</button>
+</form>
+
+<h4>Buscar usuario</h4>
+<input type="number" name="buscarxcedula" [(ngModel)]="cedulabuscar" (ngModelChange)="buscaruser(cedulabuscar)">
+
+<div *ngIf="cedulabuscar!=null && usuariosbuscar?.length">
+<table>
+    <tr>
+        <th>cedula</th>
+        <th>nombre</th>
+    </tr>
+
+    <tr class="list-group-usuarios"
+        *ngFor="let usuario of usuariosbuscar; let i = index">
+        <td>{{ usuario.cedula}}</td>
+        <td>{{ usuario.nombre }}</td>
+        <td><button><a routerLink="/editarusuarios/{{usuario.cedula}}">Editar</a></button></td>
+        <td><button (click)="removerusuario(usuario.cedula)">Eliminar</button></td>
+    </tr>
+</table>
+</div>
+
+<div *ngIf="usuarios?.length && cedulabuscar==null && !usuariosbuscar?.length">
+<table>
+    <tr>
+        <th>cedula</th>
+        <th>nombre</th>
+    </tr>
+
+        <tr class="list-group-usuarios"
+        *ngFor="let usuario of usuarios; let i = index">
+        <td>{{ usuario.cedula}}</td>
+        <td>{{ usuario.nombre }}</td>
+        <td><button><a routerLink="/editarusuarios/{{usuario.cedula}}">Editar</a></button></td>
+        <td><button (click)="removerusuario(usuario.cedula)" (click)="onSubmit2()">Eliminar</button></td>
+    </tr>
+</table>
+</div>
+<h4 *ngIf="!usuarios?.length">Aun no hay usuarios registrados</h4>
+<h4 *ngIf="!usuariosbuscar?.length && cedulabuscar!=null">No se encontraron coincidencias</h4>
