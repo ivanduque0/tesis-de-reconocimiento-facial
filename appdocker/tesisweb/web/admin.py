@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import contratos, fotos, interacciones, usuarios, diasdelasemana
+from .models import contratos, fotos, interacciones, usuarios
 # Register your models here.
 
 class contratosadmin(admin.ModelAdmin):
@@ -14,7 +14,7 @@ class contratosadmin(admin.ModelAdmin):
 class interaccionesadmin(admin.ModelAdmin):
 
     fieldsets = [
-        ("Historico de actividad", {'fields': ['cedula','nombre','fecha','hora','razon']}),
+        ("Historico de actividad", {'fields': ['cedula','nombre','fecha','hora','razon', 'contrato']}),
     ]
 
 class usuariosadmin(admin.ModelAdmin):
@@ -26,5 +26,4 @@ class usuariosadmin(admin.ModelAdmin):
 admin.site.register(contratos, contratosadmin)
 admin.site.register(usuarios,usuariosadmin)
 admin.site.register(interacciones, interaccionesadmin)
-admin.site.register(diasdelasemana)
 admin.site.register(fotos)

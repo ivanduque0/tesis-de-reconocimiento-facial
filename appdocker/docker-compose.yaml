@@ -3,7 +3,7 @@ version: '3.3'
 services:
 
    postgres:
-      image: 0f92610e9336
+      image: postgres:14-alpine
       #image: 02da44b1d4a6
       
       #restart: always
@@ -17,7 +17,7 @@ services:
 
    web:
       user: "${UID}:${GID}"
-      image: daff3a22d4b7
+      image: webdjango:V0.
       #build: ./tesisweb
       #image: webdjango:v0.8
       #command: python manage.py runserver 0.0.0.0:8000
@@ -38,7 +38,7 @@ services:
          - postgres
          
    nginx:
-      image: 063fb952c08d
+      image: webnginx:V0.3
       volumes:
          - ~/Desktop/appdocker/static_volume:/home/app/web/static
          - ~/Desktop/appdocker/media_volume:/home/app/web/media

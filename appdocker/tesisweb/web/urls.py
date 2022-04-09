@@ -1,5 +1,14 @@
-from django.urls import path
+from django.urls import path, include, re_path
 from . import views
+from .views import agregarfoto
+#from .views import ContratosList
+from rest_framework import routers
+
+# router = routers.DefaultRouter()
+# router.register(r'contratos', views.ContratosList)
+
+router = routers.DefaultRouter()
+router.register(r'subirfotos', views.agregarfoto)
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -12,4 +21,18 @@ urlpatterns = [
     path('eliminarcontrato/<str:contrato_id>/', views.eliminarcontrato, name='eliminarcontrato'),
     path('editarcontrato', views.seleccionarcontrato, name='seleccionarcontrato'),
     path('eliminarfoto/<int:cedula_id>/', views.eliminarfoto, name='eliminarfoto'),
-]
+    path('', include(router.urls)),
+    #re_path(r'^contratos/$', views.seleccionarcontratoapi),
+    #re_path(r'^editarcontratoapi/(?P<contrato_id>\w+)$', views.editarcontratoapi),
+    re_path(r'^agregarcontratosapi/$', views.agregarcontratosapi),
+    #re_path(r'^removercontratosapi/(?P<contrato_id>[\w\s]+)/$', views.eliminarcontratos),
+    #re_path(r'^removercontratosapi/(?P<contrato_id>.*)/$', views.eliminarcontratos),
+    re_path(r'^removercontratosapi/(?P<contrato_id>[\w\ ]+)/$', views.eliminarcontratos),
+    re_path(r'^seleccionarcontrato/(?P<contrato_id>[\w\ ]+)/$', views.seleccionarcontratoapi),
+    re_path(r'^editcontrato/agregarusuario/$', views.agregarusuarioapi),
+    re_path(r'^editcontrato/eliminarusuario/(?P<cedula_id>[\w\ ]+)/$', views.eliminarusuarioapi),
+    re_path(r'^editcontrato/buscarusuario/(?P<cedula_id>[\w\ ]+)/$', views.buscarusuarioapi),
+    re_path(r'^editusuario/horarios/(?P<cedula_id>[\w\ ]+)/$', views.editarhorariosapi),
+    re_path(r'^editusuario/foto/(?P<cedula_id>[\w\ ]+)/$', views.editarfotosapi),
+    re_path(r'^actividad/$', views.interaccionesapi),
+]   
