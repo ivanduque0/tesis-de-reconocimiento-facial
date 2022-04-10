@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .serializers import contratosserializer,filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 directorio = '/home/ivan/Desktop/appdocker'
@@ -448,15 +449,21 @@ class agregarfoto(viewsets.ModelViewSet):
     parser_class = (FileUploadParser,)
     queryset = fotos.objects.all()
     serializer_class = fotosserializer
+
+    
+    # @method_decorator(csrf_exempt)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super(agregarfoto, self).dispatch(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
 
-      file_serializer = fotosserializer(data=request.data)
+        file_serializer = fotosserializer(data=request.data)
 
-      if file_serializer.is_valid():
+        if file_serializer.is_valid():
           file_serializer.save()
-          return Response(file_seralizer.data, status=status.HTTP_201_CREATED)
-      else:
-          return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+          return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 #id = serializer.data.get('id', None)

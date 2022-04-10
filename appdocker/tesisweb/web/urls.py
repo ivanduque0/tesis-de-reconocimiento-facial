@@ -3,6 +3,8 @@ from . import views
 from .views import agregarfoto
 #from .views import ContratosList
 from rest_framework import routers
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import RedirectView
 
 # router = routers.DefaultRouter()
 # router.register(r'contratos', views.ContratosList)
@@ -11,17 +13,17 @@ router = routers.DefaultRouter()
 router.register(r'subirfotos', views.agregarfoto)
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('interacciones', views.interaccionesss, name='interacciones'),
-    path('editarcontrato/<str:contrato_id>/', views.editarcontrato, name='editarcontrato'),
-    path('eliminarusuario/<int:cedula_id>/', views.eliminarusuario, name='eliminarusuario'),
-    path('eliminarhorario/<int:id_web>', views.eliminarhorario, name='eliminarhorario'),
-    path('editarusuario/<int:cedula_id>', views.editarusuario, name='editarusuario'),
-    path('agregarcontrato', views.agregarcontrato, name='agregarcontrato'),
-    path('eliminarcontrato/<str:contrato_id>/', views.eliminarcontrato, name='eliminarcontrato'),
-    path('editarcontrato', views.seleccionarcontrato, name='seleccionarcontrato'),
-    path('eliminarfoto/<int:cedula_id>/', views.eliminarfoto, name='eliminarfoto'),
-    path('', include(router.urls)),
+    # path('', views.index, name='index'),
+    # path('interacciones', views.interaccionesss, name='interacciones'),
+    # path('editarcontrato/<str:contrato_id>/', views.editarcontrato, name='editarcontrato'),
+    # path('eliminarusuario/<int:cedula_id>/', views.eliminarusuario, name='eliminarusuario'),
+    # path('eliminarhorario/<int:id_web>', views.eliminarhorario, name='eliminarhorario'),
+    # path('editarusuario/<int:cedula_id>', views.editarusuario, name='editarusuario'),
+    # path('agregarcontrato', views.agregarcontrato, name='agregarcontrato'),
+    # path('eliminarcontrato/<str:contrato_id>/', views.eliminarcontrato, name='eliminarcontrato'),
+    # path('editarcontrato', views.seleccionarcontrato, name='seleccionarcontrato'),
+    # path('eliminarfoto/<int:cedula_id>/', views.eliminarfoto, name='eliminarfoto'),
+    path('api', include(router.urls)),
     #re_path(r'^contratos/$', views.seleccionarcontratoapi),
     #re_path(r'^editarcontratoapi/(?P<contrato_id>\w+)$', views.editarcontratoapi),
     re_path(r'^agregarcontratosapi/$', views.agregarcontratosapi),
