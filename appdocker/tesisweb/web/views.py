@@ -623,3 +623,12 @@ def interaccionesapi(request):
         return JsonResponse(interacciones_serializer.data, safe=False)
 
 #id = serializer.data.get('id', None)
+
+
+
+def index(request, path=''):
+    """
+    Renders the Angular2 SPA
+    """
+    return render(request, 'index.html')
+
