@@ -175,6 +175,6 @@ REST_FRAMEWORK = {
     )
 }
 
-CSRF_TRUSTED_ORIGINS = ['https://tesis-reconocimiento-facial.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = ['https://tesis-reconocimiento-facial.herokuapp.com','http://tesis-reconocimiento-facial.herokuapp.com']
 
 # CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS").split(" ")
