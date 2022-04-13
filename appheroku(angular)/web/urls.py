@@ -30,7 +30,7 @@ urlpatterns = [
     #re_path(r'^removercontratosapi/(?P<contrato_id>[\w\s]+)/$', views.eliminarcontratos),
     #re_path(r'^removercontratosapi/(?P<contrato_id>.*)/$', views.eliminarcontratos),
     re_path(r'^removercontratosapi/(?P<contrato_id>[\w\ ]+)/$', views.eliminarcontratos),
-    re_path(r'^seleccionarcontrato/(?P<contrato_id>[\w\ ]+)/$', views.seleccionarcontratoapi),
+    re_path(r'^seleccionarcontratoapi/(?P<contrato_id>[\w\ ]+)/$', views.seleccionarcontratoapi),
     re_path(r'^editcontrato/agregarusuario/$', views.agregarusuarioapi),
     re_path(r'^editcontrato/eliminarusuario/(?P<cedula_id>[\w\ ]+)/$', views.eliminarusuarioapi),
     re_path(r'^editcontrato/buscarusuario/(?P<cedula_id>[\w\ ]+)/$', views.buscarusuarioapi),

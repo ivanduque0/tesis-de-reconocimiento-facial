@@ -31,8 +31,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default='foo')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = int(os.environ.get("DEBUG", default=0))
-DEBUG = config('DEBUG', default=False, cast=bool)
-#DEBUG = True
+# DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = False
 
 #ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 ALLOWED_HOSTS = ['tesis-reconocimiento-facial.herokuapp.com', ]
@@ -166,7 +166,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
