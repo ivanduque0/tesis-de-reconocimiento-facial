@@ -29,7 +29,7 @@ class fotosserializer(serializers.ModelSerializer):
 
     class Meta:
         model = fotos
-        fields = ['id','cedula', 'foto']
+        fields = ['id','cedula', 'foto', 'estado']
 
 class filtrosserializer(serializers.Serializer):
     cedula = serializers.IntegerField()
