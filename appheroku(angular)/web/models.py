@@ -56,3 +56,4 @@ class horariospermitidos(models.Model):
 class fotos(models.Model):
     cedula = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name="cedulafoto")
     foto = models.ImageField(upload_to='personas/')
+    estado = models.IntegerField()
