@@ -411,6 +411,17 @@ def buscarusuarioapi(request, cedula_id):
         #     usuarioss_serializer = usuariosserializer(usuarioss, many=True)
         return JsonResponse(usuarioss_serializer.data, safe=False)
 
+    if request.method == 'POST':
+        contrato_data = JSONParser().parse(request)
+        contrato_serializer = contratosserializer(data=contrato_data)
+        contratofiltro= contrato_serializer.initial_data.get('nombre', None)
+        usuarioss=usuarios.objects.filter(cedula__icontains=cedula_id, contrato=contratofiltro)
+        usuarioss_serializer = usuariosserializer(usuarioss, many=True)
+        # if len(usuarioss) == 1:
+        #     usuarioss=usuarioss[0]
+        #     usuarioss_serializer = usuariosserializer(usuarioss, many=True)
+        return JsonResponse(usuarioss_serializer.data, safe=False)
+
 @csrf_exempt
 def editarhorariosapi(request, cedula_id):
     if request.method == 'GET':
