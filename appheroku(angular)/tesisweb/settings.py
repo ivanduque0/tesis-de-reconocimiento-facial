@@ -71,7 +71,7 @@ ROOT_URLCONF = 'tesisweb.urls'
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'http://tesis-reconocimiento-facial.herokuapp.com/',
+    #'http://tesis-reconocimiento-facial.herokuapp.com/',
 )
 
 TEMPLATES = [
