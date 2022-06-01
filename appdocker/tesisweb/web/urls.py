@@ -36,6 +36,7 @@ urlpatterns = [
     re_path(r'^editcontrato/buscarusuario/(?P<cedula_id>[\w\ ]+)/$', views.buscarusuarioapi),
     re_path(r'^editusuario/horarios/(?P<cedula_id>[\w\ ]+)/$', views.editarhorariosapi),
     re_path(r'^editusuario/foto/(?P<cedula_id>[\w\ ]+)/$', views.editarfotosapi),
+    re_path(r'^editusuario/agregarid/$', views.agregartelegramidapi),
     re_path(r'^actividad/$', views.interaccionesapi),
     re_path(r'^(?P<path>.*)/$', views.index),
 ]   

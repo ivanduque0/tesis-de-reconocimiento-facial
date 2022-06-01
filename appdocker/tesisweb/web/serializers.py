@@ -11,7 +11,7 @@ class usuariosserializer(serializers.ModelSerializer):
  
     class Meta:
         model = usuarios
-        fields = ['cedula', 'nombre', 'contrato']
+        fields = ['cedula', 'nombre', 'contrato', 'telegram_id']
 
 class horariosserializer(serializers.ModelSerializer):
  
@@ -39,6 +39,9 @@ class filtrosserializer(serializers.Serializer):
     horadesde = serializers.TimeField()
     horahasta = serializers.TimeField()
 
+class telegramidserializer(serializers.Serializer):
+    cedula = serializers.IntegerField()
+    telegram_id = serializers.CharField()
 
 
 # class stringserializer(serializers.Serializer):

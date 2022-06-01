@@ -11,7 +11,7 @@ services:
       ports:
          - 43:5432
       volumes:
-         - ~/Desktop/appdocker/postgresdata:/var/lib/postgresql/data
+         - ./postgresdata:/var/lib/postgresql/data
       env_file:
          - .env.postgres
 
@@ -24,10 +24,10 @@ services:
       command: gunicorn tesisweb.wsgi:application --bind 0.0.0.0:8000
       volumes:
          #- ~/Desktop/codigostesis/appdocker/tesisweb:/usr/src/app
-         - ~/Desktop/codigostesis/appdocker/tesisweb/web:/home/app/web/web
-         - ~/Desktop/codigostesis/appdocker/tesisweb/tesisweb:/home/app/web/tesisweb
-         - ~/Desktop/appdocker/static_volume:/home/app/web/static
-         - ~/Desktop/appdocker/media_volume:/home/app/web/media
+         - ./tesisweb/web:/home/app/web/web
+         - ./tesisweb/tesisweb:/home/app/web/tesisweb
+         - ./static_volume:/home/app/web/static
+         - ./media_volume:/home/app/web/media
       #ports:
          #- 8282:8000
       expose:
@@ -38,10 +38,10 @@ services:
          - postgres
          
    nginx:
-      image: webnginx:V0.3
+      image: webnginx:V0.
       volumes:
-         - ~/Desktop/appdocker/static_volume:/home/app/web/static
-         - ~/Desktop/appdocker/media_volume:/home/app/web/media
+         - ./static_volume:/home/app/web/static
+         - ./media_volume:/home/app/web/media
       ports:
          - 1010:80
       depends_on:

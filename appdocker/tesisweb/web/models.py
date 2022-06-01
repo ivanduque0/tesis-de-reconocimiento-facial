@@ -13,8 +13,9 @@ class contratos(models.Model):
 
 class usuarios(models.Model):
     cedula = models.IntegerField(primary_key=True)
-    nombre = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=150)
     contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='contrato', verbose_name='contratousuarios') #models.CharField(max_length=100)
+    telegram_id = models.CharField(max_length=150, blank=True) 
     
     class Meta:
         verbose_name_plural = "Usuarios"
