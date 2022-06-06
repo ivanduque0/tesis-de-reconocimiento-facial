@@ -46,6 +46,7 @@ class horariospermitidos(models.Model):
         VIERNES = 'Viernes', 'Viernes'
         SABADO = 'Sabado', 'Sabado'
         DOMINGO = 'Domingo', 'Domingo'
+        SIEMPRE = 'Siempre', 'Siempre'
 
     cedula = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name="ceduladiaspermitidos")
     dia=models.CharField(max_length=20, choices=dias.choices, default=dias.LUNES)
