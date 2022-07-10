@@ -1,12 +1,13 @@
 from django.shortcuts import redirect, render
 from django.http.response import JsonResponse
 from django.http import HttpResponse
-from .models import contratos, fotos, horariospermitidos, interacciones, usuarios
+from .models import contratos, fotos, horariospermitidos, interacciones, usuarios, apertura
 from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios, filtrarinteracciones, filtrarusuarios, subirfoto
 from rest_framework.parsers import JSONParser, FileUploadParser
 from rest_framework import status, viewsets
+from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
-from .serializers import contratosserializer,filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer
+from .serializers import contratosserializer,filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer, aperturaserializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
@@ -678,6 +679,36 @@ def interaccionesapi(request):
 
 #id = serializer.data.get('id', None)
 
+@csrf_exempt
+def aperturaa(request):
+
+    contrato_post=None
+    acceso_post=None
+    if request.method == 'GET': 
+        aperturainfo = apertura.objects.all()
+        apertura_serializer = aperturaserializer(aperturainfo, many=True)
+        return JsonResponse(apertura_serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        apertura_data = JSONParser().parse(request)
+        aperturapost_serializer = telegramidserializer(data=apertura_data)
+        contrato_post=aperturapost_serializer.initial_data.get('contrato', None)
+        acceso_post=aperturapost_serializer.initial_data.get('acceso', None)
+        if aperturapost_serializer.is_valid():
+            instancia_apertura = apertura.objects.filter(pk=0)
+            instancia_apertura = instancia_apertura[0]
+            if str(contrato_post) != 'no' and str(acceso_post) != 'no':
+                instancia_apertura.contrato = str(contrato_post)
+                instancia_apertura.acceso = str(acceso_post)
+                instancia_apertura.save(update_fields=['contrato', 'acceso'])
+                return JsonResponse(aperturapost_serializer.data, status=status.HTTP_201_CREATED)
+            if str(contrato_post) == 'no' and str(acceso_post) == 'no':
+                instancia_apertura.contrato = str(contrato_post)
+                instancia_apertura.acceso = str(acceso_post)
+                instancia_apertura.save(update_fields=['contrato', 'acceso'])
+                return JsonResponse(aperturapost_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return JsonResponse(aperturapost_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def index(request, path=''):

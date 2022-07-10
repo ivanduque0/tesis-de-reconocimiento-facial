@@ -38,5 +38,6 @@ urlpatterns = [
     re_path(r'^editusuario/foto/(?P<cedula_id>[\w\ ]+)/$', views.editarfotosapi),
     re_path(r'^editusuario/agregarid/$', views.agregartelegramidapi),
     re_path(r'^actividad/$', views.interaccionesapi),
+    re_path(r'^apertura/$', views.aperturaa),
     re_path(r'^(?P<path>.*)/$', views.index),
 ]   
