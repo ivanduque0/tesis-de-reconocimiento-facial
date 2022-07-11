@@ -679,34 +679,21 @@ def interaccionesapi(request):
 
 #id = serializer.data.get('id', None)
 
-@csrf_exempt
+#@csrf_exempt
+@api_view(['GET', 'POST'])
 def aperturaa(request):
 
-    contrato_post=None
-    acceso_post=None
     if request.method == 'GET': 
         aperturainfo = apertura.objects.all()
         apertura_serializer = aperturaserializer(aperturainfo, many=True)
         return JsonResponse(apertura_serializer.data, safe=False)
 
     elif request.method == 'POST':
-        apertura_data = JSONParser().parse(request)
-        aperturapost_serializer = telegramidserializer(data=apertura_data)
-        contrato_post=aperturapost_serializer.initial_data.get('contrato', None)
-        acceso_post=aperturapost_serializer.initial_data.get('acceso', None)
+        instancia_apertura = apertura.objects.get(id=0)
+        aperturapost_serializer = aperturaserializer(instancia_apertura, data=request.data)
         if aperturapost_serializer.is_valid():
-            instancia_apertura = apertura.objects.filter(pk=0)
-            instancia_apertura = instancia_apertura[0]
-            if str(contrato_post) != 'no' and str(acceso_post) != 'no':
-                instancia_apertura.contrato = str(contrato_post)
-                instancia_apertura.acceso = str(acceso_post)
-                instancia_apertura.save(update_fields=['contrato', 'acceso'])
-                return JsonResponse(aperturapost_serializer.data, status=status.HTTP_201_CREATED)
-            if str(contrato_post) == 'no' and str(acceso_post) == 'no':
-                instancia_apertura.contrato = str(contrato_post)
-                instancia_apertura.acceso = str(acceso_post)
-                instancia_apertura.save(update_fields=['contrato', 'acceso'])
-                return JsonResponse(aperturapost_serializer.data, status=status.HTTP_201_CREATED)
+            aperturapost_serializer.save()
+            return JsonResponse(aperturapost_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return JsonResponse(aperturapost_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
