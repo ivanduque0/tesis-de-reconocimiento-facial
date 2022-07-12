@@ -543,9 +543,6 @@ def interaccionesapi(request):
         fechahastafiltro=filtros_serializer.initial_data.get('fechahasta', None)
         horadesdefiltro=filtros_serializer.initial_data.get('horadesde', None)
         horahastafiltro=filtros_serializer.initial_data.get('horahasta', None)
-
-        if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
-            interaccioness = interacciones.objects.filter(contrato=contratofiltro)
             
 
         if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
@@ -672,6 +669,11 @@ def interaccionesapi(request):
             interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
 
         interaccionesss = interaccioness[::-1]
+
+        if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratofiltro)
+            interaccionesss = interaccioness[::-1]
+            interaccionesss = interaccionesss[:15]
         #interacciones_data = interacciones.objects.filter(cedula__cedula__icontains=cedulafiltro)
         interacciones_serializer = interaccionesserializer(interaccionesss, many=True) 
         #return HttpResponse(cedulaapi)
@@ -696,7 +698,6 @@ def aperturaa(request):
             return JsonResponse(aperturapost_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return JsonResponse(aperturapost_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 def index(request, path=''):
     """
