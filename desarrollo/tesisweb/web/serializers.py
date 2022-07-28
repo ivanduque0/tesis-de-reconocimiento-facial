@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from .models import contratos, fotos, horariospermitidos, interacciones, usuarios
+from .models import contratos, fotos, horariospermitidos, interacciones, usuarios, apertura
  
 class contratosserializer(serializers.ModelSerializer):
  
@@ -43,7 +43,11 @@ class telegramidserializer(serializers.Serializer):
     cedula = serializers.IntegerField()
     telegram_id = serializers.CharField()
 
-
+class aperturaserializer(serializers.ModelSerializer):
+    class Meta:
+        model = apertura
+        fields = '__all__'
+        
 # class stringserializer(serializers.Serializer):
 #     string = serializers.CharField(max_length=200)
 

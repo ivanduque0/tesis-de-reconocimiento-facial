@@ -1,12 +1,13 @@
 from django.shortcuts import redirect, render
 from django.http.response import JsonResponse
 from django.http import HttpResponse
-from .models import contratos, fotos, horariospermitidos, interacciones, usuarios
+from .models import contratos, fotos, horariospermitidos, interacciones, usuarios, apertura
 from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios, filtrarinteracciones, filtrarusuarios, subirfoto
 from rest_framework.parsers import JSONParser, FileUploadParser
 from rest_framework import status, viewsets
+from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
-from .serializers import contratosserializer,filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer
+from .serializers import contratosserializer,filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer, aperturaserializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
@@ -362,7 +363,8 @@ def agregarcontratosapi(request):
         if contrato_serializer.is_valid():
             contrato_serializer.save()
             return JsonResponse(contrato_serializer.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(contrato_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return JsonResponse(contrato_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
 def eliminarcontratos(request, contrato_id):
@@ -452,7 +454,6 @@ def buscarusuarioapi(request, cedula_id):
         return JsonResponse(usuarioss_serializer.data, safe=False)
 
     if request.method == 'POST':
-
         contrato_data = JSONParser().parse(request)
         contrato_serializer = contratosserializer(data=contrato_data)
         contratofiltro= contrato_serializer.initial_data.get('nombre', None)
@@ -476,7 +477,8 @@ def editarhorariosapi(request, cedula_id):
         if horarios_serializerr.is_valid():
             horarios_serializerr.save()
             return JsonResponse(horarios_serializerr.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(horarios_serializerr.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return JsonResponse(horarios_serializerr.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         horario=horariospermitidos.objects.get(id=cedula_id)
@@ -541,9 +543,6 @@ def interaccionesapi(request):
         fechahastafiltro=filtros_serializer.initial_data.get('fechahasta', None)
         horadesdefiltro=filtros_serializer.initial_data.get('horadesde', None)
         horahastafiltro=filtros_serializer.initial_data.get('horahasta', None)
-
-        if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
-            interaccioness = interacciones.objects.filter(contrato=contratofiltro)
             
 
         if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
@@ -669,14 +668,36 @@ def interaccionesapi(request):
         if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
             interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
 
+        interaccionesss = interaccioness[::-1]
+
+        if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
+            interaccioness = interacciones.objects.filter(contrato=contratofiltro)
+            interaccionesss = interaccioness[::-1]
+            interaccionesss = interaccionesss[:15]
         #interacciones_data = interacciones.objects.filter(cedula__cedula__icontains=cedulafiltro)
-        interacciones_serializer = interaccionesserializer(interaccioness, many=True) 
+        interacciones_serializer = interaccionesserializer(interaccionesss, many=True) 
         #return HttpResponse(cedulaapi)
         return JsonResponse(interacciones_serializer.data, safe=False)
 
 #id = serializer.data.get('id', None)
 
+#@csrf_exempt
+@api_view(['GET', 'POST'])
+def aperturaa(request):
 
+    if request.method == 'GET': 
+        aperturainfo = apertura.objects.all()
+        apertura_serializer = aperturaserializer(aperturainfo, many=True)
+        return JsonResponse(apertura_serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        instancia_apertura = apertura.objects.get(id=0)
+        aperturapost_serializer = aperturaserializer(instancia_apertura, data=request.data)
+        if aperturapost_serializer.is_valid():
+            aperturapost_serializer.save()
+            return JsonResponse(aperturapost_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return JsonResponse(aperturapost_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def index(request, path=''):
     """

@@ -46,6 +46,7 @@ class horariospermitidos(models.Model):
         VIERNES = 'Viernes', 'Viernes'
         SABADO = 'Sabado', 'Sabado'
         DOMINGO = 'Domingo', 'Domingo'
+        SIEMPRE = 'Siempre', 'Siempre'
 
     cedula = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name="ceduladiaspermitidos")
     dia=models.CharField(max_length=20, choices=dias.choices, default=dias.LUNES)
@@ -58,3 +59,7 @@ class fotos(models.Model):
     cedula = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name="cedulafoto")
     foto = models.ImageField(upload_to='personas/')
     estado = models.IntegerField()
+
+class apertura(models.Model):
+    contrato = models.CharField(max_length=50)
+    acceso = models.CharField(max_length=50)
