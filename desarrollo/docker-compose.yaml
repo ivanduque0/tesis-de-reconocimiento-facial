@@ -18,7 +18,7 @@ services:
          - .env.postgres
 
    web:
-      #user: "${UID}:${GID}"
+      user: "${UID}:${GID}"
       
       image: webdjango:V0.
 
