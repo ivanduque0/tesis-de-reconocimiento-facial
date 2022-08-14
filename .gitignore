@@ -1,1 +1,8 @@
 desarrollo/postgresdata
+desarrollo/tesisweb/web/__pycache__
+desarrollo/tesisweb/tesisweb/__pycache__
+desarrollo/tesisweb/web/migrations/__pycache__
+
+desarrollo/tesisweb/web/migrations/*
+!desarrollo/tesisweb/web/migrations/__init__.py
+
