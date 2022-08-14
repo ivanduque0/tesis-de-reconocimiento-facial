@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import contratos, fotos, interacciones, usuarios
+from .models import contratos, fotos, interacciones, usuarios, User
 # Register your models here.
 
 class contratosadmin(admin.ModelAdmin):
@@ -27,3 +27,4 @@ admin.site.register(contratos, contratosadmin)
 admin.site.register(usuarios,usuariosadmin)
 admin.site.register(interacciones, interaccionesadmin)
 admin.site.register(fotos)
+admin.site.register(User)

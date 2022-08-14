@@ -40,4 +40,5 @@ urlpatterns = [
     re_path(r'^actividad/$', views.interaccionesapi),
     re_path(r'^apertura/$', views.aperturaa),
     re_path(r'^(?P<path>.*)/$', views.index),
+
 ]   

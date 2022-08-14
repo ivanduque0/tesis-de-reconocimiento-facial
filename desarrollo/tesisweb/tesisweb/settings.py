@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 #SECRET_KEY = 'django-insecure-&8obmcszqc!6!#6-u_=y7o0rj48=wc8@v5@p9v9)mrg@-h#$7@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get("DEBUG", default=0))
+DEBUG = int(os.environ.get("DEBUG", default=1))
 #DEBUG = True
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
@@ -37,6 +37,7 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 INSTALLED_APPS = [
     'web',
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -59,7 +60,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:4200/',
+    #'http://localhost:4200/',
     
 )
 
@@ -145,10 +146,19 @@ MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    )
+    ),
+    'NON_FIELD_ERRORS_KEY': 'global',
 }
 
 
+
 CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS").split(" ")
+
+AUTH_USER_MODEL = 'web.User'

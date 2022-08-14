@@ -20,7 +20,7 @@ services:
    web:
       #user: "${UID}:${GID}"
       
-      image: webdjango:V0.
+      image: webdjango:V0.1
 
       container_name: web
 
@@ -41,10 +41,12 @@ services:
       env_file:
          - .env.web
       depends_on:
-         - postgres
+         - postgres 
+      #privileged: true
+      
          
    nginx:
-      image: webnginx:V0.
+      image: webnginx:V0.1
 
       container_name: nginx
 
