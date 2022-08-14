@@ -1,8 +1,12 @@
 desarrollo/postgresdata
 desarrollo/tesisweb/web/__pycache__
 desarrollo/tesisweb/tesisweb/__pycache__
+<<<<<<< HEAD
 desarrollo/tesisweb/web/migrations/__pycache__
 
 desarrollo/tesisweb/web/migrations/*
 !desarrollo/tesisweb/web/migrations/__init__.py
 
+=======
+desarrollo/tesisweb/web/migrations/__pycache__
+>>>>>>> fa0876a048a88d68384845948f04bd6404c9cb0c
