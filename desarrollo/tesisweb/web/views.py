@@ -1,16 +1,18 @@
 from django.shortcuts import redirect, render
 from django.http.response import JsonResponse
 from django.http import HttpResponse
-from .models import contratos, fotos, horariospermitidos, interacciones, usuarios, apertura
+from .models import contratos, fotos, horariospermitidos, interacciones, usuarios, apertura, User
 from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios, filtrarinteracciones, filtrarusuarios, subirfoto
 from rest_framework.parsers import JSONParser, FileUploadParser
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
-from .serializers import contratosserializer,filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer, aperturaserializer
+from .serializers import contratosserializer,filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer, aperturaserializer, registroserializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 
 # Create your views here.
 directorio = '/home/ivan/Desktop/appdocker'
@@ -705,3 +707,36 @@ def index(request, path=''):
     """
     return render(request, 'index.html')
 
+
+class registrarusuario(viewsets.ModelViewSet):
+    serializer_class = registroserializer
+    queryset = User.objects.all()
+
+    # def post(self, request, *args, **kwargs):
+    #     user_serializer = registroserializer(data=request.data)
+
+    #     if user_serializer.is_valid():
+    #         user_serializer.save()
+    #         return Response(user_serializer.data, status=status.HTTP_201_CREATED)
+    #     else:
+    #         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class Protegida(APIView):
+    #permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        return Response({"content": "Esta vista está protegida"})
+
+# class Loogin(APIView):
+#     authentication_classes = [TokenAuthentication] #SessionAuthentication, BasicAuthentication]
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self, request, format=None):
+#         content = {
+#             'user': str(request.user),  # `django.contrib.auth.User` instance.
+#             'auth': str(request.auth),  # None
+#         }
+#         return Response(content)
+
+#     # def form_valid(self, form):
+#     #     user = authenticate(username = )

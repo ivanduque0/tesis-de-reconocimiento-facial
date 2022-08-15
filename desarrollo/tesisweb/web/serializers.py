@@ -80,3 +80,14 @@ class usuariosloginserializer(serializers.Serializer):
 
     cedula=serializers.IntegerField()
     password=serializers.CharField()
+
+class registroserializer(serializers.ModelSerializer):
+
+    class Meta:
+        model= User
+        fields = ['cedula','email','password']
+
+    def create(self, validate_data):
+        
+        user = User.objects.create_user(**validate_data)
+        return user

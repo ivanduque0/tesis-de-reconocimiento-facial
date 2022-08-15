@@ -1,16 +1,18 @@
 from django.urls import path, include, re_path
 from . import views
-from .views import agregarfoto
+from .views import agregarfoto, Protegida, registrarusuario
 #from .views import ContratosList
 from rest_framework import routers
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import RedirectView
+#from rest_framework_simplejwt import views as jwt_views
 
 # router = routers.DefaultRouter()
 # router.register(r'contratos', views.ContratosList)
 
 router = routers.DefaultRouter()
 router.register(r'subirfotos', views.agregarfoto)
+router.register(r'registro', views.registrarusuario)
 
 urlpatterns = [
     # path('', views.index, name='index'),
@@ -40,5 +42,11 @@ urlpatterns = [
     re_path(r'^actividad/$', views.interaccionesapi),
     re_path(r'^apertura/$', views.aperturaa),
     re_path(r'^(?P<path>.*)/$', views.index),
+
+    #path('si/', jwt_views.TokenObtainPairView.as_view()),
+    #path('ka/', jwt_views.TokenRefreshView.as_view()),
+    #path('protegida/', Protegida.as_view()),
+    #path('registro/', registrarusuario.as_view()),
+
 
 ]   
