@@ -7,12 +7,15 @@ from rest_framework.parsers import JSONParser, FileUploadParser
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
-from .serializers import contratosserializer,filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer, aperturaserializer, registroserializer
+from .serializers import contratosserializer,filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer, aperturaserializer, registroserializer, loginserializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from django.middleware.csrf import get_token
+from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 directorio = '/home/ivan/Desktop/appdocker'
@@ -728,7 +731,8 @@ class Protegida(APIView):
         return Response({"content": "Esta vista está protegida"})
 
 # class Loogin(APIView):
-#     authentication_classes = [TokenAuthentication] #SessionAuthentication, BasicAuthentication]
+#     # authentication_classes = [TokenAuthentication, SessionAuthentication, BasicAuthentication]
+#     authentication_classes = [SessionAuthentication]
 #     permission_classes = [IsAuthenticated]
 
 #     def get(self, request, format=None):
@@ -737,6 +741,130 @@ class Protegida(APIView):
 #             'auth': str(request.auth),  # None
 #         }
 #         return Response(content)
+    
+    # def post(self, request):
+    #     login_data = JSONParser().parse(request)
+    #     login_serializer = loginserializer(data=login_data)
+    #     if login_serializer.is_valid():
+    #         content = {
+    #             'user': str(login_serializer.user),  # `django.contrib.auth.User` instance.
+    #             'auth': None,  # None
+    #         }
+    #         return Response(content)
 
-#     # def form_valid(self, form):
-#     #     user = authenticate(username = )
+
+    # def form_valid(self, form):
+    #     user = authenticate(username = )
+
+      
+def get_csrf(request):
+    response = JsonResponse({'detail': 'CSRF cookie set'})
+    response['X-CSRFToken'] = get_token(request)
+    return response
+
+
+@require_POST
+def login_view(request):
+    # if request.method == 'POST':
+    login_data = JSONParser().parse(request)
+    login_serializer = loginserializer(data=login_data)
+    cedula= login_serializer.initial_data.get('cedula', None)
+    password= login_serializer.initial_data.get('password', None)
+    if cedula is None or password is None:
+        return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
+
+    user = authenticate(username=cedula, password=password)
+    
+    if user is None:
+        return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
+
+    login(request, user)
+    return JsonResponse({'detail': 'Successfully logged in.'})
+
+    
+
+
+def logout_view(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'detail': 'You\'re not logged in.'}, status=400)
+    logout(request)
+    return JsonResponse({'detail': 'Successfully logged out.'})
+
+
+class SessionView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    @staticmethod
+    def get(request, format=None):
+        return JsonResponse({'isAuthenticated': True})
+
+
+class WhoAmIView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    @staticmethod
+    def get(request, format=None):
+        return JsonResponse({'username': request.user.username})
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def get_csrf(request):
+#     response = JsonResponse({'detail': 'CSRF cookie set'})
+#     response['X-CSRFToken'] = get_token(request)
+#     return response
+
+
+# @require_POST
+# def login_view(request):
+#     data = json.loads(request.body)
+#     username = data.get('username')
+#     password = data.get('password')
+
+#     if username is None or password is None:
+#         return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
+
+#     user = authenticate(username=username, password=password)
+
+#     if user is None:
+#         return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
+
+#     login(request, user)
+#     return JsonResponse({'detail': 'Successfully logged in.'})
+
+
+# def logout_view(request):
+#     if not request.user.is_authenticated:
+#         return JsonResponse({'detail': 'You\'re not logged in.'}, status=400)
+
+#     logout(request)
+#     return JsonResponse({'detail': 'Successfully logged out.'})
+
+
+# class SessionView(APIView):
+#     authentication_classes = [SessionAuthentication, BasicAuthentication]
+#     permission_classes = [IsAuthenticated]
+
+#     @staticmethod
+#     def get(request, format=None):
+#         return JsonResponse({'isAuthenticated': True})
+
+
+# class WhoAmIView(APIView):
+#     authentication_classes = [SessionAuthentication, BasicAuthentication]
+#     permission_classes = [IsAuthenticated]
+
+#     @staticmethod
+#     def get(request, format=None):
+#         return JsonResponse({'username': request.user.username})

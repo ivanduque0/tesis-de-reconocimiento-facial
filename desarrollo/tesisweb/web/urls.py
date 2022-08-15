@@ -1,6 +1,6 @@
 from django.urls import path, include, re_path
 from . import views
-from .views import agregarfoto, Protegida, registrarusuario
+from .views import agregarfoto, Protegida, registrarusuario, Loogin, SessionView, WhoAmIView
 #from .views import ContratosList
 from rest_framework import routers
 from django.views.decorators.csrf import csrf_exempt
@@ -47,6 +47,18 @@ urlpatterns = [
     #path('ka/', jwt_views.TokenRefreshView.as_view()),
     #path('protegida/', Protegida.as_view()),
     #path('registro/', registrarusuario.as_view()),
+    #path('loginn/', Loogin.as_view()),
+
+    path('csrf/', views.get_csrf, name='api-csrf'),
+    path('login/', views.login_view, name='api-login'),
+    path('logout/', views.logout_view, name='api-logout'),
+    path('session/', SessionView.as_view(), name='api-session'),
+    path('whoami/', WhoAmIView.as_view(), name='api-whoami'),
 
 
 ]   
+
+## En estos links esta la informacion que estoy usando para la
+## autenticacion
+# https://testdriven.io/blog/django-spa-auth/
+# https://github.com/duplxey/django-spa-cookie-auth/tree/master/django_react_drf_same_origin/backend/api

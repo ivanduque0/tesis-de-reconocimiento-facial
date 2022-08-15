@@ -76,10 +76,11 @@ class usuariosregistroserializer(serializers.Serializer):
         else:
             return 
             
-class usuariosloginserializer(serializers.Serializer):
+class loginserializer(serializers.Serializer):
 
-    cedula=serializers.IntegerField()
-    password=serializers.CharField()
+    class Meta:
+        model= User
+        fields = ['cedula','password']
 
 class registroserializer(serializers.ModelSerializer):
 
