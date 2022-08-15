@@ -70,4 +70,12 @@ EJEMPLO: google = empresa(nombre='Google', fundacion='1980')
 
 <nombre del modelo>.objects.exclude(<condicion 1>, <condicion 2>, <etc>) = asi se excluyen de la lista las filas que cumplan con las condiciones que se quieran
 
+IMPORTANTE!!!!!!
+cuando se crea un modelo para ser usado como base de datos para los usuarios registrados se debe borrar la tabla "django_admin_log" con el siguiente comando:
+DROP TABLE django_admin_log;
+
+luego de hacer eso se debe crear nuevamente, pero la forma de crearla es distinta, los pasos aparecen luego de introducir en la terminal del contenedor donde esta la web el siguiente comando:
+./manage.py sqlmigrate admin 0001
+
+luego apareceran los comandos que se deben introducir en la terminal de postgresql, luego de hecho eso no habran inconvenientes
 
