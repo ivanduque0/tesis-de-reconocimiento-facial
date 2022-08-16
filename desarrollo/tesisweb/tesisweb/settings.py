@@ -62,7 +62,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    #'http://localhost:4200/',
+    'http://localhost:4200/',
     
 )
 
@@ -169,3 +169,11 @@ AUTH_USER_MODEL = 'web.User'
 #     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
 #     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 #     }
+
+# CSRF_COOKIE_SAMESITE = 'Strict'
+# SESSION_COOKIE_SAMESITE = 'Strict'
+# CSRF_COOKIE_HTTPONLY = False  # False since we will grab it via universal-cookies
+# SESSION_COOKIE_HTTPONLY = False
+# CSRF_COOKIE_NAME = 'XSRF-TOKEN'
+# CSRF_HEADER_NAME = 'XSRF_TOKEN'
+# SESSION_COOKIE_NAME = 'xddd'

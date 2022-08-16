@@ -764,6 +764,7 @@ def get_csrf(request):
 
 
 @require_POST
+@csrf_exempt
 def login_view(request):
     # if request.method == 'POST':
     login_data = JSONParser().parse(request)
@@ -780,9 +781,6 @@ def login_view(request):
 
     login(request, user)
     return JsonResponse({'detail': 'Successfully logged in.'})
-
-    
-
 
 def logout_view(request):
     if not request.user.is_authenticated:
