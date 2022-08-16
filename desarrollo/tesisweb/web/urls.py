@@ -62,3 +62,6 @@ urlpatterns = [
 ## autenticacion
 # https://testdriven.io/blog/django-spa-auth/
 # https://github.com/duplxey/django-spa-cookie-auth/tree/master/django_react_drf_same_origin/backend/api
+
+## para las cookies
+#https://peaku.co/es/preguntas/3521-la-cookie-no-se-configura-en-el-cliente-angular

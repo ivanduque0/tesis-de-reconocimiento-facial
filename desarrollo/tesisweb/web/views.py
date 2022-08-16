@@ -804,7 +804,7 @@ class WhoAmIView(APIView):
 
     @staticmethod
     def get(request, format=None):
-        return JsonResponse({'username': request.user.username})
+        return JsonResponse({'cedula': request.user.username})
 
 
 

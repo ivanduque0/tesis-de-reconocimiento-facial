@@ -66,6 +66,22 @@ CORS_ORIGIN_WHITELIST = (
     
 )
 
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200/',]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = (
+'accept',
+'accept-encoding',
+'authorization',
+'content-type',
+'dnt',
+'origin',
+'user-agent',
+'x-csrftoken',
+'x-requested-with',
+'Access-Control-Allow-Origin',)
+
 ROOT_URLCONF = 'tesisweb.urls'
 
 TEMPLATES = [
@@ -172,8 +188,8 @@ AUTH_USER_MODEL = 'web.User'
 
 # CSRF_COOKIE_SAMESITE = 'Strict'
 # SESSION_COOKIE_SAMESITE = 'Strict'
-# CSRF_COOKIE_HTTPONLY = False  # False since we will grab it via universal-cookies
-# SESSION_COOKIE_HTTPONLY = False
+CSRF_COOKIE_HTTPONLY = False  # False since we will grab it via universal-cookies
+SESSION_COOKIE_HTTPONLY = False
 # CSRF_COOKIE_NAME = 'XSRF-TOKEN'
-# CSRF_HEADER_NAME = 'XSRF_TOKEN'
+# CSRF_HEADER_NAME = 'HTTP_XSRF_TOKEN'
 # SESSION_COOKIE_NAME = 'xddd'
