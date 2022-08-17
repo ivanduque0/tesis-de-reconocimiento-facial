@@ -829,29 +829,42 @@ class Protegida(APIView):
 
 @csrf_exempt 
 def get_csrf(request):
-    response = JsonResponse({'detail': 'CSRF cookie set'})
-    response['X-CSRFToken'] = get_token(request)
-    return response
+    # response = JsonResponse({'detail': 'CSRF cookie set'}, safe=False)
+    # response['X-CSRFToken'] = get_token(request)
+    get_token(request)
+    return HttpResponse(request)
+    
+
+# @csrf_exempt 
+# def get_csrf(request):
+#     #return request
+#     return JsonResponse({'X-CSRFToken': get_token(request)})
 
 
-@require_POST
+#@require_POST
+
 @csrf_exempt
 def login_view(request):
-    # if request.method == 'POST':
-    login_data = JSONParser().parse(request)
-    login_serializer = loginserializer(data=login_data)
-    cedula= login_serializer.initial_data.get('cedula', None)
-    password= login_serializer.initial_data.get('password', None)
-    if cedula is None or password is None:
-        return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
+    if request.method == 'GET':
+        response = JsonResponse({'detail': 'CSRF cookie set'}, safe=False)
+        response['X-CSRFToken'] = get_token(request)
+        #get_token(request)
+        return response
+    if request.method == 'POST':
+        login_data = JSONParser().parse(request)
+        login_serializer = loginserializer(data=login_data)
+        cedula= login_serializer.initial_data.get('cedula', None)
+        password= login_serializer.initial_data.get('password', None)
+        if cedula is None or password is None:
+            return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
 
-    user = authenticate(username=cedula, password=password)
-    
-    if user is None:
-        return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
+        user = authenticate(username=cedula, password=password)
+        
+        if user is None:
+            return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
 
-    login(request, user)
-    return JsonResponse({'detail': 'Successfully logged in.'})
+        login(request, user)
+        return JsonResponse({'detail': 'Successfully logged in.'})
 
 def logout_view(request):
     if not request.user.is_authenticated:
