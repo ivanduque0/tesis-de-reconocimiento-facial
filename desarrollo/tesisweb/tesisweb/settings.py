@@ -52,9 +52,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -63,12 +63,12 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:4200/',
-    #'http://localhost:1010/',
-    
-    
+    'http://localhost:1010/',
+
+
 )
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:4200/',]#'http://localhost:1010/',]
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200/','http://localhost:1010/',]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -193,6 +193,8 @@ AUTH_USER_MODEL = 'web.User'
 CSRF_COOKIE_HTTPONLY = False  # False since we will grab it via universal-cookies
 SESSION_COOKIE_HTTPONLY = False
 # CSRF_COOKIE_NAME = 'XSRF-TOKEN'
-CSRF_HEADER_NAME = 'X-CSRFToken'
-#CSRF_USE_SESSIONS = True
+# CSRF_HEADER_NAME = 'HTTP_X_XSRF_TOKEN'
+# CSRF_COOKIE_NAME = 'XSRF-TOKEN'
+# CSRF_HEADER_NAME = 'X-CSRFToken'
+# CSRF_USE_SESSIONS = True
 # SESSION_COOKIE_NAME = 'xddd'
