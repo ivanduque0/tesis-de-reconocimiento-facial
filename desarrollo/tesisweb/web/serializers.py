@@ -82,6 +82,11 @@ class loginserializer(serializers.Serializer):
         model= User
         fields = ['cedula','password']
 
+class loginserializer2(serializers.Serializer):
+    cedula = serializers.CharField()
+    password = serializers.CharField()
+    csrfmiddlewaretoken = serializers.CharField()
+
 class registroserializer(serializers.ModelSerializer):
 
     class Meta:
