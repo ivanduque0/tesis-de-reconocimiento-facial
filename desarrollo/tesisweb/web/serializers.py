@@ -87,6 +87,9 @@ class loginserializer2(serializers.Serializer):
     password = serializers.CharField()
     csrfmiddlewaretoken = serializers.CharField()
 
+class tokenserializer(serializers.Serializer):
+    token = serializers.CharField()
+
 class registroserializer(serializers.ModelSerializer):
 
     class Meta:
