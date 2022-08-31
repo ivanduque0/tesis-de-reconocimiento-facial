@@ -937,27 +937,28 @@ class new_token:
 
 #@ensure_csrf_cookie
 #@csrf_exempt
-def login_view(request):
+def loginapi(request):
+            
     if request.method == 'GET':
         # #response = Response({'detail': 'Loguear usuario'})
-        # response = Response(request.data, status=200)
+        # response = JsonResponse(request.data, status=200)
         # response['X-CSRFToken'] = get_token(request)
         # #get_token(request)
         # return response
 
-        #response = 
+        # response = 
         
         tooken=get_token(request)
         nuevotoken = new_token(tokken=tooken)
         token_serializer = tokenserializer(nuevotoken)
         print(nuevotoken)
-        #response = 
+        response = JsonResponse(token_serializer.data, safe=False)
         #token=get_token(request)
-        #response = JsonResponse({'token': token}, status=200)
-        #response['X-CSRFToken'] = tooken
-        #token = get_token(request)
-        return JsonResponse(token_serializer.data, safe=False)
-        
+        # #response = JsonResponse({'token': token}, status=200)
+        response['X-CSRFToken'] = tooken
+        # #token = get_token(request)
+        return response
+            
     elif request.method == 'POST':
         #login_data = JSONParser().parse(request)
         # login_serializer = loginserializer(data=request.data)
@@ -978,10 +979,12 @@ def login_view(request):
         #     return response
         #     #return Response(login_serializer.data)
         login_data = JSONParser().parse(request)
-        login_serializer = loginserializer(data=login_data)
+        login_serializer = loginserializer2(data=login_data)
         if login_serializer.is_valid():
             cedula= login_serializer.initial_data.get('cedula', None)
             passwordd= login_serializer.initial_data.get('password', None)
+            print(cedula)
+            print(passwordd)
             if cedula is None or passwordd is None:
                 return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
 
@@ -991,17 +994,17 @@ def login_view(request):
                 return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
 
             login(request, user)
-
+            #tokenn=get_token(request)
             # class new_data:
             #     def __init__(self, cedula, password, token):
             #         self.cedula = cedula
             #         self.password = password
             #         self.token = token
 
-            #nuevadata = new_data(cedula=cedula, password=passwordd, token=get_token(request))
+            # nuevadata = new_data(cedula=cedula, password=passwordd, token=tokenn)
             #login_serializer2 = loginserializer2(nuevadata)
             response = JsonResponse(login_serializer.data, status=200, safe=False)
-            response['X-CSRFToken'] = get_token(request)
+            #response['X-CSRFToken'] = tokenn
             #return JsonResponse(login_serializer.data, status=200, safe=False)
             return response
 
