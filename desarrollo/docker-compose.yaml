@@ -18,7 +18,7 @@ services:
          - .env.postgres
 
    web:
-      #user: "${UID}:${GID}"
+      user: "${UID}:${GID}"
       
       image: webdjango:V0.1
 
@@ -42,7 +42,7 @@ services:
          - .env.web
       depends_on:
          - postgres 
-      #privileged: true
+      privileged: true
       
          
    nginx:

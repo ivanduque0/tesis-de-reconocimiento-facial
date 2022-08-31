@@ -43,7 +43,7 @@ urlpatterns = [
     re_path(r'^apertura/$', views.aperturaa),
     re_path(r'^loginapi/$', views.loginapi, name='api-login'),
     path('logout/', views.logout_view, name='api-logout'),
-    #re_path(r'^(?P<path>.*)/$', views.index),
+    re_path(r'^(?P<path>.*)/$', views.index),
 
     #path('si/', jwt_views.TokenObtainPairView.as_view()),
     #path('ka/', jwt_views.TokenRefreshView.as_view()),
