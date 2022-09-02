@@ -14,6 +14,11 @@ class contratos(models.Model):
 
 class usuarios(models.Model):
     cedula = models.IntegerField(primary_key=True)
+    # cedula = models.CharField(max_length=150,primary_key=False)
+    # Es mejor si es charfield y si no es llave primaria
+    # ya que quizas seria bueno que se pudieran agregar 
+    # mismos usuarios a distintos contratos para los tecnicos
+    # o personas que podrian vivir en dos residencias similares
     nombre = models.CharField(max_length=150)
     contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='contrato', verbose_name='contratousuarios') #models.CharField(max_length=100)
     telegram_id = models.CharField(max_length=150, blank=True) 

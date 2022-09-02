@@ -981,6 +981,7 @@ def loginapi(request):
                 return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
 
             login(request, user)
+            get_token(request)
             #get_token(request)
             # tokenn=get_token(request)
             # class new_data:
@@ -1002,12 +1003,12 @@ def loginapi(request):
 
 
 
-def logout_view(request):
+def logoutapi(request):
     if request.method == 'GET':
         if not request.user.is_authenticated:
             return JsonResponse({'detail': 'You\'re not logged in.'}, status=400)
         logout(request)
-        return JsonResponse({'detail': 'Successfully logged out.'})
+        return JsonResponse({'detail': 'Successfully logged out.'}, status=200)
 
 
 class SessionView(APIView):
@@ -1016,7 +1017,16 @@ class SessionView(APIView):
 
     @staticmethod
     def get(request, format=None):
-        return JsonResponse({'isAuthenticated': True})
+        if request.user.is_authenticated:
+            return JsonResponse({'cedula': request.user.cedula, 
+                                 #'is_active':request.user.is_active, 
+                                 'staff':request.user.staff, 
+                                 'admin':request.user.admin})
+        else:
+            return JsonResponse({'cedula': '', 
+                                 #'is_active': False, 
+                                 'staff': False, 
+                                 'admin': False})
 
 
 class WhoAmIView(APIView):

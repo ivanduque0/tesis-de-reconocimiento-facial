@@ -42,8 +42,9 @@ urlpatterns = [
     re_path(r'^actividad/$', views.interaccionesapi),
     re_path(r'^apertura/$', views.aperturaa),
     re_path(r'^loginapi/$', views.loginapi, name='api-login'),
-    re_path(r'^logout/$', views.logout_view, name='api-logout'),
+    path('logout/', views.logoutapi, name='api-logout'),
     path('csrf/', views.get_csrf, name='api-csrf'),
+    path('session/', SessionView.as_view(), name='api-session'),
     re_path(r'^(?P<path>.*)/$', views.index),
 
     #path('si/', jwt_views.TokenObtainPairView.as_view()),
@@ -53,7 +54,6 @@ urlpatterns = [
     #path('loginn/', Loogin.as_view()),
     
     #re_path(r'^loginapi/$', login_view.as_view()),
-    path('session/', SessionView.as_view(), name='api-session'),
     path('whoami/', WhoAmIView.as_view(), name='api-whoami'),
 
 
