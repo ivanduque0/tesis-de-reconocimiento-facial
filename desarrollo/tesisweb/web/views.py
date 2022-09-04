@@ -995,7 +995,11 @@ def loginapi(request):
             # response = JsonResponse(login_serializer.data, status=200, safe=False)
             #response['X-CSRFToken'] = tokenn
             #return JsonResponse(login_serializer.data, status=200, safe=False)
-            return JsonResponse({'detail': 'Login succesfull.'}, status=200)
+            return JsonResponse({'cedula': user.cedula, 
+                                 #'is_active':request.user.is_active, 
+                                 'staff': user.staff, 
+                                 'admin': user.admin,
+                                 'authenticated': user.is_authenticated}, status=200)
 
 
 
@@ -1012,21 +1016,20 @@ def logoutapi(request):
 
 
 class SessionView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
-
     @staticmethod
     def get(request, format=None):
         if request.user.is_authenticated:
             return JsonResponse({'cedula': request.user.cedula, 
                                  #'is_active':request.user.is_active, 
                                  'staff':request.user.staff, 
-                                 'admin':request.user.admin})
+                                 'admin':request.user.admin,
+                                 'authenticated': request.user.is_authenticated})
         else:
             return JsonResponse({'cedula': '', 
                                  #'is_active': False, 
                                  'staff': False, 
-                                 'admin': False})
+                                 'admin': False,
+                                 'authenticated': False})
 
 
 class WhoAmIView(APIView):
