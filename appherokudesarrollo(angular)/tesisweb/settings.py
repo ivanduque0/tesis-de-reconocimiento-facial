@@ -35,7 +35,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default='foo')
 DEBUG = False
 
 #ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
-ALLOWED_HOSTS = ['tesis-reconocimiento-facial.herokuapp.com', ]
+ALLOWED_HOSTS = ['desarrollo-seguricel.herokuapp.com', ]
 
 
 # Application definition
@@ -71,7 +71,7 @@ ROOT_URLCONF = 'tesisweb.urls'
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'http://tesis-reconocimiento-facial.herokuapp.com/',
+    'http://desarrollo-seguricel.herokuapp.com/',
 )
 
 TEMPLATES = [
@@ -183,7 +183,7 @@ REST_FRAMEWORK = {
     )
 }
 
-CSRF_TRUSTED_ORIGINS = ['https://tesis-reconocimiento-facial.herokuapp.com','http://tesis-reconocimiento-facial.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = ['https://desarrollo-seguricel.herokuapp.com','http://desarrollo-seguricel.herokuapp.com']
 
 # CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS").split(" ")
 

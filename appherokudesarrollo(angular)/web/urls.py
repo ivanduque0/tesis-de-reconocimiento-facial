@@ -1,6 +1,6 @@
 from django.urls import path, include, re_path
 from . import views
-from .views import agregarfoto, Protegida, registrarusuario, SessionView, WhoAmIView#, login_view
+from .views import agregarfoto, registrarusuario, SessionView
 #from .views import ContratosList
 from rest_framework import routers
 from django.views.decorators.csrf import csrf_exempt
@@ -46,17 +46,6 @@ urlpatterns = [
     path('csrf/', views.get_csrf, name='api-csrf'),
     path('session/', SessionView.as_view(), name='api-session'),
     re_path(r'^(?P<path>.*)/$', views.index),
-
-    #path('si/', jwt_views.TokenObtainPairView.as_view()),
-    #path('ka/', jwt_views.TokenRefreshView.as_view()),
-    #path('protegida/', Protegida.as_view()),
-    #path('registro/', registrarusuario.as_view()),
-    #path('loginn/', Loogin.as_view()),
-    
-    #re_path(r'^loginapi/$', login_view.as_view()),
-    path('whoami/', WhoAmIView.as_view(), name='api-whoami'),
-
-
 ]   
 
 ## En estos links esta la informacion que estoy usando para la
