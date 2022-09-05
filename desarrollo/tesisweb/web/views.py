@@ -37,12 +37,12 @@ directorio = '/home/ivan/Desktop/appdocker'
 #     if request.method == "POST":
 #         select=elegircontrato(request.POST)
 #         filtro=filtrarinteracciones(request.POST)
-        
+
 #         if select.is_valid():
 #             contratoo=select.cleaned_data.get('contrato')
 #             contratoinstancia = contratos.objects.get(nombre=contratoo)
 #             usuarioss = contratoinstancia.contrato.all()
-        
+
 #         if filtro.is_valid():
 #             cedulafiltro=filtro.cleaned_data.get('cedula')
 #             fechadesdefiltro=filtro.cleaned_data.get('fechadesde')
@@ -50,134 +50,134 @@ directorio = '/home/ivan/Desktop/appdocker'
 #             horadesdefiltro=filtro.cleaned_data.get('horadesde')
 #             horahastafiltro=filtro.cleaned_data.get('horahasta')
 #             select=elegircontrato({'contrato': contratoo})
-            
+
 #         if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__gte=fechadesdefiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__lte=fechahastafiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__lte=fechahastafiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(fecha__gte=fechadesdefiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro == None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(fecha__gte=fechadesdefiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(fecha__lte=fechahastafiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(fecha__lte=fechahastafiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__gte=fechadesdefiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 
 #         if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro)
-            
+
 
 #         if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
 #             interaccioness = interacciones.objects.filter(contrato=contratoo).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-            
+
 #         interaccionesss = interaccioness[::-1]
 #         if cedulafiltro == None and (fechadesdefiltro != None or fechahastafiltro != None or horadesdefiltro != None or horahastafiltro != None):
 #             #nombreslista = interaccioness.values_list('nombre', flat=True)
@@ -266,7 +266,7 @@ directorio = '/home/ivan/Desktop/appdocker'
 #         if formclientehorarios.is_valid():
 #             formclientehorarios.save()
 #         if formfoto.is_valid():
-#             formfoto.save()   
+#             formfoto.save()
 #             foto = fotos.objects.filter(cedula__cedula__icontains=cedula_id)
 #             if foto:
 #                 foto = foto[0]
@@ -349,7 +349,7 @@ directorio = '/home/ivan/Desktop/appdocker'
 #     if request.method == 'GET':
 #         usuarios_serializer = usuariosserializer(usuarioss, many=True)
 #         return JsonResponse(usuarios_serializer.data, safe=False)
-       
+
 
 # class ContratosList(viewsets.ModelViewSet):
 #     queryset = contratos.objects.all()
@@ -362,7 +362,7 @@ def agregarcontratosapi(request):
     permission_classes = [IsAuthenticated]
     if request.user.is_authenticated:
         if request.user.admin:
-            if request.method == 'GET': 
+            if request.method == 'GET':
                 contratoss = contratos.objects.all()
                 contratos_serializer = contratosserializer(contratoss, many=True)
                 return JsonResponse(contratos_serializer.data, safe=False)
@@ -394,14 +394,14 @@ def eliminarcontratos(request, contrato_id):
         if request.user.admin:
             if request.method == 'DELETE':
                 contrato=contratos.objects.get(nombre=contrato_id)
-                contrato.delete() 
+                contrato.delete()
                 return HttpResponse(status=status.HTTP_204_NO_CONTENT)
         else:
             return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
     else:
         return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
 
-    
+
 
 
 #@csrf_exempt
@@ -498,7 +498,7 @@ def eliminarusuarioapi(request, cedula_id):
     if request.user.is_authenticated:
         if request.user.admin:
             if request.method == 'DELETE':
-                usuario=usuarios.objects.get(cedula=cedula_id)
+                usuario=usuarios.objects.get(id=cedula_id)
                 usuario.delete()
                 return HttpResponse(status=status.HTTP_204_NO_CONTENT)
         else:
@@ -537,7 +537,7 @@ def buscarusuarioapi(request, cedula_id):
     else:
         return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
 
-        
+
 #@csrf_exempt
 def editarhorariosapi(request, cedula_id):
     authentication_classes = [SessionAuthentication]
@@ -578,9 +578,8 @@ def editarfotosapi(request, cedula_id):
             if request.method == 'GET':
                 #foto = fotos.objects.filter(cedula__cedula__icontains=cedula_id)
                 foto = fotos.objects.filter(cedula__icontains=cedula_id)
-                foto_serializer = fotosserializer(foto, many=True)       
+                foto_serializer = fotosserializer(foto, many=True)
                 return JsonResponse(foto_serializer.data, safe=False)
-                    
             elif request.method == 'DELETE':
                 foto = fotos.objects.get(id=cedula_id)
                 foto.foto.delete(save=False)
@@ -647,127 +646,127 @@ def interaccionesapi(request):
                 fechahastafiltro=filtros_serializer.initial_data.get('fechahasta', None)
                 horadesdefiltro=filtros_serializer.initial_data.get('horadesde', None)
                 horahastafiltro=filtros_serializer.initial_data.get('horahasta', None)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(fecha__gte=fechadesdefiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(fecha__lte=fechahastafiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(fecha__lte=fechahastafiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__gte=horadesdefiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__gte=horadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__gte=horadesdefiltro).filter(fecha__gte=fechadesdefiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__gte=horadesdefiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(fecha__gte=fechadesdefiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(fecha__lte=fechahastafiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(fecha__lte=fechahastafiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro == None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__gte=fechadesdefiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro == None and horadesdefiltro != None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro == None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(cedula__cedula__icontains=cedulafiltro)
-                    
+
 
                 if cedulafiltro == None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro)
-                    
+
 
                 if cedulafiltro != None and fechadesdefiltro != None and fechahastafiltro != None and horadesdefiltro != None and horahastafiltro != None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro).filter(hora__lte=horahastafiltro).filter(hora__gte=horadesdefiltro).filter(fecha__lte=fechahastafiltro).filter(fecha__gte=fechadesdefiltro).filter(cedula__cedula__icontains=cedulafiltro)
@@ -807,13 +806,6 @@ def aperturaa(request):
         else:
             return JsonResponse(aperturapost_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def index(request, path=''):
-    """
-    Renders the Angular2 SPA
-    """
-    return render(request, 'index.html')
-
-
 class registrarusuario(viewsets.ModelViewSet):
     serializer_class = registroserializer
     queryset = User.objects.all()
@@ -827,11 +819,12 @@ class registrarusuario(viewsets.ModelViewSet):
     #     else:
     #         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class Protegida(APIView):
-    #permission_classes = [IsAuthenticated]
-    
-    def get(self, request):
-        return Response({"content": "Esta vista está protegida"})
+def index(request, path=''):
+    """
+    Renders the Angular2 SPA
+    """
+    return render(request, 'index.html')
+
 
 #@csrf_exempt 
 #@api_view(['GET'])
@@ -840,133 +833,12 @@ def get_csrf(request):
     if request.method == 'GET':
         get_token(request)
         return JsonResponse({'detail': 'CSRF cookie set'}, status=200)
-    
-
-# @csrf_exempt 
-# def get_csrf(request):
-#     #return request
-#     return JsonResponse({'X-CSRFToken': get_token(request)})
-    
-
-
-# @require_POST
-# @api_view(['GET', 'POST'])
-# @method_decorator(csrf_exempt, name='dispatch')
-# class login_view(APIView):
-#     def get(self, request, format=None):
-#         # #response = Response({'detail': 'Loguear usuario'})
-#         # response = Response(request.data, status=200)
-#         # response['X-CSRFToken'] = get_token(request)
-#         # #get_token(request)
-#         # return response
-
-#         #response = 
-#         #response = JsonResponse({'csrftoken': get_token(request)},status=200)
-#         #response['X-CSRFToken'] = get_token(request)
-#         #token = get_token(request)
-#         #return response
-#         tooken=get_token(request)
-#         nuevotoken = new_token(tokken=tooken)
-#         token_serializer = tokenserializer(nuevotoken, many=True)
-#         print(token_serializer.data)
-#         #response = 
-#         #token=get_token(request)
-#         #response = JsonResponse({'token': token}, status=200)
-#         #response['X-CSRFToken'] = tooken
-#         #token = get_token(request)
-#         return JsonResponse(token_serializer.data)
-        
-#     def post(self, request, format=None):
-#         #login_data = JSONParser().parse(request)
-#         # login_serializer = loginserializer(data=request.data)
-#         # if login_serializer.is_valid():
-#         #     cedula= login_serializer.initial_data.get('cedula', None)
-#         #     password= login_serializer.initial_data.get('password', None)
-#         #     if cedula is None or password is None:
-#         #         return Response({'detail': 'Please provide username and password.'}, status=400)
-
-#         #     user = authenticate(username=cedula, password=password)
-            
-#         #     if user is None:
-#         #         return Response({'detail': 'Invalid credentials.'}, status=400)
-
-#         #     login(request, user)
-#         #     response = Response('xd', status=200)
-#         #     response['X-CSRFToken'] = get_token(request)
-#         #     return response
-#         #     #return Response(login_serializer.data)
-#         #login_data = JSONParser().parse(request)
-#         login_serializer = loginserializer(data=request.data)
-#         if login_serializer.is_valid():
-#             cedula= login_serializer.initial_data.get('cedula', None)
-#             password= login_serializer.initial_data.get('password', None)
-#             if cedula is None or password is None:
-#                 return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
-
-#             user = authenticate(username=cedula, password=password)
-            
-#             if user is None:
-#                 return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
-
-#             login(request, user)
-#             class new_data:
-#                 def __init__(self, cedula, password, token):
-#                     self.cedula = cedula
-#                     self.password = password
-#                     self.token = token
-
-#             nuevadata = new_data(cedula=cedula, password=password, token=get_token(request))
-#             login_serializer2 = loginserializer2(nuevadata)
-#             response = JsonResponse(login_serializer2.data, status=200)
-#             #response['X-CSRFToken'] = get_token(request)
-#             return response
-#             #return Response(login_serializer.data)
-
 
 #@ensure_csrf_cookie
 #@csrf_exempt
 def loginapi(request):
-            
-    # if request.method == 'GET':
-    #     # #response = Response({'detail': 'Loguear usuario'})
-    #     # response = JsonResponse(request.data, status=200)
-    #     # response['X-CSRFToken'] = get_token(request)
-    #     # #get_token(request)
-    #     # return response
 
-    #     # response = 
-    #     get_token(request)
-    #     # tooken = get_token(request)
-    #     #nuevotoken = new_token(tokken=tooken)
-    #     #token_serializer = tokenserializer(nuevotoken)
-    #     #print(nuevotoken)
-    #     #response = JsonResponse(token_serializer.data, safe=False)
-    #     #token=get_token(request)
-    #     # #response = JsonResponse({'token': token}, status=200)
-    #     #response=JsonResponse({'detail': 'CSRF cookie set'}, status=200)
-    #     #response['X-CSRFToken'] = tooken
-    #     # #token = get_token(request)
-    #     return JsonResponse({'detail': 'CSRF cookie set'}, status=200)
-            
     if request.method == 'POST':
-        #login_data = JSONParser().parse(request)
-        # login_serializer = loginserializer(data=request.data)
-        # if login_serializer.is_valid():
-        #     cedula= login_serializer.initial_data.get('cedula', None)
-        #     password= login_serializer.initial_data.get('password', None)
-        #     if cedula is None or password is None:
-        #         return Response({'detail': 'Please provide username and password.'}, status=400)
-
-        #     user = authenticate(username=cedula, password=password)
-            
-        #     if user is None:
-        #         return Response({'detail': 'Invalid credentials.'}, status=400)
-
-        #     login(request, user)
-        #     response = Response('xd', status=200)
-        #     response['X-CSRFToken'] = get_token(request)
-        #     return response
-        #     #return Response(login_serializer.data)
         login_data = JSONParser().parse(request)
         login_serializer = loginserializer(data=login_data)
         if login_serializer.is_valid():
@@ -977,34 +849,17 @@ def loginapi(request):
                 return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
 
             user = authenticate(username=cedula, password=passwordd)
-            
+
             if user is None:
                 return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
 
             login(request, user)
             get_token(request)
-            #get_token(request)
-            # tokenn=get_token(request)
-            # class new_data:
-            #     def __init__(self, cedula, password, token):
-            #         self.cedula = cedula
-            #         self.password = password
-            #         self.token = token
-
-            # nuevadata = new_data(cedula=cedula, password=passwordd, token=tokenn)
-            #login_serializer2 = loginserializer2(nuevadata)
-            # response = JsonResponse(login_serializer.data, status=200, safe=False)
-            #response['X-CSRFToken'] = tokenn
-            #return JsonResponse(login_serializer.data, status=200, safe=False)
-            return JsonResponse({'cedula': user.cedula, 
-                                 #'is_active':request.user.is_active, 
-                                 'staff': user.staff, 
+            return JsonResponse({'cedula': user.cedula,
+                                 #'is_active':request.user.is_active,
+                                 'staff': user.staff,
                                  'admin': user.admin,
                                  'authenticated': user.is_authenticated}, status=200)
-
-
-
-
 
 
 

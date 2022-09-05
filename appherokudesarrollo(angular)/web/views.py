@@ -498,7 +498,7 @@ def eliminarusuarioapi(request, cedula_id):
     if request.user.is_authenticated:
         if request.user.admin:
             if request.method == 'DELETE':
-                usuario=usuarios.objects.get(cedula=cedula_id)
+                usuario=usuarios.objects.get(id=cedula_id)
                 usuario.delete()
                 return HttpResponse(status=status.HTTP_204_NO_CONTENT)
         else:

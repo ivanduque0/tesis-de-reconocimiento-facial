@@ -59,9 +59,9 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -71,8 +71,28 @@ ROOT_URLCONF = 'tesisweb.urls'
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'http://desarrollo-seguricel.herokuapp.com/',
+    'https://desarrollo-seguricel.herokuapp.com',
+    'http://desarrollo-seguricel.herokuapp.com'
+    
 )
+
+CORS_ALLOWED_ORIGINS = ['https://desarrollo-seguricel.herokuapp.com','http://desarrollo-seguricel.herokuapp.com']
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = (
+'accept',
+'accept-encoding',
+'authorization',
+'content-type',
+'dnt',
+'origin',
+'user-agent',
+'x-csrftoken',
+'x-requested-with',
+'Access-Control-Allow-Origin',)
+
+ROOT_URLCONF = 'tesisweb.urls'
 
 TEMPLATES = [
     {
@@ -179,7 +199,7 @@ MEDIA_URL = '/media/'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+        #'rest_framework.authentication.TokenAuthentication',
     )
 }
 

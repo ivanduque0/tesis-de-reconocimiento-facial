@@ -32,13 +32,12 @@ class usuarios(models.Model):
     #    return self.cedula
 
 class interacciones(models.Model):
-    usuario = models.ForeignKey(usuarios, db_constraint=False, on_delete = models.DO_NOTHING) #models.IntegerField()
-    cedula = models.CharField(max_length=150)
     nombre = models.CharField(max_length=50)
     fecha = models.DateField()
     hora = models.TimeField()
     razon = models.CharField(max_length=20)
     contrato = models.CharField(max_length=100)
+    cedula = models.CharField(max_length=150)
     class Meta:
         verbose_name_plural = "Interacciones"
     #def __str__(self):
@@ -59,19 +58,19 @@ class horariospermitidos(models.Model):
 
     # en este campo se debe poner el "id" del usuario, no la cedula
     usuario = models.ForeignKey(usuarios, on_delete=models.CASCADE)
-    cedula = models.CharField(max_length=150)
     dia=models.CharField(max_length=20, choices=dias.choices, default=dias.LUNES)
     contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='contratohorarios', verbose_name='contratodiaspermitidos')
     entrada=models.TimeField()
     salida=models.TimeField()
+    cedula = models.CharField(max_length=150)
     class Meta:
         verbose_name_plural = "Horarios"
 
 class fotos(models.Model):
     usuario = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name="idusuariofoto")
-    cedula = models.CharField(max_length=150)
     foto = models.ImageField(upload_to='personas/')
     estado = models.IntegerField()
+    cedula = models.CharField(max_length=150)
 
 class apertura(models.Model):
     contrato = models.CharField(max_length=50)
