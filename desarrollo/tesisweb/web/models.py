@@ -13,12 +13,14 @@ class contratos(models.Model):
         return self.nombre
 
 class usuarios(models.Model):
-    cedula = models.IntegerField(primary_key=True)
-    # cedula = models.CharField(max_length=150,primary_key=False)
+    #cedula = models.IntegerField(primary_key=True)
+    cedula = models.CharField(max_length=150,primary_key=False)
     # Es mejor si es charfield y si no es llave primaria
     # ya que quizas seria bueno que se pudieran agregar 
     # mismos usuarios a distintos contratos para los tecnicos
     # o personas que podrian vivir en dos residencias similares
+    # sin embargo si se hace esto, lo que se debera poner y lo que se obtendra 
+    # en las llaves foraneas sera el id, es decir, la primary key del modelo
     nombre = models.CharField(max_length=150)
     contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='contrato', verbose_name='contratousuarios') #models.CharField(max_length=100)
     telegram_id = models.CharField(max_length=150, blank=True) 
@@ -54,8 +56,10 @@ class horariospermitidos(models.Model):
         DOMINGO = 'Domingo', 'Domingo'
         SIEMPRE = 'Siempre', 'Siempre'
 
-    cedula = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name="ceduladiaspermitidos")
+    # en este campo se debe poner el "id" del usuario, no la cedula
+    usuarioid = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name="ceduladiaspermitidos")
     dia=models.CharField(max_length=20, choices=dias.choices, default=dias.LUNES)
+    contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='contratohorarios', verbose_name='contratodiaspermitidos')
     entrada=models.TimeField()
     salida=models.TimeField()
     class Meta:

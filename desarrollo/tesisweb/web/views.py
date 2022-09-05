@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.http.response import JsonResponse
 from django.http import HttpResponse
 from .models import contratos, fotos, horariospermitidos, interacciones, usuarios, apertura, User
-from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios, filtrarinteracciones, filtrarusuarios, subirfoto
+#from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios, filtrarinteracciones, filtrarusuarios, subirfoto
 from rest_framework.parsers import JSONParser, FileUploadParser
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view

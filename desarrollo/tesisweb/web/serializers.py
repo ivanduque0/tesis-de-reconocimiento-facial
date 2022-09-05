@@ -11,13 +11,15 @@ class usuariosserializer(serializers.ModelSerializer):
  
     class Meta:
         model = usuarios
-        fields = ['cedula', 'nombre', 'contrato', 'telegram_id']
+        fields = '__all__'
+        #fields = ['cedula', 'nombre', 'contrato', 'telegram_id']
 
 class horariosserializer(serializers.ModelSerializer):
  
     class Meta:
         model = horariospermitidos
-        fields = ['id', 'cedula', 'dia', 'entrada', 'salida']
+        fields = '__all__'
+        #fields = ['id', 'cedula', 'dia', 'entrada', 'salida', 'contrato']
 
 class interaccionesserializer(serializers.ModelSerializer):
 
