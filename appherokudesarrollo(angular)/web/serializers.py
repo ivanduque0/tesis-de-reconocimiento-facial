@@ -32,9 +32,8 @@ class fotosserializer(serializers.ModelSerializer):
 
     class Meta:
         model = fotos
-        #fields = ['id','cedula', 'foto', 'estado','usuario']
-        fields = '__all__'
-        
+        fields = ['id','cedula', 'foto', 'estado','usuario']
+
 class filtrosserializer(serializers.Serializer):
     cedula = serializers.IntegerField()
     contrato = serializers.CharField()

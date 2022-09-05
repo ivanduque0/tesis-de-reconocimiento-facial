@@ -807,13 +807,6 @@ def aperturaa(request):
         else:
             return JsonResponse(aperturapost_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def index(request, path=''):
-    """
-    Renders the Angular2 SPA
-    """
-    return render(request, 'index.html')
-
-
 class registrarusuario(viewsets.ModelViewSet):
     serializer_class = registroserializer
     queryset = User.objects.all()
@@ -827,11 +820,12 @@ class registrarusuario(viewsets.ModelViewSet):
     #     else:
     #         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class Protegida(APIView):
-    #permission_classes = [IsAuthenticated]
-    
-    def get(self, request):
-        return Response({"content": "Esta vista está protegida"})
+def index(request, path=''):
+    """
+    Renders the Angular2 SPA
+    """
+    return render(request, 'index.html')
+
 
 #@csrf_exempt 
 #@api_view(['GET'])
@@ -840,133 +834,12 @@ def get_csrf(request):
     if request.method == 'GET':
         get_token(request)
         return JsonResponse({'detail': 'CSRF cookie set'}, status=200)
-    
-
-# @csrf_exempt 
-# def get_csrf(request):
-#     #return request
-#     return JsonResponse({'X-CSRFToken': get_token(request)})
-    
-
-
-# @require_POST
-# @api_view(['GET', 'POST'])
-# @method_decorator(csrf_exempt, name='dispatch')
-# class login_view(APIView):
-#     def get(self, request, format=None):
-#         # #response = Response({'detail': 'Loguear usuario'})
-#         # response = Response(request.data, status=200)
-#         # response['X-CSRFToken'] = get_token(request)
-#         # #get_token(request)
-#         # return response
-
-#         #response = 
-#         #response = JsonResponse({'csrftoken': get_token(request)},status=200)
-#         #response['X-CSRFToken'] = get_token(request)
-#         #token = get_token(request)
-#         #return response
-#         tooken=get_token(request)
-#         nuevotoken = new_token(tokken=tooken)
-#         token_serializer = tokenserializer(nuevotoken, many=True)
-#         print(token_serializer.data)
-#         #response = 
-#         #token=get_token(request)
-#         #response = JsonResponse({'token': token}, status=200)
-#         #response['X-CSRFToken'] = tooken
-#         #token = get_token(request)
-#         return JsonResponse(token_serializer.data)
-        
-#     def post(self, request, format=None):
-#         #login_data = JSONParser().parse(request)
-#         # login_serializer = loginserializer(data=request.data)
-#         # if login_serializer.is_valid():
-#         #     cedula= login_serializer.initial_data.get('cedula', None)
-#         #     password= login_serializer.initial_data.get('password', None)
-#         #     if cedula is None or password is None:
-#         #         return Response({'detail': 'Please provide username and password.'}, status=400)
-
-#         #     user = authenticate(username=cedula, password=password)
-            
-#         #     if user is None:
-#         #         return Response({'detail': 'Invalid credentials.'}, status=400)
-
-#         #     login(request, user)
-#         #     response = Response('xd', status=200)
-#         #     response['X-CSRFToken'] = get_token(request)
-#         #     return response
-#         #     #return Response(login_serializer.data)
-#         #login_data = JSONParser().parse(request)
-#         login_serializer = loginserializer(data=request.data)
-#         if login_serializer.is_valid():
-#             cedula= login_serializer.initial_data.get('cedula', None)
-#             password= login_serializer.initial_data.get('password', None)
-#             if cedula is None or password is None:
-#                 return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
-
-#             user = authenticate(username=cedula, password=password)
-            
-#             if user is None:
-#                 return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
-
-#             login(request, user)
-#             class new_data:
-#                 def __init__(self, cedula, password, token):
-#                     self.cedula = cedula
-#                     self.password = password
-#                     self.token = token
-
-#             nuevadata = new_data(cedula=cedula, password=password, token=get_token(request))
-#             login_serializer2 = loginserializer2(nuevadata)
-#             response = JsonResponse(login_serializer2.data, status=200)
-#             #response['X-CSRFToken'] = get_token(request)
-#             return response
-#             #return Response(login_serializer.data)
-
 
 #@ensure_csrf_cookie
 #@csrf_exempt
 def loginapi(request):
-            
-    # if request.method == 'GET':
-    #     # #response = Response({'detail': 'Loguear usuario'})
-    #     # response = JsonResponse(request.data, status=200)
-    #     # response['X-CSRFToken'] = get_token(request)
-    #     # #get_token(request)
-    #     # return response
-
-    #     # response = 
-    #     get_token(request)
-    #     # tooken = get_token(request)
-    #     #nuevotoken = new_token(tokken=tooken)
-    #     #token_serializer = tokenserializer(nuevotoken)
-    #     #print(nuevotoken)
-    #     #response = JsonResponse(token_serializer.data, safe=False)
-    #     #token=get_token(request)
-    #     # #response = JsonResponse({'token': token}, status=200)
-    #     #response=JsonResponse({'detail': 'CSRF cookie set'}, status=200)
-    #     #response['X-CSRFToken'] = tooken
-    #     # #token = get_token(request)
-    #     return JsonResponse({'detail': 'CSRF cookie set'}, status=200)
-            
+    
     if request.method == 'POST':
-        #login_data = JSONParser().parse(request)
-        # login_serializer = loginserializer(data=request.data)
-        # if login_serializer.is_valid():
-        #     cedula= login_serializer.initial_data.get('cedula', None)
-        #     password= login_serializer.initial_data.get('password', None)
-        #     if cedula is None or password is None:
-        #         return Response({'detail': 'Please provide username and password.'}, status=400)
-
-        #     user = authenticate(username=cedula, password=password)
-            
-        #     if user is None:
-        #         return Response({'detail': 'Invalid credentials.'}, status=400)
-
-        #     login(request, user)
-        #     response = Response('xd', status=200)
-        #     response['X-CSRFToken'] = get_token(request)
-        #     return response
-        #     #return Response(login_serializer.data)
         login_data = JSONParser().parse(request)
         login_serializer = loginserializer(data=login_data)
         if login_serializer.is_valid():
@@ -983,28 +856,11 @@ def loginapi(request):
 
             login(request, user)
             get_token(request)
-            #get_token(request)
-            # tokenn=get_token(request)
-            # class new_data:
-            #     def __init__(self, cedula, password, token):
-            #         self.cedula = cedula
-            #         self.password = password
-            #         self.token = token
-
-            # nuevadata = new_data(cedula=cedula, password=passwordd, token=tokenn)
-            #login_serializer2 = loginserializer2(nuevadata)
-            # response = JsonResponse(login_serializer.data, status=200, safe=False)
-            #response['X-CSRFToken'] = tokenn
-            #return JsonResponse(login_serializer.data, status=200, safe=False)
             return JsonResponse({'cedula': user.cedula, 
                                  #'is_active':request.user.is_active, 
                                  'staff': user.staff, 
                                  'admin': user.admin,
                                  'authenticated': user.is_authenticated}, status=200)
-
-
-
-
 
 
 
@@ -1031,75 +887,3 @@ class SessionView(APIView):
                                  'staff': False, 
                                  'admin': False,
                                  'authenticated': False})
-
-
-class WhoAmIView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
-    
-    #@login_required
-    #@login_required(login_url="loginn")
-    @staticmethod
-    def get(request, format=None):
-        return JsonResponse({'cedula': request.user.cedula, 'is_active':request.user.is_active, 'staff':request.user.staff, 'admin':request.user.admin})
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def get_csrf(request):
-#     response = JsonResponse({'detail': 'CSRF cookie set'})
-#     response['X-CSRFToken'] = get_token(request)
-#     return response
-
-
-# @require_POST
-# def login_view(request):
-#     data = json.loads(request.body)
-#     username = data.get('username')
-#     password = data.get('password')
-
-#     if username is None or password is None:
-#         return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
-
-#     user = authenticate(username=username, password=password)
-
-#     if user is None:
-#         return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
-
-#     login(request, user)
-#     return JsonResponse({'detail': 'Successfully logged in.'})
-
-
-# def logout_view(request):
-#     if not request.user.is_authenticated:
-#         return JsonResponse({'detail': 'You\'re not logged in.'}, status=400)
-
-#     logout(request)
-#     return JsonResponse({'detail': 'Successfully logged out.'})
-
-
-# class SessionView(APIView):
-#     authentication_classes = [SessionAuthentication, BasicAuthentication]
-#     permission_classes = [IsAuthenticated]
-
-#     @staticmethod
-#     def get(request, format=None):
-#         return JsonResponse({'isAuthenticated': True})
-
-
-# class WhoAmIView(APIView):
-#     authentication_classes = [SessionAuthentication, BasicAuthentication]
-#     permission_classes = [IsAuthenticated]
-
-#     @staticmethod
-#     def get(request, format=None):
-#         return JsonResponse({'username': request.user.username})
