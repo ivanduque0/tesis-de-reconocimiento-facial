@@ -72,7 +72,25 @@ ROOT_URLCONF = 'tesisweb.urls'
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://tesis-reconocimiento-facial.herokuapp.com/',
+    'https://tesis-reconocimiento-facial.herokuapp.com/',
+
 )
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = (
+'accept',
+'accept-encoding',
+'authorization',
+'content-type',
+'dnt',
+'origin',
+'user-agent',
+'x-csrftoken',
+'x-requested-with',
+'Access-Control-Allow-Origin',)
+
+ROOT_URLCONF = 'tesisweb.urls'
 
 TEMPLATES = [
     {
@@ -178,10 +196,16 @@ MEDIA_URL = '/media/'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.TokenAuthentication',
     )
 }
 
 CSRF_TRUSTED_ORIGINS = ['https://tesis-reconocimiento-facial.herokuapp.com','http://tesis-reconocimiento-facial.herokuapp.com']
 
 # CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS").split(" ")
+
+AUTH_USER_MODEL = 'web.User'
+
+CSRF_COOKIE_HTTPONLY = False  # False since we will grab it via universal-cookies
+SESSION_COOKIE_HTTPONLY = False
