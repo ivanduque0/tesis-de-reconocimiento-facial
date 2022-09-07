@@ -1,6 +1,6 @@
 from django.urls import path, include, re_path
 from . import views
-from .views import agregarfoto, Protegida, registrarusuario, SessionView, WhoAmIView#, login_view
+from .views import agregarfoto, registrarusuario, SessionView, WhoAmIView#, login_view
 #from .views import ContratosList
 from rest_framework import routers
 from django.views.decorators.csrf import csrf_exempt
