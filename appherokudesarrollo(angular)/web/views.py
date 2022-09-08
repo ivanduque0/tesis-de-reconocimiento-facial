@@ -395,7 +395,7 @@ def eliminarcontratos(request, contrato_id):
             if request.method == 'DELETE':
                 contrato=contratos.objects.get(nombre=contrato_id)
                 contrato.delete() 
-                return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+                return JsonResponse({'eliminado': True}, status=200)
         else:
             return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
     else:
