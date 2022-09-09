@@ -851,7 +851,11 @@ def loginapi(request):
             user = authenticate(username=cedula, password=passwordd)
 
             if user is None:
-                return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
+                return JsonResponse({'cedula': 'Invalid credentials',
+                                 #'is_active':request.user.is_active,
+                                 'staff': False,
+                                 'admin': False,
+                                 'authenticated': False}, status=200)
 
             login(request, user)
             get_token(request)
