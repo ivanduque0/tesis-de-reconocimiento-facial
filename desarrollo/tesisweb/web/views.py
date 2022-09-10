@@ -806,18 +806,50 @@ def aperturaa(request):
         else:
             return JsonResponse(aperturapost_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class registrarusuario(viewsets.ModelViewSet):
-    serializer_class = registroserializer
-    queryset = User.objects.all()
+# class registrarusuario(viewsets.ModelViewSet):
+#     serializer_class = registroserializer
+#     queryset = User.objects.all()
 
-    # def post(self, request, *args, **kwargs):
-    #     user_serializer = registroserializer(data=request.data)
+#     def post(self, request, *args, **kwargs):
+#         user_serializer = registroserializer(data=request.data)
 
-    #     if user_serializer.is_valid():
-    #         user_serializer.save()
-    #         return Response(user_serializer.data, status=status.HTTP_201_CREATED)
-    #     else:
-    #         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         cedula= user_serializer.initial_data.get('cedula', None)
+#         email= user_serializer.initial_data.get('email', None)
+#         cedulabuscar = User.objects.filter(cedula=cedula)
+#         emailbuscar = User.objects.filter(email=email)
+#         if user_serializer.is_valid() and not emailbuscar and not cedulabuscar:
+#             user_serializer.save()
+#             return Response({'cuenta creada': True}, status=201)
+#         elif emailbuscar or cedulabuscar:
+#             return Response({'cuenta creada': False}, status=200)
+
+    
+def registraruser(request):
+
+    if request.method == 'POST':
+        user_data = JSONParser().parse(request)
+        user_serializer = registroserializer(data=user_data)
+        cedula= user_serializer.initial_data.get('cedula', None)
+        email= user_serializer.initial_data.get('email', None)
+        cedulabuscar = User.objects.filter(cedula=cedula)
+        emailbuscar = User.objects.filter(email=email)
+        if user_serializer.is_valid() and not emailbuscar and not cedulabuscar:
+            user_serializer.save()
+            return JsonResponse({'cedula':False,
+                                 'email':False,
+                                 'cuenta_creada': True}, status=201)
+        elif emailbuscar and cedulabuscar:
+            return JsonResponse({'cedula':True,
+                                 'email':True,
+                                 'cuenta_creada': False}, status=200)
+        elif emailbuscar and not cedulabuscar:
+            return JsonResponse({'cedula':False,
+                                 'email':True,
+                                 'cuenta_creada': False}, status=200)
+        elif cedulabuscar and not emailbuscar:
+            return JsonResponse({'cedula':True,
+                                 'email':False,
+                                 'cuenta_creada': False}, status=200)
 
 def index(request, path=''):
     """

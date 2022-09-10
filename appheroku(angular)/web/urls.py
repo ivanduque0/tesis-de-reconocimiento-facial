@@ -1,6 +1,6 @@
 from django.urls import path, include, re_path
 from . import views
-from .views import agregarfoto, registrarusuario, SessionView
+from .views import agregarfoto, SessionView
 from rest_framework import routers
 from django.views.generic import RedirectView
 
@@ -9,7 +9,6 @@ from django.views.generic import RedirectView
 
 router = routers.DefaultRouter()
 router.register(r'subirfotos', views.agregarfoto)
-router.register(r'registro', views.registrarusuario)
 
 urlpatterns = [
     path('api', include(router.urls)),
@@ -28,5 +27,6 @@ urlpatterns = [
     path('logout/', views.logoutapi, name='api-logout'),
     path('csrf/', views.get_csrf, name='api-csrf'),
     path('session/', SessionView.as_view(), name='api-session'),
+    path('apiregistro/', views.registraruser),
     re_path(r'^(?P<path>.*)/$', views.index),
 ]   
