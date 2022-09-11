@@ -777,7 +777,7 @@ def interaccionesapi(request):
                 if cedulafiltro == None and fechadesdefiltro == None and fechahastafiltro == None and horadesdefiltro == None and horahastafiltro == None:
                     interaccioness = interacciones.objects.filter(contrato=contratofiltro)
                     interaccionesss = interaccioness[::-1]
-                    interaccionesss = interaccionesss[:15]
+                    #interaccionesss = interaccionesss[:15]
                 #interacciones_data = interacciones.objects.filter(cedula__cedula__icontains=cedulafiltro)
                 interacciones_serializer = interaccionesserializer(interaccionesss, many=True) 
                 #return HttpResponse(cedulaapi)
