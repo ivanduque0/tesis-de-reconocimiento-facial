@@ -77,6 +77,11 @@ class apertura(models.Model):
     acceso = models.CharField(max_length=50)
 
 
+class dispositivos(models.Model):
+    dispositivo = models.CharField(max_length=150)
+    descripcion = models.CharField(max_length=150)
+    estado = models.CharField(max_length=150)
+    contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='contrato_dispositivos', verbose_name='contratodispositivos') #models.CharField(max_length=100)
 
 
 
