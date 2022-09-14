@@ -82,7 +82,8 @@ class dispositivos(models.Model):
     descripcion = models.CharField(max_length=150)
     estado = models.CharField(max_length=150)
     contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='contrato_dispositivos', verbose_name='contratodispositivos') #models.CharField(max_length=100)
-
+    fecha=models.DateField(blank=True, null=True)
+    hora=models.TimeField(blank=True, null=True)
 
 
 

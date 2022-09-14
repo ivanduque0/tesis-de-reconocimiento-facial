@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from .models import contratos, fotos, horariospermitidos, interacciones, usuarios, apertura, User
+from .models import contratos, dispositivos, fotos, horariospermitidos, interacciones, usuarios, apertura, User
  
 class contratosserializer(serializers.ModelSerializer):
  
@@ -49,6 +49,11 @@ class telegramidserializer(serializers.Serializer):
 class aperturaserializer(serializers.ModelSerializer):
     class Meta:
         model = apertura
+        fields = '__all__'
+
+class dispositivosserializer(serializers.ModelSerializer):
+    class Meta:
+        model = dispositivos
         fields = '__all__'
         
 # class stringserializer(serializers.Serializer):

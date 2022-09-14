@@ -2,13 +2,13 @@ from hashlib import new
 from django.shortcuts import redirect, render
 from django.http.response import JsonResponse
 from django.http import HttpResponse
-from .models import contratos, fotos, horariospermitidos, interacciones, usuarios, apertura, User
+from .models import contratos, dispositivos, fotos, horariospermitidos, interacciones, usuarios, apertura, User
 #from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios, filtrarinteracciones, filtrarusuarios, subirfoto
 from rest_framework.parsers import JSONParser, FileUploadParser
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
-from .serializers import contratosserializer,filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer, aperturaserializer, registroserializer, loginserializer
+from .serializers import contratosserializer, dispositivosserializer,filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer, aperturaserializer, registroserializer, loginserializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
@@ -45,6 +45,27 @@ def agregarcontratosapi(request):
             return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
     else:
         return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
+
+def dispositivosapi(request, contrato_id):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    if request.user.is_authenticated:
+        if request.user.admin:
+            if request.method == 'POST':
+                dispositivoscontrato = dispositivos.objects.filter(contrato=contrato_id)
+                dispositivoscontrato_serializer = dispositivosserializer(dispositivoscontrato, many=True)
+                return JsonResponse(dispositivoscontrato_serializer.data, safe=False)
+                # contratoseleccionado_data = JSONParser().parse(request)
+                # contratoselecserializer = stringserializer(contratoseleccionado_data)
+                #contratoselecserializer.data
+                # if contrato_serializer.is_valid():
+                    #return JsonResponse(contrato_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
+    else:
+        return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
+
+
 
 def eliminarcontratos(request, contrato_id):
     authentication_classes = [SessionAuthentication]
