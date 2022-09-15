@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from .models import contratos, fotos, horariospermitidos, interacciones, usuarios, apertura, User
+from .models import contratos, fotos, horariospermitidos,dispositivos, interacciones, usuarios, apertura, User
  
 class contratosserializer(serializers.ModelSerializer):
  
@@ -53,6 +53,12 @@ class aperturaserializer(serializers.ModelSerializer):
         
 # class stringserializer(serializers.Serializer):
 #     string = serializers.CharField(max_length=200)
+
+class dispositivosserializer(serializers.ModelSerializer):
+    class Meta:
+        model = dispositivos
+        fields = '__all__'
+
 
 
 class usuariosregistroserializer(serializers.Serializer):
