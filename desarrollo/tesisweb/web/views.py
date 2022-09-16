@@ -388,11 +388,21 @@ def agregarcontratosapi(request):
 #@csrf_exempt
 def eliminarcontratos(request, contrato_id):
     #contrato_id = contrato_id.replace("%20", " ")
+    usuarios_filter=[]
+    fotos_filter=[]
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
     if request.user.is_authenticated:
         if request.user.admin:
             if request.method == 'DELETE':
+                usuarios_filter = usuarios.objects.filter(contrato=contrato_id)
+                for usuario in usuarios_filter:
+                    id_usuario = usuario.id
+                    fotos_filter = fotos.objects.filter(usuario=id_usuario)
+                    if fotos_filter:
+                        for foto in fotos_filter:
+                            foto.foto.delete(save=False)
+                            foto.delete()
                 contrato=contratos.objects.get(nombre=contrato_id)
                 contrato.delete()
                 return JsonResponse({'eliminado': True}, status=200)
