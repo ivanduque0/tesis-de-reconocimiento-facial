@@ -440,7 +440,7 @@ def dispositivosapi(request, contrato_id):
     if request.user.is_authenticated:
         if request.user.admin:
             if request.method == 'POST':
-                dispositivoscontrato = dispositivos.objects.filter(contrato=contrato_id)
+                dispositivoscontrato = dispositivos.objects.filter(contrato=contrato_id).exclude(descripcion='SERVIDOR LOCAL')
                 dispositivoscontrato_serializer = dispositivosserializer(dispositivoscontrato, many=True)
                 return JsonResponse(dispositivoscontrato_serializer.data, safe=False)
                 # contratoseleccionado_data = JSONParser().parse(request)
@@ -452,6 +452,55 @@ def dispositivosapi(request, contrato_id):
             return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
     else:
         return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
+
+def servidorlocal(request, contrato_id):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    if request.user.is_authenticated:
+        if request.user.admin:
+            if request.method == 'POST':
+                servidorlocalcontrato = dispositivos.objects.filter(contrato=contrato_id).filter(descripcion='SERVIDOR LOCAL')
+                if servidorlocalcontrato:
+                    servidorlocalcontrato = servidorlocalcontrato[0]
+                    #servidorlocalcontrato_serializer = dispositivosserializer(servidorlocalcontrato, many=False)
+                    return JsonResponse({'SERVIDOR_LOCAL': servidorlocalcontrato.estado}, safe=False)
+                else:
+                    return JsonResponse({'SERVIDOR_LOCAL': '2'}, safe=False)
+
+                # contratoseleccionado_data = JSONParser().parse(request)
+                # contratoselecserializer = stringserializer(contratoseleccionado_data)
+                #contratoselecserializer.data
+                # if contrato_serializer.is_valid():
+                    #return JsonResponse(contrato_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
+    else:
+        return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
+
+def probar_conexion_servidorlocal(request, contrato_id):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    if request.user.is_authenticated:
+        if request.user.admin:
+            if request.method == 'POST':
+                servidorlocalcontrato = dispositivos.objects.filter(contrato=contrato_id).filter(descripcion='SERVIDOR LOCAL')
+                if servidorlocalcontrato:
+                    servidorlocalcontrato = servidorlocalcontrato[0]
+                    servidorlocalcontrato.estado = '0'
+                    servidorlocalcontrato.save(update_fields=['estado'])
+                    return JsonResponse({'detail': 'comprobando conexion con el serviodor local'}, safe=False)
+                else:
+                    return JsonResponse({'detail': 'Aun no existe un servidor local en el contrato'}, safe=False)
+                # contratoseleccionado_data = JSONParser().parse(request)
+                # contratoselecserializer = stringserializer(contratoseleccionado_data)
+                #contratoselecserializer.data
+                # if contrato_serializer.is_valid():
+                    #return JsonResponse(contrato_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
+    else:
+        return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
+
 
 
 #@csrf_exempt

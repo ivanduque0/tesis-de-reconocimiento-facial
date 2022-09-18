@@ -18,6 +18,8 @@ urlpatterns = [
     re_path(r'^editcontrato/agregarusuario/$', views.agregarusuarioapi),
     re_path(r'^editcontrato/eliminarusuario/(?P<cedula_id>[\w\ ]+)/$', views.eliminarusuarioapi),
     re_path(r'^dispositivosapi/(?P<contrato_id>[\w\ ]+)/$', views.dispositivosapi),
+    re_path(r'^servidorlocalapi/(?P<contrato_id>[\w\ ]+)/$', views.servidorlocal),
+    re_path(r'^probarservidorlocalapi/(?P<contrato_id>[\w\ ]+)/$', views.probar_conexion_servidorlocal),
     re_path(r'^editcontrato/buscarusuario/(?P<cedula_id>[\w\ ]+)/$', views.buscarusuarioapi),
     re_path(r'^editusuario/horarios/(?P<cedula_id>[\w\ ]+)/$', views.editarhorariosapi),
     re_path(r'^editusuario/foto/(?P<cedula_id>[\w\ ]+)/$', views.editarfotosapi),
