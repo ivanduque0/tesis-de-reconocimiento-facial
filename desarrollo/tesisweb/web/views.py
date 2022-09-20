@@ -512,9 +512,16 @@ def agregarusuarioapi(request):
             if request.method == 'POST':
                 usuario_data = JSONParser().parse(request)
                 usuario_serializer = usuariosserializer(data=usuario_data)
-                if usuario_serializer.is_valid():
-                    usuario_serializer.save()
-                    return JsonResponse(usuario_serializer.data, status=status.HTTP_201_CREATED)
+                usuario_cedula=usuario_serializer.initial_data.get('cedula', None)
+                nombre_cedula=usuario_serializer.initial_data.get('nombre', None)
+                usuario_contrato=usuario_serializer.initial_data.get('contrato', None)
+                usuario_modelo=usuarios.objects.filter(contrato=usuario_contrato, cedula=usuario_cedula)
+                if usuario_modelo:
+                    return JsonResponse({'usuario_añadido':False, 'nombre':nombre_cedula}, status=200)
+                else:
+                    if usuario_serializer.is_valid():
+                        usuario_serializer.save()
+                        return JsonResponse({'usuario_añadido':True, 'nombre':nombre_cedula}, status=status.HTTP_201_CREATED)
         else:
             return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
     else:
