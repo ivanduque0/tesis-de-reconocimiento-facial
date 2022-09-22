@@ -874,7 +874,7 @@ def interaccionesapi(request):
 
 #id = serializer.data.get('id', None)
 
-#@csrf_exempt
+@csrf_exempt
 @api_view(['GET', 'POST'])
 def aperturaa(request):
 
@@ -884,8 +884,7 @@ def aperturaa(request):
         return JsonResponse(apertura_serializer.data, safe=False)
 
     elif request.method == 'POST':
-        instancia_apertura = apertura.objects.get(id=0)
-        aperturapost_serializer = aperturaserializer(instancia_apertura, data=request.data)
+        aperturapost_serializer = aperturaserializer(data=request.data)
         if aperturapost_serializer.is_valid():
             aperturapost_serializer.save()
             return JsonResponse(aperturapost_serializer.data, status=status.HTTP_201_CREATED)

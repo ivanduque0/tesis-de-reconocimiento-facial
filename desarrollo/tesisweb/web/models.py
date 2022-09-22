@@ -75,6 +75,9 @@ class fotos(models.Model):
 class apertura(models.Model):
     contrato = models.CharField(max_length=50)
     acceso = models.CharField(max_length=50)
+    id_usuario = models.CharField(max_length=150)
+    fecha=models.DateField()
+    hora=models.TimeField()
 
 class dispositivos(models.Model):
     dispositivo = models.CharField(max_length=150)
