@@ -18,6 +18,8 @@ from django.middleware.csrf import get_token
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+import pytz
+from datetime import datetime
 
 def agregarcontratosapi(request):
     authentication_classes = [SessionAuthentication]
@@ -514,9 +516,13 @@ def interaccionesapi(request):
 
 #id = serializer.data.get('id', None)
 
-#@csrf_exempt
+@csrf_exempt
 @api_view(['GET', 'POST'])
 def aperturaa(request):
+    tz = pytz.timezone('America/Caracas')
+    caracas_now = datetime.now(tz)
+    horaa=str(caracas_now)[11:19]
+    fechaa=str(caracas_now)[:10]
 
     if request.method == 'GET': 
         aperturainfo = apertura.objects.all()
@@ -524,11 +530,14 @@ def aperturaa(request):
         return JsonResponse(apertura_serializer.data, safe=False)
 
     elif request.method == 'POST':
-        instancia_apertura = apertura.objects.get(id=0)
-        aperturapost_serializer = aperturaserializer(instancia_apertura, data=request.data)
+        aperturapost_serializer = aperturaserializer(data=request.data)
         if aperturapost_serializer.is_valid():
-            aperturapost_serializer.save()
-            return JsonResponse(aperturapost_serializer.data, status=status.HTTP_201_CREATED)
+            contratoo= aperturapost_serializer.initial_data.get('contrato', None)
+            accesoo= aperturapost_serializer.initial_data.get('acceso', None)
+            id_usuarioo= aperturapost_serializer.initial_data.get('id_usuario', None)
+            apertura.objects.create(contrato=contratoo, acceso=accesoo, id_usuario=id_usuarioo, hora=horaa, fecha=fechaa)
+            #aperturapost_serializer.save()
+            return JsonResponse({'detail: solicitud de apertura enviada!'}, status=status.HTTP_201_CREATED)
         else:
             return JsonResponse(aperturapost_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

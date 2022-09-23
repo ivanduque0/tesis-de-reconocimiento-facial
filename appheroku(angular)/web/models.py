@@ -73,9 +73,11 @@ class fotos(models.Model):
     cedula = models.CharField(max_length=150)
 
 class apertura(models.Model):
-    contrato = models.CharField(max_length=50)
+    contrato = models.CharField(max_length=100)
     acceso = models.CharField(max_length=50)
-
+    id_usuario = models.CharField(max_length=150)
+    fecha=models.DateField(blank=True, null=True)
+    hora=models.TimeField(blank=True, null=True)
 
 class dispositivos(models.Model):
     dispositivo = models.CharField(max_length=150)

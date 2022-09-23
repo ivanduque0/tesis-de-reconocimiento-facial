@@ -72,12 +72,13 @@ class fotos(models.Model):
     estado = models.IntegerField()
     cedula = models.CharField(max_length=150)
 
+
 class apertura(models.Model):
-    contrato = models.CharField(max_length=50)
+    contrato = models.CharField(max_length=100)
     acceso = models.CharField(max_length=50)
     id_usuario = models.CharField(max_length=150)
-    fecha=models.DateField()
-    hora=models.TimeField()
+    fecha=models.DateField(null=True, blank=True)
+    hora=models.TimeField(null=True, blank=True)
 
 class dispositivos(models.Model):
     dispositivo = models.CharField(max_length=150)
@@ -86,7 +87,6 @@ class dispositivos(models.Model):
     contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='contrato_dispositivos', verbose_name='contratodispositivos') #models.CharField(max_length=100)
     fecha=models.DateField(blank=True, null=True)
     hora=models.TimeField(blank=True, null=True)
-
 
 
 
