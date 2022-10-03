@@ -32,10 +32,10 @@ class usuarios(models.Model):
     #    return self.cedula
 
 class interacciones(models.Model):
-    nombre = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=150)
     fecha = models.DateField()
     hora = models.TimeField()
-    razon = models.CharField(max_length=20)
+    razon = models.CharField(max_length=150)
     contrato = models.CharField(max_length=100)
     cedula = models.CharField(max_length=150)
     class Meta:

@@ -24,14 +24,16 @@ from datetime import datetime
 def agregarcontratosapi(request):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
-    if request.user.is_authenticated:
-        if request.user.admin:
-            if request.method == 'GET': 
-                contratoss = contratos.objects.all()
-                contratos_serializer = contratosserializer(contratoss, many=True)
-                return JsonResponse(contratos_serializer.data, safe=False)
+    
+    if request.method == 'GET': 
+        contratoss = contratos.objects.all()
+        contratos_serializer = contratosserializer(contratoss, many=True)
+        return JsonResponse(contratos_serializer.data, safe=False)
 
-            elif request.method == 'POST':
+    elif request.method == 'POST':
+
+        if request.user.is_authenticated:
+            if request.user.admin:
 
                 contrato_data = JSONParser().parse(request)
                 contrato_serializer = contratosserializer(data=contrato_data)
@@ -43,10 +45,10 @@ def agregarcontratosapi(request):
                     #return response
                 else:
                     return JsonResponse(contrato_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
         else:
-            return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
-    else:
-        return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
+            return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
 
 def dispositivosapi(request, contrato_id):
     authentication_classes = [SessionAuthentication]
