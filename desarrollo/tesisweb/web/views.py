@@ -543,8 +543,9 @@ def agregartelegramidapi(request):
                 telegramid_serializer = telegramidserializer(data=telegramid_data)
                 telegram_id=telegramid_serializer.initial_data.get('telegram_id', None)
                 cedula_id=telegramid_serializer.initial_data.get('cedula', None)
+                id_usuarioo=telegramid_serializer.initial_data.get('id_usuario', None)
                 if telegramid_serializer.is_valid():
-                    instancia_usuario = usuarios.objects.filter(cedula=cedula_id)
+                    instancia_usuario = usuarios.objects.filter(cedula=cedula_id, id=id_usuarioo)
                     instancia_usuario = instancia_usuario[0]
                     if str(telegram_id) != '0':
                         instancia_usuario.telegram_id = str(telegram_id)

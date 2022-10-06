@@ -43,8 +43,9 @@ class filtrosserializer(serializers.Serializer):
     horahasta = serializers.TimeField()
 
 class telegramidserializer(serializers.Serializer):
-    cedula = serializers.IntegerField()
+    cedula = serializers.CharField()
     telegram_id = serializers.CharField()
+    id_usuario = serializers.CharField()
 
 class aperturaserializer(serializers.ModelSerializer):
     class Meta:
