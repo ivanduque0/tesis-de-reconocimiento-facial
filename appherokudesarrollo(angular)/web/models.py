@@ -85,6 +85,11 @@ class dispositivos(models.Model):
     fecha=models.DateField(blank=True, null=True)
     hora=models.TimeField(blank=True, null=True)
 
+class huellas(models.Model):
+    id_suprema=models.IntegerField(blank=True, null=True)
+    cedula = models.CharField(max_length=150)
+    template = models.TextField()
+    contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='huellas', verbose_name='huellas')
 
 
 class UserManager(BaseUserManager):
