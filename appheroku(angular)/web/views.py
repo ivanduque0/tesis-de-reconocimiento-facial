@@ -2,13 +2,13 @@ from hashlib import new
 from django.shortcuts import redirect, render
 from django.http.response import JsonResponse
 from django.http import HttpResponse
-from .models import contratos, dispositivos, fotos, horariospermitidos, interacciones, usuarios, apertura, User
+from .models import contratos, dispositivos, fotos, horariospermitidos, interacciones, usuarios, apertura, huellas, User
 #from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios, filtrarinteracciones, filtrarusuarios, subirfoto
 from rest_framework.parsers import JSONParser, FileUploadParser
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
-from .serializers import contratosserializer, dispositivosserializer,filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer, aperturaserializer, registroserializer, loginserializer
+from .serializers import contratosserializer, dispositivosserializer,filtrosserializer, huellasserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer, aperturaserializer, registroserializer, loginserializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
@@ -268,6 +268,41 @@ def buscarusuarioapi(request, cedula_id):
                 #     usuarioss=usuarioss[0]
                 #     usuarioss_serializer = usuariosserializer(usuarioss, many=True)
                 return JsonResponse(usuarioss_serializer.data, safe=False)
+        else:
+            return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
+    else:
+        return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
+
+def huellasapi(request, cedula_id):
+
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    if request.user.is_authenticated:
+        if request.user.admin:
+            if request.method == 'GET':
+                huellass=huellas.objects.filter(cedula__icontains=cedula_id)
+                huellas_serializer = huellasserializer(huellass, many=True)
+                # if len(usuarioss) == 1:
+                #     usuarioss=usuarioss[0]
+                #     usuarioss_serializer = usuariosserializer(usuarioss, many=True)
+                return JsonResponse(huellas_serializer.data, safe=False)
+            elif request.method == 'POST':
+                huella_data = JSONParser().parse(request)
+                huella_serializer = huellasserializer(data=huella_data)
+                if huella_serializer.is_valid():
+                    huella_serializer.save()
+                    return JsonResponse(huella_serializer.data, status=status.HTTP_201_CREATED)
+                else:
+                    return JsonResponse(huella_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            elif request.method == 'DELETE':
+                huella_data = JSONParser().parse(request)
+                huella_serializer = huellasserializer(data=huella_data)
+                dedo_huella=huella_serializer.initial_data.get('dedo', None)
+                if huella_serializer.is_valid():
+                    dedo_huella_instancia=huellas.objects.filter(cedula=cedula_id, dedo=dedo_huella)
+                    dedo_huella_instancia = dedo_huella_instancia[0]
+                    dedo_huella_instancia.delete() 
+                    return JsonResponse({'huella eliminada': True}, status=200)
         else:
             return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
     else:

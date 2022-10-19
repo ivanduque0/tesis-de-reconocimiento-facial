@@ -88,10 +88,22 @@ class dispositivos(models.Model):
     hora=models.TimeField(blank=True, null=True)
 
 class huellas(models.Model):
+
+    class dedos(models.TextChoices):
+        PULGAR = 'Pulgar', 'Pulgar'
+        INDICE = 'Indice', 'Indice'
+        MEÑIQUE = 'Meñique','Meñique'
+
+    class manos(models.TextChoices):
+        DERECHA = 'Derecha', 'Derecha'
+        IZQUIERDA = 'Izquierda', 'Izquierda'
+
     id_suprema=models.IntegerField(blank=True, null=True)
     cedula = models.CharField(max_length=150)
     template = models.TextField()
     contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='huellas', verbose_name='huellas')
+    dedo=models.CharField(max_length=50, choices=dedos.choices)
+    mano=models.CharField(max_length=50, choices=manos.choices)
 
 
 

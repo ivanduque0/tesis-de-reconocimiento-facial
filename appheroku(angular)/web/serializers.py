@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from .models import contratos, dispositivos, fotos, horariospermitidos, interacciones, usuarios, apertura, User
+from .models import contratos, dispositivos, fotos, horariospermitidos, huellas, interacciones, usuarios, apertura, User
  
 class contratosserializer(serializers.ModelSerializer):
  
@@ -61,6 +61,13 @@ class dispositivosserializer(serializers.ModelSerializer):
         
 # class stringserializer(serializers.Serializer):
 #     string = serializers.CharField(max_length=200)
+
+class huellasserializer(serializers.ModelSerializer):
+ 
+    class Meta:
+        model = huellas
+        #fields = '__all__'
+        fields = ['cedula', 'template', 'contrato', 'dedo']
 
 
 class usuariosregistroserializer(serializers.Serializer):
