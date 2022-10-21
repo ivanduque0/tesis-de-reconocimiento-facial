@@ -92,7 +92,7 @@ class huellas(models.Model):
     class dedos(models.TextChoices):
         PULGAR = 'Pulgar', 'Pulgar'
         INDICE = 'Indice', 'Indice'
-        MEÑIQUE = 'Meñique','Meñique'
+        MEÑIQUE = 'Medio','Medio'
 
     class manos(models.TextChoices):
         DERECHA = 'Derecha', 'Derecha'
