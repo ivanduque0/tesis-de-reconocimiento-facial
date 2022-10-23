@@ -66,8 +66,8 @@ class huellasserializer(serializers.ModelSerializer):
  
     class Meta:
         model = huellas
-        #fields = '__all__'
-        fields = ['cedula', 'template', 'contrato', 'dedo', 'mano']
+        fields = '__all__'
+        #fields = ['cedula', 'template', 'contrato', 'dedo', 'mano']
 
 
 class usuariosregistroserializer(serializers.Serializer):

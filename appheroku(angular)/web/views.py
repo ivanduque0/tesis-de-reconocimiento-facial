@@ -295,14 +295,11 @@ def huellasapi(request, cedula_id):
                 else:
                     return JsonResponse(huella_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             elif request.method == 'DELETE':
-                huella_data = JSONParser().parse(request)
-                huella_serializer = huellasserializer(data=huella_data)
-                dedo_huella=huella_serializer.initial_data.get('dedo', None)
-                if huella_serializer.is_valid():
-                    dedo_huella_instancia=huellas.objects.filter(cedula=cedula_id, dedo=dedo_huella)
-                    dedo_huella_instancia = dedo_huella_instancia[0]
-                    dedo_huella_instancia.delete() 
-                    return JsonResponse({'huella eliminada': True}, status=200)
+                dedo_huella_instancia=huellas.objects.filter(id=cedula_id)
+                dedo_huella_instancia = dedo_huella_instancia[0]
+                dedo_huella_instancia.delete() 
+                return JsonResponse({'huella eliminada': True}, status=200)
+                    
         else:
             return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
     else:
