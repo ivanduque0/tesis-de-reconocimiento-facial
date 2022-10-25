@@ -230,13 +230,13 @@ def agregartelegramidapi(request):
     else:
         return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
 
-def eliminarusuarioapi(request, cedula_id):
+def eliminarusuarioapi(request, usuario_id):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
     if request.user.is_authenticated:
         if request.user.admin:
             if request.method == 'DELETE':
-                usuario=usuarios.objects.get(id=cedula_id)
+                usuario=usuarios.objects.get(id=usuario_id)
                 usuario.delete()
                 return HttpResponse(status=status.HTTP_204_NO_CONTENT)
         else:
