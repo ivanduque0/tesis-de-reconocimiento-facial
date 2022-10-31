@@ -89,13 +89,13 @@ class dispositivos(models.Model):
 
 class tagsrfid(models.Model):
     usuario = models.ForeignKey(usuarios, on_delete=models.CASCADE)
+    cedula = models.CharField(max_length=150)
     marca = models.TextField()
     modelo = models.TextField()
     fecha = models.CharField(max_length=150)
     placa = models.CharField(max_length=150)
     color = models.CharField(max_length=150)
     epc = models.TextField()
-    activo = models.BooleanField()
     contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='contrato_tagsrfid', verbose_name='contratotagsrfid') #models.CharField(max_length=100)
 
 class huellas(models.Model):

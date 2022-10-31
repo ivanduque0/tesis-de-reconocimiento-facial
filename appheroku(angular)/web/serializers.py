@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from .models import contratos, dispositivos, fotos, horariospermitidos, huellas, interacciones, usuarios, apertura, User
+from .models import contratos, dispositivos, fotos, horariospermitidos, huellas, interacciones, tagsrfid, usuarios, apertura, User
  
 class contratosserializer(serializers.ModelSerializer):
  
@@ -68,6 +68,12 @@ class huellasserializer(serializers.ModelSerializer):
         model = huellas
         fields = '__all__'
         #fields = ['cedula', 'template', 'contrato', 'dedo', 'mano']
+
+class tagsserializer(serializers.ModelSerializer):
+ 
+    class Meta:
+        model = tagsrfid
+        fields = '__all__'
 
 
 class usuariosregistroserializer(serializers.Serializer):
