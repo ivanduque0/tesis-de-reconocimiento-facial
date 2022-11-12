@@ -72,13 +72,12 @@ class fotos(models.Model):
     estado = models.IntegerField()
     cedula = models.CharField(max_length=150)
 
-
 class apertura(models.Model):
     contrato = models.CharField(max_length=100)
     acceso = models.CharField(max_length=50)
     id_usuario = models.CharField(max_length=150)
-    fecha=models.DateField(null=True, blank=True)
-    hora=models.TimeField(null=True, blank=True)
+    fecha=models.DateField(blank=True, null=True)
+    hora=models.TimeField(blank=True, null=True)
 
 class dispositivos(models.Model):
     dispositivo = models.CharField(max_length=150)
@@ -88,12 +87,37 @@ class dispositivos(models.Model):
     fecha=models.DateField(blank=True, null=True)
     hora=models.TimeField(blank=True, null=True)
 
+class tagsrfid(models.Model):
+    usuario = models.ForeignKey(usuarios, on_delete=models.CASCADE)
+    cedula = models.CharField(max_length=150)
+    marca = models.TextField()
+    modelo = models.TextField()
+    fecha = models.CharField(max_length=150)
+    placa = models.CharField(max_length=150)
+    color = models.CharField(max_length=150)
+    epc = models.TextField()
+    contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='contrato_tagsrfid', verbose_name='contratotagsrfid') #models.CharField(max_length=100)
 
 class huellas(models.Model):
+
+    class dedos(models.TextChoices):
+        PULGAR = 'Pulgar', 'Pulgar'
+        INDICE = 'Indice', 'Indice'
+        MEDIO = 'Medio','Medio'
+
+    class manos(models.TextChoices):
+        DERECHA = 'Derecha', 'Derecha'
+        IZQUIERDA = 'Izquierda', 'Izquierda'
+
     id_suprema=models.IntegerField(blank=True, null=True)
     cedula = models.CharField(max_length=150)
     template = models.TextField()
     contrato = models.ForeignKey(contratos, on_delete = models.CASCADE, related_name='huellas', verbose_name='huellas')
+    dedo=models.CharField(max_length=50, choices=dedos.choices)
+    mano=models.CharField(max_length=50, choices=manos.choices)
+
+
+
 
 class UserManager(BaseUserManager):
     def create_user(self, cedula, email, password):

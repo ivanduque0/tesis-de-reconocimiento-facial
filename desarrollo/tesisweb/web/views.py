@@ -2,13 +2,13 @@ from hashlib import new
 from django.shortcuts import redirect, render
 from django.http.response import JsonResponse
 from django.http import HttpResponse
-from .models import contratos, fotos, horariospermitidos, interacciones, usuarios, apertura, dispositivos, User
+from .models import contratos, dispositivos, fotos, horariospermitidos, interacciones, tagsrfid, usuarios, apertura, huellas, User
 #from .forms import clienteform, contratosform, elegircontrato, clienteformhorarios, filtrarinteracciones, filtrarusuarios, subirfoto
 from rest_framework.parsers import JSONParser, FileUploadParser
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
-from .serializers import contratosserializer, dispositivosserializer, filtrosserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer, aperturaserializer, registroserializer, loginserializer
+from .serializers import contratosserializer, dispositivosserializer,filtrosserializer, huellasserializer, tagsserializer, usuariosserializer, horariosserializer, interaccionesserializer, fotosserializer, telegramidserializer, aperturaserializer, registroserializer, loginserializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
@@ -580,14 +580,14 @@ def agregartelegramidapi(request):
 
 
 #@csrf_exempt
-def eliminarusuarioapi(request, cedula_id):
+def eliminarusuarioapi(request, usuario_id):
 
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
     if request.user.is_authenticated:
         if request.user.admin:
             if request.method == 'DELETE':
-                usuario=usuarios.objects.get(id=cedula_id)
+                usuario=usuarios.objects.get(id=usuario_id)
                 usuario.delete()
                 return HttpResponse(status=status.HTTP_204_NO_CONTENT)
         else:
@@ -621,6 +621,70 @@ def buscarusuarioapi(request, cedula_id):
                 #     usuarioss=usuarioss[0]
                 #     usuarioss_serializer = usuariosserializer(usuarioss, many=True)
                 return JsonResponse(usuarioss_serializer.data, safe=False)
+        else:
+            return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
+    else:
+        return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
+
+def huellasapi(request, cedula_id):
+
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    if request.user.is_authenticated:
+        if request.user.admin:
+            if request.method == 'GET':
+                huellass=huellas.objects.filter(cedula__icontains=cedula_id)
+                huellas_serializer = huellasserializer(huellass, many=True)
+                # if len(usuarioss) == 1:
+                #     usuarioss=usuarioss[0]
+                #     usuarioss_serializer = usuariosserializer(usuarioss, many=True)
+                return JsonResponse(huellas_serializer.data, safe=False)
+            elif request.method == 'POST':
+                huella_data = JSONParser().parse(request)
+                huella_serializer = huellasserializer(data=huella_data)
+                if huella_serializer.is_valid():
+                    huella_serializer.save()
+                    return JsonResponse(huella_serializer.data, status=status.HTTP_201_CREATED)
+                else:
+                    return JsonResponse(huella_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            elif request.method == 'DELETE':
+                dedo_huella_instancia=huellas.objects.filter(id=cedula_id)
+                dedo_huella_instancia = dedo_huella_instancia[0]
+                dedo_huella_instancia.delete() 
+                return JsonResponse({'huella eliminada': True}, status=200)
+                    
+        else:
+            return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
+    else:
+        return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
+
+def tagsrfidapi(request, cedula_id):
+
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    if request.user.is_authenticated:
+        if request.user.admin:
+            if request.method == 'GET':
+                tags=tagsrfid.objects.filter(cedula__icontains=cedula_id)
+                tags_serializer = tagsserializer(tags, many=True)
+                # if len(usuarioss) == 1:
+                #     usuarioss=usuarioss[0]
+                #     usuarioss_serializer = usuariosserializer(usuarioss, many=True)
+                return JsonResponse(tags_serializer.data, safe=False)
+            elif request.method == 'POST':
+                tag_data = JSONParser().parse(request)
+                tag_serializer = tagsserializer(data=tag_data)
+                if tag_serializer.is_valid():
+                    tag_serializer.save()
+                    return JsonResponse(tag_serializer.data, status=status.HTTP_201_CREATED)
+                else:
+                    return JsonResponse(tag_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            elif request.method == 'DELETE':
+                tag_instancia=tagsrfid.objects.filter(id=cedula_id)
+                tag_instancia = tag_instancia[0]
+                tag_instancia.delete() 
+                return JsonResponse({'tag eliminado': True}, status=200)
+                    
         else:
             return JsonResponse({'detail': 'Usuario sin los permisos requeridos.'}, status=400)
     else:
@@ -708,7 +772,6 @@ class agregarfoto(viewsets.ModelViewSet):
             return JsonResponse({'detail': 'No hay un usuario logueado.'}, status=400)
 
 
-#id = serializer.data.get('id', None)
 #@csrf_exempt
 def interaccionesapi(request):
     authentication_classes = [SessionAuthentication]
