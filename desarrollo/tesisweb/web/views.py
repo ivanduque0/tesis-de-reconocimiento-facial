@@ -359,6 +359,15 @@ directorio = '/home/ivan/Desktop/appdocker'
 
 #@csrf_exempt
 #@ensure_csrf_cookie
+
+class Mobilecontratosapi(APIView):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(request, format=None):
+        contratoss = contratos.objects.all()
+        contratos_serializer = contratosserializer(contratoss, many=True)
+        return JsonResponse(contratos_serializer.data, safe=False)
+        
 def agregarcontratosapi(request):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]

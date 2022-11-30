@@ -1,6 +1,6 @@
 from django.urls import path, include, re_path
 from . import views
-from .views import agregarfoto, SessionView, WhoAmIView#, login_view, registrarusuario, 
+from .views import agregarfoto, SessionView, WhoAmIView, Mobilecontratosapi#, login_view, registrarusuario, 
 #from .views import ContratosList
 from rest_framework import routers
 from django.views.decorators.csrf import csrf_exempt
@@ -28,6 +28,7 @@ urlpatterns = [
     path('api', include(router.urls)),
     #re_path(r'^contratos/$', views.seleccionarcontratoapi),
     #re_path(r'^editarcontratoapi/(?P<contrato_id>\w+)$', views.editarcontratoapi),
+    re_path(r'^mobilecontratosapii/$', Mobilecontratosapi.as_view()),
     re_path(r'^agregarcontratosapi/$', views.agregarcontratosapi),
     #re_path(r'^removercontratosapi/(?P<contrato_id>[\w\s]+)/$', views.eliminarcontratos),
     #re_path(r'^removercontratosapi/(?P<contrato_id>.*)/$', views.eliminarcontratos),
