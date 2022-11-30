@@ -1,6 +1,6 @@
 from django.urls import path, include, re_path
 from . import views
-from .views import agregarfoto, SessionView
+from .views import agregarfoto, SessionView, Mobilecontratosapi
 from rest_framework import routers
 from django.views.generic import RedirectView
 
@@ -12,6 +12,7 @@ router.register(r'subirfotos', views.agregarfoto)
 
 urlpatterns = [
     path('api', include(router.urls)),
+    re_path(r'^mobilecontratosapi/$', Mobilecontratosapi.as_view()),
     re_path(r'^agregarcontratosapi/$', views.agregarcontratosapi),
     re_path(r'^removercontratosapi/(?P<contrato_id>[\w\ ]+)/$', views.eliminarcontratos),
     re_path(r'^seleccionarcontratoapi/(?P<contrato_id>[\w\ ]+)/$', views.seleccionarcontratoapi),
