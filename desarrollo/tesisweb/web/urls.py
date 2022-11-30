@@ -28,7 +28,7 @@ urlpatterns = [
     path('api', include(router.urls)),
     #re_path(r'^contratos/$', views.seleccionarcontratoapi),
     #re_path(r'^editarcontratoapi/(?P<contrato_id>\w+)$', views.editarcontratoapi),
-    re_path(r'^mobilecontratosapii/$', Mobilecontratosapi.as_view()),
+    re_path(r'^mobilecontratosapi/$', Mobilecontratosapi.as_view()),
     re_path(r'^agregarcontratosapi/$', views.agregarcontratosapi),
     #re_path(r'^removercontratosapi/(?P<contrato_id>[\w\s]+)/$', views.eliminarcontratos),
     #re_path(r'^removercontratosapi/(?P<contrato_id>.*)/$', views.eliminarcontratos),
